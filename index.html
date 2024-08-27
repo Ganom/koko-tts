@@ -12,71 +12,93 @@
             font-style: normal;
         }
 
+        html {
+            font-size: 24px;
+        }
+
         body {
             font-family: 'Expressway', Arial, sans-serif;
             line-height: 1.6;
             margin: 0;
-            padding: 20px;
+            padding: 30px;
             background-color: #1a1a1a;
             color: #e0e0e0;
         }
 
         h1 {
             color: #ffffff;
+            text-align: center;
+            font-size: 2.5rem;
         }
 
         .voice-list {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 20px;
+            grid-template-columns: repeat(auto-fit, minmax(375px, 1fr));
+            gap: 45px;
+            padding: 30px;
         }
 
         .voice-item {
+            position: relative;
             background-color: #2c2c2c;
-            border-radius: 8px;
-            padding: 20px;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+            border-radius: 18px;
+            padding: 30px;
+            padding-top: 75px;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+        }
+
+        .voice-icon {
+            position: absolute;
+            top: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 120px;
+            height: 75px;
+            object-fit: contain;
         }
 
         .voice-item h2 {
-            margin-top: 0;
+            margin: 0 0 22px 0;
             color: #4a90e2;
+            text-align: center;
+            font-size: 1.5rem;
         }
 
-        audio {
-            width: 100%;
-            height: 40px;
-            background-color: #3a3a3a;
-            border-radius: 20px;
-            outline: none;
-        }
-
-        audio::-webkit-media-controls-enclosure {
-            background-color: transparent;
-        }
-
-        audio::-webkit-media-controls-panel {
-            background-color: #3a3a3a;
-        }
-
-        audio::-webkit-media-controls-current-time-display,
-        audio::-webkit-media-controls-time-remaining-display {
-            color: #e0e0e0;
-        }
-
-        audio::-webkit-media-controls-play-button,
-        audio::-webkit-media-controls-mute-button {
-            filter: invert(1) brightness(1.8);
-        }
-
-        audio::-webkit-slider-thumb,
-        audio::-moz-range-thumb {
+        .play-button {
+            display: block;
+            width: 60px;
+            height: 60px;
+            margin: 0 auto 22px;
             background-color: #4a90e2;
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            position: relative;
         }
 
-        audio::-webkit-slider-runnable-track,
-        audio::-moz-range-track {
-            background-color: #555;
+        .play-button::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-40%, -50%);
+            width: 0;
+            height: 0;
+            border-top: 15px solid transparent;
+            border-bottom: 15px solid transparent;
+            border-left: 25px solid #ffffff;
+        }
+
+        .play-button.playing::before {
+            transform: translate(-50%, -50%);
+            border: none;
+            width: 20px;
+            height: 20px;
+            background-color: #ffffff;
+        }
+
+        .play-button:hover {
+            background-color: #3a7ac5;
         }
     </style>
 </head>
@@ -92,7 +114,7 @@
         "Doc": "this is the voice, doc, and koko is for sure a shitbitch",
         "Dracula": "this is the voice, dracula, and koko is mayhaps a shitbitch",
         "Goblin": "this is the voice, goblin, and koko is not a shitbitch",
-        "Grump": "*sigh* this is the voice, grump, and... man what am I even doing here, i just worked a 16 hour shift and now I gotta read some shitty copypasta?",
+        "Grump": "*sigh* this is the voice, grump, and... man what am I even doing here, i just worked a 16 hour slope shift and now I gotta read some shitty copypasta?",
         "Guts": "this is the voice, guts, and please live next to me koko... PLEASE! I'M BEGGING YOU",
         "Herbi": "this is the voice, herbi, and koko is... huh? what? oh sorry, i fell asleep",
         "Kafka": "this is the voice, kafka, and koko is not a shitbitch... please don't hurt my family",
@@ -109,15 +131,44 @@
         const voiceItem = document.createElement('div');
         voiceItem.className = 'voice-item';
         voiceItem.innerHTML = `
+                <img src="icons/${name.toLowerCase()}.webp" alt="${name} icon" class="voice-icon">
                 <h2>${name}</h2>
-                <audio controls>
-                    <source src="audio/${name.toLowerCase()}.mp3" type="audio/mpeg">
-                    Your browser does not support the audio element.
-                </audio>
+                <button class="play-button" data-voice="${name.toLowerCase()}"></button>
                 <p>[${name.toLowerCase()}] ${text}</p>
             `;
         voiceList.appendChild(voiceItem);
     }
+
+    let currentlyPlaying = null;
+
+    document.querySelectorAll('.play-button').forEach(button => {
+        const audio = new Audio(`audio/${button.dataset.voice}.mp3`);
+        audio.volume = 0.5;
+
+        button.addEventListener('click', () => {
+            if (currentlyPlaying && currentlyPlaying !== audio) {
+                currentlyPlaying.pause();
+                currentlyPlaying.currentTime = 0;
+                document.querySelector(`.play-button[data-voice="${currentlyPlaying.src.split('/').pop().split('.')[0]}"]`).classList.remove('playing');
+            }
+
+            if (audio.paused) {
+                audio.play();
+                button.classList.add('playing');
+                currentlyPlaying = audio;
+            } else {
+                audio.pause();
+                audio.currentTime = 0;
+                button.classList.remove('playing');
+                currentlyPlaying = null;
+            }
+        });
+
+        audio.addEventListener('ended', () => {
+            button.classList.remove('playing');
+            currentlyPlaying = null;
+        });
+    });
 </script>
 </body>
 </html>
