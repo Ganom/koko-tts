@@ -9,7 +9,7 @@
     <meta property="og:title" content="Koko TTS Voices">
     <meta property="og:description"
           content="Preview all of the voices that are available to be used during Kokonut's live streams!">
-    <meta property="og:image" id="og-image" content="">
+    <meta property="og:image" id="og-image" content="https://kokosnutshack.com/icons/grump.webp">
     <meta property="og:url" content="https://kokosnutshack.com/">
     <meta property="og:type" content="website">
 
@@ -133,17 +133,6 @@
         "Villain": "this is the voice, villain, and holy fucking shit i'm hot... a buhhhh",
         "Xuan": "this is the voice, xuan, and koko is most likely a... monkey I think?"
     };
-
-    // Function to select a random icon
-    function selectRandomIcon() {
-        const icons = Object.keys(voices);
-        const randomIndex = Math.floor(Math.random() * icons.length);
-        return icons[randomIndex].toLowerCase();
-    }
-
-    // Set the og:image meta tag with a random icon
-    const randomIcon = selectRandomIcon();
-    document.getElementById('og-image').setAttribute('content', `https://kokosnutshack.com/icons/${randomIcon}.webp`);
 
     const voiceList = document.getElementById('voice-list');
 
