@@ -13,13 +13,9 @@
     <meta property="og:type" content="website">
     <meta name="theme-color" content="#fda9c1"/>
 
+
     <style>
-        @font-face {
-            font-family: 'Expressway';
-            src: url('https://fonts.cdnfonts.com/css/expressway') format('woff2');
-            font-weight: normal;
-            font-style: normal;
-        }
+        @import url('https://fonts.cdnfonts.com/css/expressway');
 
         html {
             font-size: 24px;
@@ -160,9 +156,27 @@
 
     let currentlyPlaying = null;
 
-    document.querySelectorAll('.play-button').forEach(button => {
-        const audio = new Audio(`audio/${button.dataset.voice}.mp3`);
+    async function fileExists(url) {
+        try {
+            const response = await fetch(url, {method: 'HEAD'});
+            return response.ok;
+        } catch {
+            return false;
+        }
+    }
+
+    document.querySelectorAll('.play-button').forEach(async button => {
+        const audioPath = `audio/${button.dataset.voice}.mp3`;
+        const audio = new Audio(audioPath);
         audio.volume = 0.5;
+
+        const exists = await fileExists(audioPath);
+        if (!exists) {
+            console.error(`Missing audio file: ${audioPath}`);
+            button.disabled = true;
+            button.style.backgroundColor = '#666';
+            button.title = 'Audio file not available';
+        }
 
         button.addEventListener('click', () => {
             if (currentlyPlaying && currentlyPlaying !== audio) {
@@ -172,7 +186,9 @@
             }
 
             if (audio.paused) {
-                audio.play();
+                audio.play().catch(error => {
+                    console.error(`Error playing ${audioPath}:`, error);
+                });
                 button.classList.add('playing');
                 currentlyPlaying = audio;
             } else {
@@ -186,6 +202,13 @@
         audio.addEventListener('ended', () => {
             button.classList.remove('playing');
             currentlyPlaying = null;
+        });
+
+        audio.addEventListener('error', (e) => {
+            console.error(`Error loading audio file ${audioPath}:`, e.target.error);
+            button.disabled = true;
+            button.style.backgroundColor = '#666';
+            button.title = 'Error loading audio file';
         });
     });
 </script>
