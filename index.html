@@ -76,9 +76,11 @@
             position: relative;
             background-color: #2c2c2c;
             border-radius: 18px;
-            padding: 30px;
-            padding-top: 75px;
+            padding: 75px 30px 30px;
             box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+            max-width: 375px;
+            margin-left: auto;
+            margin-right: auto;
         }
 
         .voice-icon {
@@ -134,6 +136,50 @@
         .play-button:hover {
             background-color: #fda9c1;
         }
+
+        .bit-tier-header {
+            background-color: #333;
+            color: #fda9c1;
+            padding: 15px 25px;
+            border: none;
+            border-radius: 12px;
+            font-size: 1.2rem;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+            margin: 20px 0;
+            transition: background-color 0.2s;
+        }
+
+        .bit-tier-header:hover {
+            background-color: #404040;
+        }
+
+        .bit-tier-header .chevron {
+            transition: transform 0.3s;
+        }
+
+        .bit-cost {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background-color: #fda9c1;
+            color: #1a1a1a;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.7rem;
+            font-weight: bold;
+        }
+
+        .voice-list.collapsed {
+            display: none;
+        }
+
+        .voice-section {
+            width: 100%;
+        }
     </style>
 </head>
 <body>
@@ -153,55 +199,219 @@
     <div class="info-method"><strong>!clearvoice:</strong> Type "!clearvoice" to remove your default voice</div>
 </div>
 
-<div id="voice-list" class="voice-list"></div>
+<div id="voice-list"></div>
 
 <script>
     const voices = {
-        "2b": "this is the voice, 2b, and koko is a shitbitch",
-        "Amelia": "this is the voice, amelia, and koko is a shitbitch",
-        "Aussie": "this is the voice, aussie, and koko is a shitbitch",
-        "Baldi": "this is the voice, baldi, and koko is scary",
-        "Becki": "this is the voice, becki, and koko is fackin betch",
-        "Ben": "this is the voice, ben, and koko is a shitbitch",
-        "Brad": "this is the surfer voice, brad, and koko is a rad dude",
-        "Chief": "this is the voice, chief, and koko is a shitbitch",
-        "Cowboy": "this is the voice, cowboy, and koko's cornbread aint done in the middle",
-        "Dagoth": "this is the voice, dagoth, and koko is a shitbitch",
-        "Dandy": "this is the voice, dandy, and koko is... i don't know... i'm running out of ideas",
-        "Demon": "this is the voice, demon, and gloria a las plagas!",
-        "Doc": "this is the voice, doc, and koko is for sure a shitbitch",
-        "Dracula": "this is the voice, dracula, and koko is mayhaps a shitbitch",
-        "Drum": "this is the voice, drum, and I hope you're a girl. fuckyeah",
-        "Fred": "this is the voice, fred, and koko is a shitbitch. haha!",
-        "Ganom": "this is the voice, ganom, and koko held me at gunpoint until I provided this voice",
-        "Goblin": "this is the voice, goblin, and koko is not a shitbitch",
-        "Grump": "*sigh* this is the voice, grump, and... man what am I even doing here, i just worked a 16 hour shift and now I gotta read some shitty copypasta?",
-        "Herbi": "this is the voice, herbi, and koko is... huh? what? oh sorry, i fell asleep",
-        "Kawaii": "this is the voice, kawaii, and oh god this voice is so annoying",
-        "Lutz": "this is the voice, lutz, and I laugh at things that aren't funny... like koko jokes",
-        "Mats": "esta es la voz, kuro, y yo soy un artista increíble",
-        "Messmer": "this is the voice, messmer, and koko is a shitbitch",
-        "Nerd": "this is the voice, nerd, and koko doesn't know algebra",
-        "Pirate": "this is the voice, pirate, and koko is a landlubber",
-        "Premiumdandy": "this is the voice, premiumdandy, and I cost 1000 bits to use because of no reason at all other than to flex",
-        "Ranni": "this is the voice, ranni, and koko is most likely a shitbitch",
-        "Sad": "this is the voice, sad, and koko is a shitbitch. waaaa!",
-        "Villain": "this is the voice, villain, and holy fucking shit i'm hot... a buhhhh",
+        //premium
+        "Premiumdandy": {
+            text: "this is the voice, premiumdandy, and I cost 1000 bits to use because of no reason at all other than to flex",
+            cost: 1000
+        },
+        //elevenlabs
+        "2b": {
+            text: "this is the voice, 2b, and koko is a shitbitch",
+            cost: 200
+        },
+        "Amelia": {
+            text: "this is the voice, amelia, and koko is a shitbitch",
+            cost: 200
+        },
+        "Aussie": {
+            text: "this is the voice, aussie, and koko is a shitbitch",
+            cost: 200
+        },
+        "Baldi": {
+            text: "this is the voice, baldi, and koko is scary",
+            cost: 200
+        },
+        "Becki": {
+            text: "this is the voice, becki, and koko is fackin betch",
+            cost: 200
+        },
+        "Ben": {
+            text: "this is the voice, ben, and koko is a shitbitch",
+            cost: 200
+        },
+        "Brad": {
+            text: "this is the surfer voice, brad, and koko is a rad dude",
+            cost: 200
+        },
+        "Chief": {
+            text: "this is the voice, chief, and koko is a shitbitch",
+            cost: 200
+        },
+        "Cowboy": {
+            text: "this is the voice, cowboy, and koko's cornbread aint done in the middle",
+            cost: 200
+        },
+        "Dagoth": {
+            text: "this is the voice, dagoth, and koko is a shitbitch",
+            cost: 200
+        },
+        "Dandy": {
+            text: "this is the voice, dandy, and koko is... i don't know... i'm running out of ideas",
+            cost: 200
+        },
+        "Demon": {
+            text: "this is the voice, demon, and gloria a las plagas!",
+            cost: 200
+        },
+        "Doc": {
+            text: "this is the voice, doc, and koko is for sure a shitbitch",
+            cost: 200
+        },
+        "Dracula": {
+            text: "this is the voice, dracula, and koko is mayhaps a shitbitch",
+            cost: 200
+        },
+        "Drum": {
+            text: "this is the voice, drum, and I hope you're a girl. fuckyeah",
+            cost: 200
+        },
+        "Fred": {
+            text: "this is the voice, fred, and koko is a shitbitch. haha!",
+            cost: 200
+        },
+        "Ganom": {
+            text: "this is the voice, ganom, and koko held me at gunpoint until I provided this voice",
+            cost: 200
+        },
+        "Goblin": {
+            text: "this is the voice, goblin, and koko is not a shitbitch",
+            cost: 200
+        },
+        "Grump": {
+            text: "*sigh* this is the voice, grump, and... man what am I even doing here, i just worked a 16 hour shift and now I gotta read some shitty copypasta?",
+            cost: 200
+        },
+        "Herbi": {
+            text: "this is the voice, herbi, and koko is... huh? what? oh sorry, i fell asleep",
+            cost: 200
+        },
+        "Kawaii": {
+            text: "this is the voice, kawaii, and oh god this voice is so annoying",
+            cost: 200
+        },
+        "Lutz": {
+            text: "this is the voice, lutz, and I laugh at things that aren't funny... like koko jokes",
+            cost: 200
+        },
+        "Mats": {
+            text: "esta es la voz, kuro, y yo soy un artista increíble",
+            cost: 200
+        },
+        "Messmer": {
+            text: "this is the voice, messmer, and koko is a shitbitch",
+            cost: 200
+        },
+        "Nerd": {
+            text: "this is the voice, nerd, and koko doesn't know algebra",
+            cost: 200
+        },
+        "Pirate": {
+            text: "this is the voice, pirate, and koko is a landlubber",
+            cost: 200
+        },
+        "Ranni": {
+            text: "this is the voice, ranni, and koko is most likely a shitbitch",
+            cost: 200
+        },
+        "Sad": {
+            text: "this is the voice, sad, and koko is a shitbitch. waaaa!",
+            cost: 200
+        },
+        "Villain": {
+            text: "this is the voice, villain, and holy fucking shit i'm hot... a buhhhh",
+            cost: 200
+        },
+        //Azure & Streamelements
+        "Brian": {
+            text: "this is the voice, brian, and koko is a shitbitch",
+            cost: 100
+        },
+        "Davis": {
+            text: "this is the voice, davis, and koko is a shitbitch",
+            cost: 100
+        },
+        "Tony": {
+            text: "this is the voice, tony, and koko is a shitbitch",
+            cost: 100
+        },
+        "Jason": {
+            text: "this is the voice, jason, and koko is a shitbitch",
+            cost: 100
+        },
+        "Guy": {
+            text: "this is the voice, guy, and koko is a shitbitch",
+            cost: 100
+        },
+        "Jane": {
+            text: "this is the voice, jane, and koko is a shitbitch",
+            cost: 100
+        },
+        "Nancy": {
+            text: "this is the voice, nancy, and koko is a shitbitch",
+            cost: 100
+        },
+        "Jenny": {
+            text: "this is the voice, jenny, and koko is a shitbitch",
+            cost: 100
+        },
+        "Aria": {
+            text: "this is the voice, aria, and koko is a shitbitch",
+            cost: 100
+        },
+        "Sara": {
+            text: "this is the voice, sara, and koko is a shitbitch",
+            cost: 100
+        },
     };
 
     const voiceList = document.getElementById('voice-list');
+    voiceList.innerHTML = '';
 
-    for (const [name, text] of Object.entries(voices)) {
-        const voiceItem = document.createElement('div');
-        voiceItem.className = 'voice-item';
-        voiceItem.innerHTML = `
-                <img src="icons/${name.toLowerCase()}.webp" alt="${name} icon" class="voice-icon">
-                <h2>${name}</h2>
-                <button class="play-button" data-voice="${name.toLowerCase()}"></button>
-                <p>[${name.toLowerCase()}] ${text}</p>
+    const groupedVoices = {};
+    Object.entries(voices).forEach(([name, data]) => {
+        const cost = data.cost;
+        if (!groupedVoices[cost]) groupedVoices[cost] = [];
+        groupedVoices[cost].push({name, ...data});
+    });
+
+    Object.keys(groupedVoices).sort((a, b) => a + b).forEach(cost => {
+        const section = document.createElement('div');
+        section.className = 'voice-section';
+
+        const header = document.createElement('button');
+        header.className = 'bit-tier-header';
+        header.innerHTML = `${cost} Bits <span class="chevron">▼</span>`;
+
+        const content = document.createElement('div');
+        content.className = 'voice-list';
+
+        groupedVoices[cost].forEach(voice => {
+            const voiceItem = document.createElement('div');
+            voiceItem.className = 'voice-item';
+            voiceItem.innerHTML = `
+                <img src="icons/${voice.name.toLowerCase()}.webp" alt="${voice.name} icon" class="voice-icon">
+                <div class="bit-cost">${voice.cost} Bits</div>
+                <h2>${voice.name}</h2>
+                <button class="play-button" data-voice="${voice.name.toLowerCase()}"></button>
+                <p>[${voice.name.toLowerCase()}] ${voice.text}</p>
             `;
-        voiceList.appendChild(voiceItem);
-    }
+            content.appendChild(voiceItem);
+        });
+
+        header.addEventListener('click', () => {
+            content.classList.toggle('collapsed');
+            header.querySelector('.chevron').style.transform =
+                content.classList.contains('collapsed') ? 'rotate(-90deg)' : 'rotate(0deg)';
+        });
+
+        section.appendChild(header);
+        section.appendChild(content);
+        voiceList.appendChild(section);
+    });
 
     let currentlyPlaying = null;
 
