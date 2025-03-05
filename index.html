@@ -97,7 +97,7 @@
             margin: 0 0 22px 0;
             color: #fda9c1;
             text-align: center;
-            font-size: 1.5rem;
+            font-size: 1.2rem;
         }
 
         .play-button {
@@ -204,8 +204,16 @@
 <script>
     const voices = {
         //premium
-        "Premiumdandy": {
-            text: "this is the voice, premiumdandy, and I cost 1000 bits to use because of no reason at all other than to flex",
+        "ultrasuperpremiumdandy": {
+            text: "this is the voice, ultrasuperpremiumdandy, and im expensive to use because of no reason at all other than to flex",
+            cost: 5000
+        },
+        "superpremiumdandy": {
+            text: "this is the voice, superpremiumdandy, and im expensive to use because of no reason at all other than to flex",
+            cost: 2500
+        },
+        "premiumdandy": {
+            text: "this is the voice, premiumdandy, and im expensive to use because of no reason at all other than to flex",
             cost: 1000
         },
         //elevenlabs
@@ -213,156 +221,156 @@
             text: "this is the voice, 2b, and koko is a shitbitch",
             cost: 200
         },
-        "Amelia": {
+        "amelia": {
             text: "this is the voice, amelia, and koko is a shitbitch",
             cost: 200
         },
-        "Aussie": {
+        "aussie": {
             text: "this is the voice, aussie, and koko is a shitbitch",
             cost: 200
         },
-        "Baldi": {
+        "baldi": {
             text: "this is the voice, baldi, and koko is scary",
             cost: 200
         },
-        "Becki": {
+        "becki": {
             text: "this is the voice, becki, and koko is fackin betch",
             cost: 200
         },
-        "Ben": {
+        "ben": {
             text: "this is the voice, ben, and koko is a shitbitch",
             cost: 200
         },
-        "Brad": {
+        "brad": {
             text: "this is the surfer voice, brad, and koko is a rad dude",
             cost: 200
         },
-        "Chief": {
+        "chief": {
             text: "this is the voice, chief, and koko is a shitbitch",
             cost: 200
         },
-        "Cowboy": {
+        "cowboy": {
             text: "this is the voice, cowboy, and koko's cornbread aint done in the middle",
             cost: 200
         },
-        "Dagoth": {
+        "dagoth": {
             text: "this is the voice, dagoth, and koko is a shitbitch",
             cost: 200
         },
-        "Dandy": {
+        "dandy": {
             text: "this is the voice, dandy, and koko is... i don't know... i'm running out of ideas",
             cost: 200
         },
-        "Demon": {
+        "demon": {
             text: "this is the voice, demon, and gloria a las plagas!",
             cost: 200
         },
-        "Doc": {
+        "doc": {
             text: "this is the voice, doc, and koko is for sure a shitbitch",
             cost: 200
         },
-        "Dracula": {
+        "dracula": {
             text: "this is the voice, dracula, and koko is mayhaps a shitbitch",
             cost: 200
         },
-        "Drum": {
+        "drum": {
             text: "this is the voice, drum, and I hope you're a girl. fuckyeah",
             cost: 200
         },
-        "Fred": {
+        "fred": {
             text: "this is the voice, fred, and koko is a shitbitch. haha!",
             cost: 200
         },
-        "Ganom": {
+        "ganom": {
             text: "this is the voice, ganom, and koko held me at gunpoint until I provided this voice",
             cost: 200
         },
-        "Goblin": {
+        "goblin": {
             text: "this is the voice, goblin, and koko is not a shitbitch",
             cost: 200
         },
-        "Grump": {
+        "grump": {
             text: "*sigh* this is the voice, grump, and... man what am I even doing here, i just worked a 16 hour shift and now I gotta read some shitty copypasta?",
             cost: 200
         },
-        "Herbi": {
+        "herbi": {
             text: "this is the voice, herbi, and koko is... huh? what? oh sorry, i fell asleep",
             cost: 200
         },
-        "Kawaii": {
+        "kawaii": {
             text: "this is the voice, kawaii, and oh god this voice is so annoying",
             cost: 200
         },
-        "Lutz": {
+        "lutz": {
             text: "this is the voice, lutz, and I laugh at things that aren't funny... like koko jokes",
             cost: 200
         },
-        "Mats": {
+        "mats": {
             text: "esta es la voz, kuro, y yo soy un artista increíble",
             cost: 200
         },
-        "Messmer": {
+        "messmer": {
             text: "this is the voice, messmer, and koko is a shitbitch",
             cost: 200
         },
-        "Nerd": {
+        "nerd": {
             text: "this is the voice, nerd, and koko doesn't know algebra",
             cost: 200
         },
-        "Pirate": {
+        "pirate": {
             text: "this is the voice, pirate, and koko is a landlubber",
             cost: 200
         },
-        "Ranni": {
+        "ranni": {
             text: "this is the voice, ranni, and koko is most likely a shitbitch",
             cost: 200
         },
-        "Sad": {
+        "sad": {
             text: "this is the voice, sad, and koko is a shitbitch. waaaa!",
             cost: 200
         },
-        "Villain": {
+        "villain": {
             text: "this is the voice, villain, and holy fucking shit i'm hot... a buhhhh",
             cost: 200
         },
         //Azure & Streamelements
-        "Brian": {
+        "brian": {
             text: "this is the voice, brian, and koko is a shitbitch",
             cost: 100
         },
-        "Davis": {
+        "davis": {
             text: "this is the voice, davis, and koko is a shitbitch",
             cost: 100
         },
-        "Tony": {
+        "tony": {
             text: "this is the voice, tony, and koko is a shitbitch",
             cost: 100
         },
-        "Jason": {
+        "jason": {
             text: "this is the voice, jason, and koko is a shitbitch",
             cost: 100
         },
-        "Guy": {
+        "buy": {
             text: "this is the voice, guy, and koko is a shitbitch",
             cost: 100
         },
-        "Jane": {
+        "jane": {
             text: "this is the voice, jane, and koko is a shitbitch",
             cost: 100
         },
-        "Nancy": {
+        "nancy": {
             text: "this is the voice, nancy, and koko is a shitbitch",
             cost: 100
         },
-        "Jenny": {
+        "jenny": {
             text: "this is the voice, jenny, and koko is a shitbitch",
             cost: 100
         },
-        "Aria": {
+        "aria": {
             text: "this is the voice, aria, and koko is a shitbitch",
             cost: 100
         },
-        "Sara": {
+        "sara": {
             text: "this is the voice, sara, and koko is a shitbitch",
             cost: 100
         },
@@ -372,46 +380,91 @@
     voiceList.innerHTML = '';
 
     const groupedVoices = {};
+    const premiumVoices = [];
+
     Object.entries(voices).forEach(([name, data]) => {
         const cost = data.cost;
-        if (!groupedVoices[cost]) groupedVoices[cost] = [];
-        groupedVoices[cost].push({name, ...data});
+        if (cost >= 1000) {
+            premiumVoices.push({name, ...data});
+        } else {
+            if (!groupedVoices[cost]) groupedVoices[cost] = [];
+            groupedVoices[cost].push({name, ...data});
+        }
     });
 
-    Object.keys(groupedVoices).sort((a, b) => a + b).forEach(cost => {
-        const section = document.createElement('div');
-        section.className = 'voice-section';
+    premiumVoices.sort((a, b) => b.cost - a.cost);
 
-        const header = document.createElement('button');
-        header.className = 'bit-tier-header';
-        header.innerHTML = `${cost} Bits <span class="chevron">▼</span>`;
+    if (premiumVoices.length > 0) {
+        const premiumSection = document.createElement('div');
+        premiumSection.className = 'voice-section';
 
-        const content = document.createElement('div');
-        content.className = 'voice-list';
+        const premiumHeader = document.createElement('button');
+        premiumHeader.className = 'bit-tier-header';
+        premiumHeader.innerHTML = `Premium Voices <span class="chevron">▼</span>`;
 
-        groupedVoices[cost].forEach(voice => {
+        const premiumContent = document.createElement('div');
+        premiumContent.className = 'voice-list';
+
+        premiumVoices.forEach(voice => {
             const voiceItem = document.createElement('div');
             voiceItem.className = 'voice-item';
             voiceItem.innerHTML = `
+            <img src="icons/${voice.name.toLowerCase()}.webp" alt="${voice.name} icon" class="voice-icon">
+            <div class="bit-cost">${voice.cost} Bits</div>
+            <h2>${voice.name}</h2>
+            <button class="play-button" data-voice="${voice.name.toLowerCase()}"></button>
+            <p>[${voice.name.toLowerCase()}] ${voice.text}</p>
+        `;
+            premiumContent.appendChild(voiceItem);
+        });
+
+        premiumHeader.addEventListener('click', () => {
+            premiumContent.classList.toggle('collapsed');
+            premiumHeader.querySelector('.chevron').style.transform =
+                premiumContent.classList.contains('collapsed') ? 'rotate(-90deg)' : 'rotate(0deg)';
+        });
+
+        premiumSection.appendChild(premiumHeader);
+        premiumSection.appendChild(premiumContent);
+        voiceList.appendChild(premiumSection);
+    }
+
+    Object.keys(groupedVoices)
+        .sort((a, b) => parseInt(a) + parseInt(b))
+        .forEach(cost => {
+            const section = document.createElement('div');
+            section.className = 'voice-section';
+
+            const header = document.createElement('button');
+            header.className = 'bit-tier-header';
+            header.innerHTML = `${cost} Bits <span class="chevron">▼</span>`;
+
+            const content = document.createElement('div');
+            content.className = 'voice-list';
+
+            groupedVoices[cost].forEach(voice => {
+                const voiceItem = document.createElement('div');
+                voiceItem.className = 'voice-item';
+                voiceItem.innerHTML = `
                 <img src="icons/${voice.name.toLowerCase()}.webp" alt="${voice.name} icon" class="voice-icon">
                 <div class="bit-cost">${voice.cost} Bits</div>
                 <h2>${voice.name}</h2>
                 <button class="play-button" data-voice="${voice.name.toLowerCase()}"></button>
                 <p>[${voice.name.toLowerCase()}] ${voice.text}</p>
             `;
-            content.appendChild(voiceItem);
-        });
+                content.appendChild(voiceItem);
+            });
 
-        header.addEventListener('click', () => {
-            content.classList.toggle('collapsed');
-            header.querySelector('.chevron').style.transform =
-                content.classList.contains('collapsed') ? 'rotate(-90deg)' : 'rotate(0deg)';
-        });
+            header.addEventListener('click', () => {
+                content.classList.toggle('collapsed');
+                header.querySelector('.chevron').style.transform =
+                    content.classList.contains('collapsed') ? 'rotate(-90deg)' : 'rotate(0deg)';
+            });
 
-        section.appendChild(header);
-        section.appendChild(content);
-        voiceList.appendChild(section);
-    });
+            section.appendChild(header);
+            section.appendChild(content);
+            voiceList.appendChild(section);
+        });
 
     let currentlyPlaying = null;
 
