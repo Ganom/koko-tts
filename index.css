@@ -74,6 +74,7 @@ h1 {
     width: 160px;
     height: auto;
     object-fit: contain;
+    pointer-events: none;
 }
 
 .voice-item h2 {
