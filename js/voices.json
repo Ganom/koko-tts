@@ -31,6 +31,10 @@
     "text": "this is the voice, ben, and koko is a shitbitch",
     "cost": 200
   },
+  "bonnie": {
+    "text": "this is the voice, bonnie, and koko is DISGOOSTANG",
+    "cost": 200
+  },
   "brad": {
     "text": "this is the surfer voice, brad, and koko is a rad dude",
     "cost": 200
@@ -119,12 +123,20 @@
     "text": "this is the voice, sad, and koko is a shitbitch. waaaa!",
     "cost": 200
   },
+  "santa": {
+    "text": "this is the voice, santa, and koko is getting coal this year. ho ho ho!",
+    "cost": 200
+  },
   "timmy": {
     "text": "this is the voice, timmy, and could you spare a bit o' bread for me?",
     "cost": 200
   },
   "villain": {
     "text": "this is the voice, villain, and holy fucking shit i'm hot... a buhhhh",
+    "cost": 200
+  },
+  "wise": {
+    "text": "this is the voice, wise, and koko got her armor trimmed in runescape",
     "cost": 200
   },
   "brian": {
