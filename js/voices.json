@@ -47,6 +47,10 @@
     "text": "this is the voice, cowboy, and koko's cornbread aint done in the middle",
     "cost": 200
   },
+  "daddy": {
+    "text": "this is the voice, daddy, and daddy is finished with kitten",
+    "cost": 200
+  },
   "dagoth": {
     "text": "this is the voice, dagoth, and koko is a shitbitch",
     "cost": 200
@@ -105,6 +109,10 @@
   },
   "messmer": {
     "text": "this is the voice, messmer, and koko is a shitbitch",
+    "cost": 200
+  },
+  "mommy": {
+    "text": "this is the voice for mommy, and shes very disappointed in you",
     "cost": 200
   },
   "nerd": {
