@@ -54,8 +54,19 @@ function renderVoiceSection(title, voices, container) {
     voices.forEach(voice => {
         const voiceItem = document.createElement('div');
         voiceItem.className = 'voice-item';
+
+        let tierBadge = '';
+        if (voice.cost <= 500) {
+            tierBadge = '<div class="tier-badge">T1 Resub</div>';
+        } else if (voice.cost <= 1000) {
+            tierBadge = '<div class="tier-badge">T2 Resub</div>';
+        } else if (voice.cost <= 2500) {
+            tierBadge = '<div class="tier-badge">T3 Resub</div>';
+        }
+
         voiceItem.innerHTML = `
             <img src="icons/${voice.name.toLowerCase()}.webp" alt="${voice.name} icon" class="voice-icon">
+            ${tierBadge}
             <div class="bit-cost">${voice.cost} Bits</div>
             <h2>${voice.name}</h2>
             <button class="play-button" data-voice="${voice.name.toLowerCase()}"></button>

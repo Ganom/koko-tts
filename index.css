@@ -157,6 +157,18 @@ h1 {
     font-weight: bold;
 }
 
+.tier-badge {
+    position: absolute;
+    top: 15px;
+    left: 15px;
+    background-color: #fda9c1;
+    color: #1a1a1a;
+    padding: 5px 15px;
+    border-radius: 20px;
+    font-size: 0.7rem;
+    font-weight: bold;
+}
+
 .voice-list.collapsed {
     display: none;
 }
