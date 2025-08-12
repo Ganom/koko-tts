@@ -1,10 +1,10 @@
-import { ref, watch, type Ref } from 'vue'
+import {ref, type Ref, watch} from 'vue'
 
 export function useLocalStorage<T>(key: string, defaultValue: T): [Ref<T>, (value: T) => void] {
   const storedValue = localStorage.getItem(key)
   const initialValue = storedValue ? JSON.parse(storedValue) : defaultValue
-  
-  const state = ref<T>(initialValue)
+
+  const state = ref(initialValue) as Ref<T>
 
   const setValue = (value: T) => {
     state.value = value
@@ -13,7 +13,7 @@ export function useLocalStorage<T>(key: string, defaultValue: T): [Ref<T>, (valu
 
   watch(state, (newValue) => {
     localStorage.setItem(key, JSON.stringify(newValue))
-  }, { deep: true })
+  }, {deep: true})
 
   return [state, setValue]
 }
