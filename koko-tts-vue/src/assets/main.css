@@ -1,0 +1,240 @@
+@import url('https://fonts.cdnfonts.com/css/expressway');
+@import "tailwindcss";
+
+@theme {
+  /* Dark color palette inspired by anime character */
+  --color-dark-950: #050407;
+  --color-dark-900: #0a0812;
+  --color-dark-800: #12101c;
+  --color-dark-700: #1a1825;
+  --color-dark-600: #252233;
+  --color-dark-500: #322e42;
+  --color-dark-400: #403c52;
+  --color-dark-300: #4e4a62;
+
+  /* Violet/Purple tones (main accent) */
+  --color-violet-950: #2e1065;
+  --color-violet-900: #4c1d95;
+  --color-violet-800: #5b21b6;
+  --color-violet-700: #6d28d9;
+  --color-violet-600: #7c3aed;
+  --color-violet-500: #8b5cf6;
+  --color-violet-400: #a78bfa;
+  --color-violet-300: #c4b5fd;
+  --color-violet-200: #ddd6fe;
+  --color-violet-100: #ede9fe;
+  --color-violet-50: #f5f3ff;
+
+  /* Pink/Magenta accents */
+  --color-pink-950: #500724;
+  --color-pink-900: #831843;
+  --color-pink-800: #9f1239;
+  --color-pink-700: #be185d;
+  --color-pink-600: #db2777;
+  --color-pink-500: #ec4899;
+  --color-pink-400: #f472b6;
+  --color-pink-300: #f9a8d4;
+  --color-pink-200: #fbcfe8;
+  --color-pink-100: #fce7f3;
+  --color-pink-50: #fdf2f8;
+
+  /* Gold/Yellow highlights */
+  --color-gold-950: #451a03;
+  --color-gold-900: #78350f;
+  --color-gold-800: #92400e;
+  --color-gold-700: #b45309;
+  --color-gold-600: #d97706;
+  --color-gold-500: #f59e0b;
+  --color-gold-400: #fbbf24;
+  --color-gold-300: #fcd34d;
+  --color-gold-200: #fde68a;
+  --color-gold-100: #fef3c7;
+  --color-gold-50: #fffbeb;
+
+  /* Neutral grays with purple tint */
+  --color-gray-950: #0a0911;
+  --color-gray-900: #1f1d2e;
+  --color-gray-800: #353244;
+  --color-gray-700: #4b4759;
+  --color-gray-600: #6b687f;
+  --color-gray-500: #8b89a3;
+  --color-gray-400: #a5a3bb;
+  --color-gray-300: #c8c6d7;
+  --color-gray-200: #e2e1ed;
+  --color-gray-100: #f1f0f7;
+  --color-gray-50: #f8f7fc;
+
+  /* Custom spacing and sizing */
+  --spacing-18: 4.5rem;
+  --spacing-88: 22rem;
+  --spacing-128: 32rem;
+
+  /* Custom border radius */
+  --radius-4xl: 2rem;
+  --radius-5xl: 2.5rem;
+
+  /* Animations */
+  --animate-pulse-violet: pulse-violet 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  --animate-pulse-pink: pulse-pink 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  --animate-pulse-gold: pulse-gold 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  --animate-float: float 3s ease-in-out infinite;
+
+  /* Custom font families */
+  --font-family-display: 'Expressway', 'Inter Variable', system-ui, sans-serif;
+  --font-family-body: 'Expressway', 'Inter Variable', system-ui, sans-serif;
+  --font-family-expressway: 'Expressway', Arial, sans-serif;
+}
+
+/* Keyframe animations */
+@keyframes pulse-violet {
+  0%, 100% {
+    opacity: 1;
+    box-shadow: 0 0 0 0 rgba(139, 92, 246, 0);
+  }
+  50% {
+    opacity: 0.8;
+    box-shadow: 0 0 20px 10px rgba(139, 92, 246, 0.3);
+  }
+}
+
+@keyframes pulse-pink {
+  0%, 100% {
+    opacity: 1;
+    box-shadow: 0 0 0 0 rgba(236, 72, 153, 0);
+  }
+  50% {
+    opacity: 0.8;
+    box-shadow: 0 0 20px 10px rgba(236, 72, 153, 0.3);
+  }
+}
+
+@keyframes pulse-gold {
+  0%, 100% {
+    opacity: 1;
+    box-shadow: 0 0 0 0 rgba(251, 191, 36, 0);
+  }
+  50% {
+    opacity: 0.8;
+    box-shadow: 0 0 20px 10px rgba(251, 191, 36, 0.3);
+  }
+}
+
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+/* Utility classes for gradients and effects */
+@layer utilities {
+  .bg-gradient-violet-pink {
+    background: linear-gradient(135deg, var(--color-violet-500) 0%, var(--color-pink-500) 100%);
+  }
+
+  .bg-gradient-gold-pink {
+    background: linear-gradient(135deg, var(--color-gold-400) 0%, var(--color-pink-400) 100%);
+  }
+
+  .bg-gradient-dark {
+    background: linear-gradient(180deg, var(--color-dark-700) 0%, var(--color-dark-900) 100%);
+  }
+
+  .bg-gradient-radial-violet {
+    background: radial-gradient(circle at center, rgba(139, 92, 246, 0.3) 0%, transparent 70%);
+  }
+
+  .text-gradient {
+    background: linear-gradient(to right, var(--color-violet-400), var(--color-pink-400));
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+  }
+
+  .shadow-violet {
+    box-shadow: 0 4px 20px -4px rgba(139, 92, 246, 0.2);
+  }
+
+  .shadow-pink {
+    box-shadow: 0 4px 20px -4px rgba(236, 72, 153, 0.2);
+  }
+
+  .shadow-gold {
+    box-shadow: 0 4px 20px -4px rgba(251, 191, 36, 0.15);
+  }
+
+  .border-gradient {
+    border-image: linear-gradient(135deg, var(--color-violet-500), var(--color-pink-500)) 1;
+  }
+
+  .anime-card {
+    background: linear-gradient(180deg, var(--color-dark-700) 0%, var(--color-dark-900) 100%);
+    backdrop-filter: blur(8px);
+  }
+
+  .glass {
+    background: rgba(10, 8, 18, 0.3);
+    backdrop-filter: blur(8px);
+  }
+}
+
+/* Dark mode base styles */
+:root {
+  --background: var(--color-dark-900);
+  --foreground: var(--color-gray-100);
+  --card: var(--color-dark-800);
+  --card-foreground: var(--color-gray-200);
+  --primary: var(--color-violet-600);
+  --primary-foreground: var(--color-gray-50);
+  --secondary: var(--color-pink-600);
+  --secondary-foreground: var(--color-gray-50);
+  --accent: var(--color-gold-500);
+  --accent-foreground: var(--color-dark-900);
+  --muted: var(--color-dark-700);
+  --muted-foreground: var(--color-gray-400);
+  --border: var(--color-dark-600);
+}
+
+@layer base {
+  html {
+    font-size: 16px;
+  }
+
+  body {
+    background-color: var(--background);
+    color: var(--foreground);
+    font-family: var(--font-family-expressway);
+    line-height: 1.6;
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+    background: linear-gradient(180deg, var(--color-dark-700) 0%, var(--color-dark-900) 100%);
+    background-attachment: fixed;
+  }
+
+  * {
+    box-sizing: border-box;
+  }
+
+  /* Custom scrollbar */
+  ::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: var(--color-dark-800);
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: linear-gradient(180deg, var(--color-violet-500), var(--color-pink-500));
+    border-radius: 4px;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(180deg, var(--color-violet-400), var(--color-pink-400));
+  }
+}
