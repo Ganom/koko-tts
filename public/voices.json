@@ -59,6 +59,10 @@
     "text": "this is the voice, dagoth, and koko is a shitbitch",
     "cost": 300
   },
+  "dan": {
+    "text": "this is the voice, dan, and koko is a shitbitch",
+    "cost": 300
+  },
   "dandy": {
     "text": "this is the voice, dandy, and koko is... i don't know... i'm running out of ideas",
     "cost": 300
@@ -68,6 +72,10 @@
     "cost": 300
   },
   "doc": {
+    "text": "this is the voice, doc, and koko is for sure a shitbitch",
+    "cost": 300
+  },
+  "doc2": {
     "text": "this is the voice, doc, and koko is for sure a shitbitch",
     "cost": 300
   },
@@ -87,6 +95,10 @@
     "text": "this is the voice, ganom, and koko held me at gunpoint until I provided this voice",
     "cost": 300
   },
+  "giga timmy": {
+    "text": "this is the voice, giga timmy, and koko is a shitbitch",
+    "cost": 300
+  },
   "goblin": {
     "text": "this is the voice, goblin, and koko is not a shitbitch",
     "cost": 300
@@ -103,8 +115,16 @@
     "text": "this is the voice, herbi, and koko is... huh? what? oh sorry, i fell asleep",
     "cost": 300
   },
+  "it": {
+    "text": "this is the voice, it, and koko is a shitbitch",
+    "cost": 300
+  },
   "kawaii": {
     "text": "this is the voice, kawaii, and oh god this voice is so annoying",
+    "cost": 300
+  },
+  "kuro": {
+    "text": "this is the voice, kuro, and koko is a shitbitch",
     "cost": 300
   },
   "lutz": {
@@ -151,6 +171,10 @@
     "text": "this is the voice, todd, and it just works!",
     "cost": 300
   },
+  "tony": {
+    "text": "this is the voice, tony, and koko is a shitbitch",
+    "cost": 300
+  },
   "villain": {
     "text": "this is the voice, villain, and holy fucking shit i'm hot... a buhhhh",
     "cost": 300
@@ -163,20 +187,16 @@
     "text": "this is the voice xbox, and i just got a triple kill",
     "cost": 300
   },
+  "aria": {
+    "text": "this is the voice, aria, and koko is a shitbitch",
+    "cost": 100
+  },
   "brian": {
     "text": "this is the voice, brian, and koko is a shitbitch",
     "cost": 100
   },
   "davis": {
     "text": "this is the voice, davis, and koko is a shitbitch",
-    "cost": 100
-  },
-  "tony": {
-    "text": "this is the voice, tony, and koko is a shitbitch",
-    "cost": 100
-  },
-  "jason": {
-    "text": "this is the voice, jason, and koko is a shitbitch",
     "cost": 100
   },
   "guy": {
@@ -187,16 +207,16 @@
     "text": "this is the voice, jane, and koko is a shitbitch",
     "cost": 100
   },
-  "nancy": {
-    "text": "this is the voice, nancy, and koko is a shitbitch",
+  "jason": {
+    "text": "this is the voice, jason, and koko is a shitbitch",
     "cost": 100
   },
   "jenny": {
     "text": "this is the voice, jenny, and koko is a shitbitch",
     "cost": 100
   },
-  "aria": {
-    "text": "this is the voice, aria, and koko is a shitbitch",
+  "nancy": {
+    "text": "this is the voice, nancy, and koko is a shitbitch",
     "cost": 100
   },
   "sara": {
