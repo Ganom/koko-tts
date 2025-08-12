@@ -8,9 +8,6 @@
     <h1 class="text-4xl md:text-6xl font-bold text-gradient mb-4 animate-float">
       Koko TTS Voices
     </h1>
-    <p class="text-gray-400 text-lg md:text-xl max-w-2xl mx-auto">
-      Experience your messages come to life with our collection of unique voice personalities
-    </p>
     <!-- Decorative elements -->
     <div class="flex justify-center mt-8 space-x-3">
       <div class="w-3 h-3 bg-primary-500 rounded-full"/>

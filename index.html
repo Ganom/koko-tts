@@ -1,38 +1,20 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
+  <head>
     <meta charset="UTF-8">
+    <link rel="icon" href="/favicon.ico">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Koko TTS Voices</title>
-
+    
     <meta property="og:title" content="Koko TTS Voices">
-    <meta property="og:description"
-          content="Preview all of the voices that are available to be used during Kokonut's live streams!">
+    <meta property="og:description" content="Preview all of the voices that are available to be used during Kokonut's live streams!">
     <meta property="og:image" id="og-image" content="https://kokosnutshack.com/icons/embed_icon.webp">
     <meta property="og:url" content="https://kokosnutshack.com/">
     <meta property="og:type" content="website">
     <meta name="theme-color" content="#fda9c1"/>
-    <link rel="stylesheet" href="index.css">
-</head>
-<body>
-<h1>Koko TTS Voices</h1>
-
-<div class="info-box">
-    <h2>How to Use TTS During Streams</h2>
-    <p>There are two ways to make the bot read your messages with these voices:</p>
-    <div class="info-method"><strong>Cheer:</strong> Type "Cheer300 [voicename] your message"</div>
-    <div class="info-method"><strong>Channel Points:</strong> Redeem TTS and start with "[voicename] your message"</div>
-    <div class="info-method"><strong>Resub:</strong> Tier 1 gives 500 bit value, Tier 2 gives 1000 bit value, Tier 3 gives 2500 bit value</div>
-
-    <h2>Voice Commands</h2>
-    <p>You can also set a default voice for your messages:</p>
-    <div class="info-method"><strong>!setvoice:</strong> Type "!setvoice voicename" to set your default voice</div>
-    <div class="info-method"><strong>!clearvoice:</strong> Type "!clearvoice" to remove your default voice</div>
-</div>
-
-<div id="voice-list">
-</div>
-
-<script type="module" src="./js/main.js"></script>
-</body>
+  </head>
+  <body>
+    <div id="app"></div>
+    <script type="module" src="/src/main.ts"></script>
+  </body>
 </html>
