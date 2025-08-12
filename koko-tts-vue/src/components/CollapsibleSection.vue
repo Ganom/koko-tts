@@ -1,8 +1,8 @@
 <template>
   <div class="mb-12">
-    <button 
+    <button
       @click="isOpen = !isOpen"
-      class="w-full bg-gradient-dark hover:bg-gradient-to-r hover:from-violet-600/20 hover:to-pink-600/20 text-white font-bold py-6 px-8 rounded-2xl flex items-center justify-between transition-all duration-300 border border-violet-700/30 hover:border-pink-500/60 shadow-violet hover:shadow-pink"
+      class="w-full bg-gradient-dark hover:bg-gradient-to-r hover:from-violet-600/20 hover:to-pink-600/20 text-white font-bold py-6 px-8 rounded-2xl flex items-center justify-between transition-all duration-300 border border-violet-700/30 hover:border-pink-500/60 hover:shadow-pink"
     >
       <div class="flex items-center">
         <div class="w-3 h-3 bg-gradient-to-r from-violet-500 to-pink-500 rounded-full mr-4"></div>
@@ -12,10 +12,10 @@
         <span class="text-sm text-gray-400 font-normal">
           {{ isOpen ? 'Hide' : 'Show' }} voices
         </span>
-        <svg 
+        <svg
           class="w-6 h-6 transform transition-transform duration-300 flex-shrink-0"
           :class="{ 'rotate-180': isOpen }"
-          fill="currentColor" 
+          fill="currentColor"
           viewBox="0 0 20 20"
         >
           <path d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"/>
@@ -32,7 +32,7 @@
     >
       <div v-show="isOpen" class="overflow-hidden">
         <div class="glass rounded-b-2xl border-x border-b border-violet-700/20 shadow-inner-glow">
-          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-12 p-8 pt-16">
+          <div class="grid gap-12 p-8 pt-16 justify-center" style="grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); max-width: 1200px; margin: 0 auto;">
             <slot />
           </div>
         </div>

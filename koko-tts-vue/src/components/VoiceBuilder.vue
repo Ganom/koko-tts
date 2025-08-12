@@ -1,7 +1,7 @@
 <template>
-  <div class="max-w-4xl mx-auto mb-16">
+  <div class="max-w-6xl mx-auto mb-16">
     <div
-      class="anime-card bg-gradient-dark rounded-4xl p-8 border border-violet-700/30 shadow-violet">
+      class="anime-card bg-gradient-dark rounded-4xl p-8 border border-violet-700/30">
       <div class="text-center mb-8">
         <h2 class="text-gradient text-3xl font-bold mb-3">Voice Message Builder</h2>
         <p class="text-gray-300 text-lg">Build and preview your TTS command</p>
@@ -152,17 +152,17 @@
         <!-- Preview Section -->
         <div class="space-y-6">
           <!-- Voice Avatar Preview -->
-          <div v-if="selectedVoice" class="text-center">
-            <div class="inline-block relative">
+          <div v-if="selectedVoice" class="flex flex-col items-center text-center">
+            <div class="relative">
               <img
                 :src="`/icons/${selectedVoice.toLowerCase()}.webp`"
                 :alt="`${selectedVoice} avatar`"
-                class="w-32 h-32 rounded-full bg-dark-900/60 border-4 border-violet-500/40 p-4 shadow-violet"
+                class="w-32 h-32 rounded-full bg-dark-900/60 border-4 border-primary-500/40 shadow-primary object-cover mx-auto"
               >
-              <div class="mt-4">
-                <h3 class="text-2xl font-bold text-white">{{ selectedVoice }}</h3>
-                <p class="text-violet-300">{{ getVoiceCost(selectedVoice) }} bits</p>
-              </div>
+            </div>
+            <div class="mt-4">
+              <h3 class="text-2xl font-bold text-white">{{ selectedVoice }}</h3>
+              <p class="text-primary-300">{{ getVoiceCost(selectedVoice) }} bits</p>
             </div>
           </div>
 

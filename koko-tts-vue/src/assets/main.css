@@ -1,68 +1,105 @@
 @import url('https://fonts.cdnfonts.com/css/expressway');
 @import "tailwindcss";
+@import "./themes.css";
 
 @theme {
-  /* Dark color palette inspired by anime character */
-  --color-dark-950: #050407;
-  --color-dark-900: #0a0812;
-  --color-dark-800: #12101c;
-  --color-dark-700: #1a1825;
-  --color-dark-600: #252233;
-  --color-dark-500: #322e42;
-  --color-dark-400: #403c52;
-  --color-dark-300: #4e4a62;
+  /* Use theme variables for colors */
+  --color-primary-950: var(--theme-primary-950);
+  --color-primary-900: var(--theme-primary-900);
+  --color-primary-800: var(--theme-primary-800);
+  --color-primary-700: var(--theme-primary-700);
+  --color-primary-600: var(--theme-primary-600);
+  --color-primary-500: var(--theme-primary-500);
+  --color-primary-400: var(--theme-primary-400);
+  --color-primary-300: var(--theme-primary-300);
+  --color-primary-200: var(--theme-primary-200);
+  --color-primary-100: var(--theme-primary-100);
+  --color-primary-50: var(--theme-primary-50);
 
-  /* Violet/Purple tones (main accent) */
-  --color-violet-950: #2e1065;
-  --color-violet-900: #4c1d95;
-  --color-violet-800: #5b21b6;
-  --color-violet-700: #6d28d9;
-  --color-violet-600: #7c3aed;
-  --color-violet-500: #8b5cf6;
-  --color-violet-400: #a78bfa;
-  --color-violet-300: #c4b5fd;
-  --color-violet-200: #ddd6fe;
-  --color-violet-100: #ede9fe;
-  --color-violet-50: #f5f3ff;
+  --color-secondary-950: var(--theme-secondary-950);
+  --color-secondary-900: var(--theme-secondary-900);
+  --color-secondary-800: var(--theme-secondary-800);
+  --color-secondary-700: var(--theme-secondary-700);
+  --color-secondary-600: var(--theme-secondary-600);
+  --color-secondary-500: var(--theme-secondary-500);
+  --color-secondary-400: var(--theme-secondary-400);
+  --color-secondary-300: var(--theme-secondary-300);
+  --color-secondary-200: var(--theme-secondary-200);
+  --color-secondary-100: var(--theme-secondary-100);
+  --color-secondary-50: var(--theme-secondary-50);
 
-  /* Pink/Magenta accents */
-  --color-pink-950: #500724;
-  --color-pink-900: #831843;
-  --color-pink-800: #9f1239;
-  --color-pink-700: #be185d;
-  --color-pink-600: #db2777;
-  --color-pink-500: #ec4899;
-  --color-pink-400: #f472b6;
-  --color-pink-300: #f9a8d4;
-  --color-pink-200: #fbcfe8;
-  --color-pink-100: #fce7f3;
-  --color-pink-50: #fdf2f8;
+  --color-accent-950: var(--theme-accent-950);
+  --color-accent-900: var(--theme-accent-900);
+  --color-accent-800: var(--theme-accent-800);
+  --color-accent-700: var(--theme-accent-700);
+  --color-accent-600: var(--theme-accent-600);
+  --color-accent-500: var(--theme-accent-500);
+  --color-accent-400: var(--theme-accent-400);
+  --color-accent-300: var(--theme-accent-300);
+  --color-accent-200: var(--theme-accent-200);
+  --color-accent-100: var(--theme-accent-100);
+  --color-accent-50: var(--theme-accent-50);
 
-  /* Gold/Yellow highlights */
-  --color-gold-950: #451a03;
-  --color-gold-900: #78350f;
-  --color-gold-800: #92400e;
-  --color-gold-700: #b45309;
-  --color-gold-600: #d97706;
-  --color-gold-500: #f59e0b;
-  --color-gold-400: #fbbf24;
-  --color-gold-300: #fcd34d;
-  --color-gold-200: #fde68a;
-  --color-gold-100: #fef3c7;
-  --color-gold-50: #fffbeb;
+  --color-dark-950: var(--theme-dark-950);
+  --color-dark-900: var(--theme-dark-900);
+  --color-dark-800: var(--theme-dark-800);
+  --color-dark-700: var(--theme-dark-700);
+  --color-dark-600: var(--theme-dark-600);
+  --color-dark-500: var(--theme-dark-500);
+  --color-dark-400: var(--theme-dark-400);
+  --color-dark-300: var(--theme-dark-300);
+  --color-dark-200: var(--theme-dark-200);
+  --color-dark-100: var(--theme-dark-100);
+  --color-dark-50: var(--theme-dark-50);
 
-  /* Neutral grays with purple tint */
-  --color-gray-950: #0a0911;
-  --color-gray-900: #1f1d2e;
-  --color-gray-800: #353244;
-  --color-gray-700: #4b4759;
-  --color-gray-600: #6b687f;
-  --color-gray-500: #8b89a3;
-  --color-gray-400: #a5a3bb;
-  --color-gray-300: #c8c6d7;
-  --color-gray-200: #e2e1ed;
-  --color-gray-100: #f1f0f7;
-  --color-gray-50: #f8f7fc;
+  --color-gray-950: var(--theme-gray-950);
+  --color-gray-900: var(--theme-gray-900);
+  --color-gray-800: var(--theme-gray-800);
+  --color-gray-700: var(--theme-gray-700);
+  --color-gray-600: var(--theme-gray-600);
+  --color-gray-500: var(--theme-gray-500);
+  --color-gray-400: var(--theme-gray-400);
+  --color-gray-300: var(--theme-gray-300);
+  --color-gray-200: var(--theme-gray-200);
+  --color-gray-100: var(--theme-gray-100);
+  --color-gray-50: var(--theme-gray-50);
+
+  /* Legacy color mappings for backwards compatibility */
+  --color-violet-950: var(--theme-primary-950);
+  --color-violet-900: var(--theme-primary-900);
+  --color-violet-800: var(--theme-primary-800);
+  --color-violet-700: var(--theme-primary-700);
+  --color-violet-600: var(--theme-primary-600);
+  --color-violet-500: var(--theme-primary-500);
+  --color-violet-400: var(--theme-primary-400);
+  --color-violet-300: var(--theme-primary-300);
+  --color-violet-200: var(--theme-primary-200);
+  --color-violet-100: var(--theme-primary-100);
+  --color-violet-50: var(--theme-primary-50);
+
+  --color-pink-950: var(--theme-secondary-950);
+  --color-pink-900: var(--theme-secondary-900);
+  --color-pink-800: var(--theme-secondary-800);
+  --color-pink-700: var(--theme-secondary-700);
+  --color-pink-600: var(--theme-secondary-600);
+  --color-pink-500: var(--theme-secondary-500);
+  --color-pink-400: var(--theme-secondary-400);
+  --color-pink-300: var(--theme-secondary-300);
+  --color-pink-200: var(--theme-secondary-200);
+  --color-pink-100: var(--theme-secondary-100);
+  --color-pink-50: var(--theme-secondary-50);
+
+  --color-gold-950: var(--theme-accent-950);
+  --color-gold-900: var(--theme-accent-900);
+  --color-gold-800: var(--theme-accent-800);
+  --color-gold-700: var(--theme-accent-700);
+  --color-gold-600: var(--theme-accent-600);
+  --color-gold-500: var(--theme-accent-500);
+  --color-gold-400: var(--theme-accent-400);
+  --color-gold-300: var(--theme-accent-300);
+  --color-gold-200: var(--theme-accent-200);
+  --color-gold-100: var(--theme-accent-100);
+  --color-gold-50: var(--theme-accent-50);
 
   /* Custom spacing and sizing */
   --spacing-18: 4.5rem;
@@ -74,9 +111,9 @@
   --radius-5xl: 2.5rem;
 
   /* Animations */
-  --animate-pulse-violet: pulse-violet 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
-  --animate-pulse-pink: pulse-pink 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
-  --animate-pulse-gold: pulse-gold 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  --animate-pulse-primary: pulse-primary 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  --animate-pulse-secondary: pulse-secondary 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  --animate-pulse-accent: pulse-accent 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
   --animate-float: float 3s ease-in-out infinite;
 
   /* Custom font families */
@@ -86,36 +123,36 @@
 }
 
 /* Keyframe animations */
-@keyframes pulse-violet {
+@keyframes pulse-primary {
   0%, 100% {
     opacity: 1;
-    box-shadow: 0 0 0 0 rgba(139, 92, 246, 0);
+    box-shadow: 0 0 0 0 color-mix(in srgb, var(--theme-primary-500) 0%, transparent);
   }
   50% {
     opacity: 0.8;
-    box-shadow: 0 0 20px 10px rgba(139, 92, 246, 0.3);
+    box-shadow: 0 0 20px 10px color-mix(in srgb, var(--theme-primary-500) 30%, transparent);
   }
 }
 
-@keyframes pulse-pink {
+@keyframes pulse-secondary {
   0%, 100% {
     opacity: 1;
-    box-shadow: 0 0 0 0 rgba(236, 72, 153, 0);
+    box-shadow: 0 0 0 0 color-mix(in srgb, var(--theme-secondary-500) 0%, transparent);
   }
   50% {
     opacity: 0.8;
-    box-shadow: 0 0 20px 10px rgba(236, 72, 153, 0.3);
+    box-shadow: 0 0 20px 10px color-mix(in srgb, var(--theme-secondary-500) 30%, transparent);
   }
 }
 
-@keyframes pulse-gold {
+@keyframes pulse-accent {
   0%, 100% {
     opacity: 1;
-    box-shadow: 0 0 0 0 rgba(251, 191, 36, 0);
+    box-shadow: 0 0 0 0 color-mix(in srgb, var(--theme-accent-500) 0%, transparent);
   }
   50% {
     opacity: 0.8;
-    box-shadow: 0 0 20px 10px rgba(251, 191, 36, 0.3);
+    box-shadow: 0 0 20px 10px color-mix(in srgb, var(--theme-accent-500) 30%, transparent);
   }
 }
 
@@ -129,74 +166,105 @@
   }
 }
 
-/* Utility classes for gradients and effects */
-@layer utilities {
-  .bg-gradient-violet-pink {
-    background: linear-gradient(135deg, var(--color-violet-500) 0%, var(--color-pink-500) 100%);
-  }
-
-  .bg-gradient-gold-pink {
-    background: linear-gradient(135deg, var(--color-gold-400) 0%, var(--color-pink-400) 100%);
-  }
-
-  .bg-gradient-dark {
-    background: linear-gradient(180deg, var(--color-dark-700) 0%, var(--color-dark-900) 100%);
-  }
-
-  .bg-gradient-radial-violet {
-    background: radial-gradient(circle at center, rgba(139, 92, 246, 0.3) 0%, transparent 70%);
-  }
-
-  .text-gradient {
-    background: linear-gradient(to right, var(--color-violet-400), var(--color-pink-400));
-    background-clip: text;
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    color: transparent;
-  }
-
-  .shadow-violet {
-    box-shadow: 0 4px 20px -4px rgba(139, 92, 246, 0.2);
-  }
-
-  .shadow-pink {
-    box-shadow: 0 4px 20px -4px rgba(236, 72, 153, 0.2);
-  }
-
-  .shadow-gold {
-    box-shadow: 0 4px 20px -4px rgba(251, 191, 36, 0.15);
-  }
-
-  .border-gradient {
-    border-image: linear-gradient(135deg, var(--color-violet-500), var(--color-pink-500)) 1;
-  }
-
-  .anime-card {
-    background: linear-gradient(180deg, var(--color-dark-700) 0%, var(--color-dark-900) 100%);
-    backdrop-filter: blur(8px);
-  }
-
-  .glass {
-    background: rgba(10, 8, 18, 0.3);
-    backdrop-filter: blur(8px);
-  }
+/* Component styles using theme variables */
+.bg-gradient-primary-secondary {
+  background: linear-gradient(135deg, var(--theme-primary-500) 0%, var(--theme-secondary-500) 100%);
 }
 
-/* Dark mode base styles */
+.bg-gradient-accent-secondary {
+  background: linear-gradient(135deg, var(--theme-accent-400) 0%, var(--theme-secondary-400) 100%);
+}
+
+.bg-gradient-dark {
+  background: linear-gradient(180deg, var(--theme-dark-700) 0%, var(--theme-dark-800) 100%);
+}
+
+.bg-gradient-radial-primary {
+  background: radial-gradient(circle at center, color-mix(in srgb, var(--theme-primary-500) 30%, transparent) 0%, transparent 70%);
+}
+
+.text-gradient {
+  background: linear-gradient(to right, var(--theme-primary-400), var(--theme-secondary-400));
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+}
+
+.shadow-primary {
+  box-shadow: 0 4px 20px -4px color-mix(in srgb, var(--theme-primary-500) 20%, transparent);
+}
+
+.shadow-secondary {
+  box-shadow: 0 4px 20px -4px color-mix(in srgb, var(--theme-secondary-500) 20%, transparent);
+}
+
+.shadow-accent {
+  box-shadow: 0 4px 20px -4px color-mix(in srgb, var(--theme-accent-500) 15%, transparent);
+}
+
+.border-gradient {
+  border-image: linear-gradient(135deg, var(--theme-primary-500), var(--theme-secondary-500)) 1;
+}
+
+/* Legacy classes for backwards compatibility */
+.bg-gradient-violet-pink {
+  background: linear-gradient(135deg, var(--theme-primary-500) 0%, var(--theme-secondary-500) 100%);
+}
+
+.bg-gradient-gold-pink {
+  background: linear-gradient(135deg, var(--theme-accent-400) 0%, var(--theme-secondary-400) 100%);
+}
+
+.bg-gradient-radial-violet {
+  background: radial-gradient(circle at center, color-mix(in srgb, var(--theme-primary-500) 30%, transparent) 0%, transparent 70%);
+}
+
+.shadow-violet {
+  box-shadow: 0 4px 20px -4px color-mix(in srgb, var(--theme-primary-500) 20%, transparent);
+}
+
+.shadow-pink {
+  box-shadow: 0 4px 20px -4px color-mix(in srgb, var(--theme-secondary-500) 20%, transparent);
+}
+
+.shadow-gold {
+  box-shadow: 0 4px 20px -4px color-mix(in srgb, var(--theme-accent-500) 15%, transparent);
+}
+
+.anime-card {
+  background:
+    var(--card-pattern),
+    linear-gradient(180deg, var(--theme-dark-700) 0%, var(--theme-dark-800) 100%);
+  backdrop-filter: blur(8px);
+}
+
+.glass {
+  background: color-mix(in srgb, var(--theme-dark-900) 30%, transparent);
+  backdrop-filter: blur(8px);
+}
+
+/* Base styles using theme variables */
 :root {
-  --background: var(--color-dark-900);
-  --foreground: var(--color-gray-100);
-  --card: var(--color-dark-800);
-  --card-foreground: var(--color-gray-200);
-  --primary: var(--color-violet-600);
-  --primary-foreground: var(--color-gray-50);
-  --secondary: var(--color-pink-600);
-  --secondary-foreground: var(--color-gray-50);
-  --accent: var(--color-gold-500);
-  --accent-foreground: var(--color-dark-900);
-  --muted: var(--color-dark-700);
-  --muted-foreground: var(--color-gray-400);
-  --border: var(--color-dark-600);
+  --background: var(--theme-dark-900);
+  --foreground: var(--theme-gray-100);
+  --card: var(--theme-dark-800);
+  --card-foreground: var(--theme-gray-200);
+  --primary: var(--theme-primary-600);
+  --primary-foreground: var(--theme-gray-50);
+  --secondary: var(--theme-secondary-600);
+  --secondary-foreground: var(--theme-gray-50);
+  --accent: var(--theme-accent-500);
+  --accent-foreground: var(--theme-dark-900);
+  --muted: var(--theme-dark-700);
+  --muted-foreground: var(--theme-gray-400);
+  --border: var(--theme-dark-600);
+
+  /* Beach/Tropical Pattern */
+  --beach-pattern: url('data:image/svg+xml;charset=UTF-8,<svg xmlns="http://www.w3.org/2000/svg" width="200" height="200" viewBox="0 0 200 200"><defs><g id="tropical" opacity="0.15" fill="%23000000"><circle cx="30" cy="30" r="8"/><path d="M25 25l10 0 M30 20l0 10"/><path d="M70 50c-10 0-5-15 5-10s10-10 5 10z"/><circle cx="150" cy="40" r="6"/><circle cx="155" cy="35" r="4"/><path d="M80 100l15-20 M95 80l-15 20 M85 75l10 5"/><path d="M140 120c-15 5-10-20 10-15s15-15 10 15z"/><circle cx="50" cy="150" r="7"/><path d="M45 145l10 0 M50 140l0 10"/><path d="M180 80c0 10-20 5-15-5s-10-10 15 5z"/><path d="M20 180c10 0 20-10 30 0s20 10 30 0"/><circle cx="180" cy="170" r="5"/><path d="M175 165l10 0 M180 160l0 10"/></g></defs><use href="%23tropical"/></svg>') repeat;
+
+  /* Card Pattern (lighter for better contrast) */
+  --card-pattern: url('data:image/svg+xml;charset=UTF-8,<svg xmlns="http://www.w3.org/2000/svg" width="150" height="150" viewBox="0 0 150 150"><defs><g id="card-tropical" opacity="0.01" fill="%23ffffff"><circle cx="25" cy="25" r="6"/><path d="M22 22l6 0 M25 19l0 6"/><path d="M60 40c-8 0-4-12 4-8s8-8 4 8z"/><circle cx="120" cy="30" r="4"/><circle cx="124" cy="27" r="3"/><path d="M70 80l12-16 M82 64l-12 16 M76 60l8 4"/><path d="M110 95c-12 4-8-16 8-12s12-12 8 12z"/><circle cx="40" cy="120" r="5"/><path d="M37 117l6 0 M40 114l0 6"/><path d="M140 65c0 8-16 4-12-4s-8-8 12 4z"/></g></defs><use href="%23card-tropical"/></svg>') repeat;
 }
 
 @layer base {
@@ -212,8 +280,9 @@
     margin: 0;
     padding: 0;
     min-height: 100vh;
-    background: linear-gradient(180deg, var(--color-dark-700) 0%, var(--color-dark-900) 100%);
-    background-attachment: fixed;
+    background: var(--beach-pattern),
+    linear-gradient(180deg, var(--theme-dark-700) 0%, var(--theme-dark-800) 100%);
+    background-attachment: scroll, fixed;
   }
 
   * {
@@ -226,15 +295,15 @@
   }
 
   ::-webkit-scrollbar-track {
-    background: var(--color-dark-800);
+    background: var(--theme-dark-800);
   }
 
   ::-webkit-scrollbar-thumb {
-    background: linear-gradient(180deg, var(--color-violet-500), var(--color-pink-500));
+    background: linear-gradient(180deg, var(--theme-primary-500), var(--theme-secondary-500));
     border-radius: 4px;
   }
 
   ::-webkit-scrollbar-thumb:hover {
-    background: linear-gradient(180deg, var(--color-violet-400), var(--color-pink-400));
+    background: linear-gradient(180deg, var(--theme-primary-400), var(--theme-secondary-400));
   }
 }

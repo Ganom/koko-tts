@@ -1,5 +1,10 @@
 <template>
   <header class="text-center mb-16 relative">
+    <!-- Theme Selector positioned at top right -->
+    <div class="absolute top-0 right-0 z-10">
+      <ThemeSelector />
+    </div>
+
     <h1 class="text-4xl md:text-6xl font-bold text-gradient mb-4 animate-float">
       Koko TTS Voices
     </h1>
@@ -8,17 +13,13 @@
     </p>
     <!-- Decorative elements -->
     <div class="flex justify-center mt-8 space-x-3">
-      <div class="w-3 h-3 bg-violet-500 rounded-full animate-pulse-violet"></div>
-      <div class="w-3 h-3 bg-pink-500 rounded-full animate-pulse-pink" style="animation-delay: 0.5s;"></div>
-      <div class="w-3 h-3 bg-gold-400 rounded-full animate-pulse-gold" style="animation-delay: 1s;"></div>
-    </div>
-    <!-- Subtle background pattern -->
-    <div class="absolute inset-0 -z-10 opacity-20">
-      <div class="w-full h-full bg-gradient-radial-violet"></div>
+      <div class="w-3 h-3 bg-primary-500 rounded-full"/>
+      <div class="w-3 h-3 bg-secondary-500 rounded-full"/>
+      <div class="w-3 h-3 bg-accent-400 rounded-full"/>
     </div>
   </header>
 </template>
 
 <script setup lang="ts">
-// Simple header component
+import ThemeSelector from './ThemeSelector.vue'
 </script>

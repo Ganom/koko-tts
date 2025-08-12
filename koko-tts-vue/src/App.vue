@@ -23,21 +23,21 @@ onMounted(() => {
       <AppHeader />
       <InfoBox />
       <VoiceBuilder />
-      
+
       <div v-if="voiceStore.isLoading" class="text-center">
         <div class="animate-spin rounded-full h-16 w-16 border-b-2 border-violet-500 mx-auto shadow-glow"></div>
         <p class="mt-4 text-gray-300">Loading voices...</p>
       </div>
-      
+
       <div v-else-if="voiceStore.error" class="bg-red-900 border border-red-700 text-red-300 px-4 py-3 rounded max-w-4xl mx-auto">
         <strong>Error:</strong> {{ voiceStore.error }}
       </div>
-      
+
       <div v-else class="space-y-8">
-        <VoiceSection 
-          v-for="section in voiceStore.voiceSections" 
-          :key="section.title" 
-          :section="section" 
+        <VoiceSection
+          v-for="section in voiceStore.voiceSections"
+          :key="section.title"
+          :section="section"
         />
       </div>
     </div>

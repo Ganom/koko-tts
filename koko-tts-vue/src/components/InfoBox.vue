@@ -1,7 +1,7 @@
 <template>
   <div class="max-w-6xl mx-auto mb-16">
     <!-- Main Info Section -->
-    <div class="anime-card bg-gradient-dark rounded-4xl p-8 mb-8 border border-violet-700/30 shadow-violet">
+    <div class="anime-card bg-gradient-dark rounded-4xl p-8 mb-8 border border-violet-700/30">
       <div class="text-center mb-8">
         <h2 class="text-gradient text-3xl font-bold mb-3">How to Use TTS</h2>
         <p class="text-gray-300 text-lg">Multiple ways to make your messages come alive with voice</p>
