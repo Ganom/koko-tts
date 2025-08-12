@@ -5,6 +5,7 @@ import vue from '@vitejs/plugin-vue'
 
 // https://vite.dev/config/
 export default defineConfig({
+  base: process.env.NODE_ENV === 'production' ? '/koko-tts.github.io/' : '/',
   plugins: [
     vue(),
   ],
@@ -19,6 +20,7 @@ export default defineConfig({
     }
   },
   build: {
+    outDir: 'dist',
     rollupOptions: {
       output: {
         manualChunks: {
