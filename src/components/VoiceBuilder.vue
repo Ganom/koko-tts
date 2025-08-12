@@ -112,16 +112,10 @@
               @click="showAdvanced = !showAdvanced"
               class="flex items-center text-violet-400 hover:text-violet-300 font-medium transition-colors"
             >
-              <svg
+              <ChevronRightIcon
                 class="w-4 h-4 mr-2 transition-transform duration-200"
                 :class="{ 'rotate-90': showAdvanced }"
-                fill="currentColor"
-                viewBox="0 0 20 20"
-              >
-                <path fill-rule="evenodd"
-                      d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 111.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
-                      clip-rule="evenodd"/>
-              </svg>
+              />
               Advanced Options
             </button>
           </div>
@@ -169,11 +163,7 @@
           <!-- Command Preview -->
           <div class="glass rounded-2xl p-6 border border-violet-700/30">
             <h4 class="text-white font-bold mb-4 flex items-center">
-              <svg class="w-5 h-5 mr-2 text-violet-400" fill="currentColor" viewBox="0 0 20 20">
-                <path fill-rule="evenodd"
-                      d="M3 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z"
-                      clip-rule="evenodd"/>
-              </svg>
+              <Bars3Icon class="w-5 h-5 mr-2 text-violet-400" />
               Command Preview
             </h4>
             <div
@@ -193,16 +183,8 @@
               @click="copyCommand"
               class="w-full bg-gradient-dark hover:bg-gradient-to-r hover:from-primary-600/20 hover:to-secondary-600/20 text-white font-bold py-3 px-6 rounded-lg transition-all duration-300 flex items-center justify-center border border-primary-600/40 hover:border-primary-500/60"
             >
-              <svg v-if="copied" class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
-                <path fill-rule="evenodd"
-                      d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
-                      clip-rule="evenodd"/>
-              </svg>
-              <svg v-else class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
-                <path d="M8 3a1 1 0 011-1h2a1 1 0 110 2H9a1 1 0 01-1-1z"/>
-                <path
-                  d="M6 3a2 2 0 00-2 2v11a2 2 0 002 2h8a2 2 0 002-2V5a2 2 0 00-2-2 3 3 0 01-3 3H9a3 3 0 01-3-3z"/>
-              </svg>
+              <CheckIcon v-if="copied" class="w-5 h-5 mr-2" />
+              <ClipboardIcon v-else class="w-5 h-5 mr-2" />
               {{ copied ? 'Copied!' : 'Copy Command' }}
             </button>
           </div>
@@ -218,6 +200,7 @@ import {useVoiceStore} from '@/stores/voiceStore'
 import type {Voice} from '@/types/voice'
 import CustomSelect from './CustomSelect.vue'
 import {useLocalStorage} from '@/composables/useLocalStorage'
+import { ChevronRightIcon, Bars3Icon, CheckIcon, ClipboardIcon } from '@heroicons/vue/24/solid'
 
 const voiceStore = useVoiceStore()
 

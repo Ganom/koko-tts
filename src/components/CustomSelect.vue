@@ -7,16 +7,10 @@
       <span :class="{ 'text-gray-400': !selectedLabel }">
         {{ selectedLabel || placeholder }}
       </span>
-      <svg
+      <ChevronDownIcon
         class="w-5 h-5 text-gray-400 transition-transform duration-200"
         :class="{ 'rotate-180': isOpen }"
-        fill="currentColor"
-        viewBox="0 0 20 20"
-      >
-        <path fill-rule="evenodd"
-              d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-              clip-rule="evenodd"/>
-      </svg>
+      />
     </button>
 
     <Teleport to="body">
@@ -55,6 +49,7 @@
 
 <script setup lang="ts">
 import {computed, onMounted, onUnmounted, ref} from 'vue'
+import { ChevronDownIcon } from '@heroicons/vue/24/solid'
 
 interface SelectOption {
   label: string

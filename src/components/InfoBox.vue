@@ -12,7 +12,7 @@
         <div class="glass rounded-2xl p-6 border border-violet-700/30 hover:border-violet-500/60 transition-all duration-300">
           <div class="flex items-center mb-4">
             <div class="w-12 h-12 bg-violet-600 rounded-full flex items-center justify-center mr-4 flex-shrink-0">
-              <StarIcon class="w-6 h-6 text-white" />
+              <HeartIcon class="w-6 h-6 text-white" />
             </div>
             <h3 class="text-white font-bold text-xl">Cheer</h3>
           </div>
@@ -28,7 +28,7 @@
         <div class="glass rounded-2xl p-6 border border-pink-700/30 hover:border-pink-500/60 transition-all duration-300">
           <div class="flex items-center mb-4">
             <div class="w-12 h-12 bg-pink-600 rounded-full flex items-center justify-center mr-4 flex-shrink-0">
-              <CurrencyDollarIcon class="w-6 h-6 text-white" />
+              <GiftIcon class="w-6 h-6 text-white" />
             </div>
             <h3 class="text-white font-bold text-xl">Channel Points</h3>
           </div>
@@ -99,8 +99,8 @@
 
 <script setup lang="ts">
 import {
-  StarIcon,
-  CurrencyDollarIcon,
+  HeartIcon,
+  GiftIcon,
   ArrowPathIcon,
   PlusIcon,
   XMarkIcon

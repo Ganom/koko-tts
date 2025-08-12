@@ -12,14 +12,10 @@
         <span class="text-sm text-gray-400 font-normal">
           {{ isOpen ? 'Hide' : 'Show' }} voices
         </span>
-        <svg
+        <ChevronDownIcon
           class="w-6 h-6 transform transition-transform duration-300 flex-shrink-0"
           :class="{ 'rotate-180': isOpen }"
-          fill="currentColor"
-          viewBox="0 0 20 20"
-        >
-          <path d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"/>
-        </svg>
+        />
       </div>
     </button>
     <transition
@@ -43,6 +39,7 @@
 
 <script setup lang="ts">
 import { ref } from 'vue'
+import { ChevronDownIcon } from '@heroicons/vue/24/solid'
 
 interface Props {
   title: string

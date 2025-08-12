@@ -19,26 +19,16 @@
     </svg>
 
     <!-- Play button -->
-    <svg v-else-if="!isCurrentlyPlaying"
-         class="relative z-10 w-7 h-7 text-white ml-1 group-hover:scale-110 transition-transform duration-200"
-         fill="currentColor" viewBox="0 0 20 20">
-      <path d="M5 4v12l10-6z"/>
-    </svg>
+    <PlayIcon v-else-if="!isCurrentlyPlaying"
+         class="relative z-10 w-7 h-7 text-white ml-1 group-hover:scale-110 transition-transform duration-200" />
 
     <!-- Pause button -->
-    <svg v-else
-         class="relative z-10 w-7 h-7 text-white group-hover:scale-110 transition-transform duration-200"
-         fill="currentColor" viewBox="0 0 20 20">
-      <path d="M5 4h3v12H5V4zm7 0h3v12h-3V4z"/>
-    </svg>
+    <PauseIcon v-else
+         class="relative z-10 w-7 h-7 text-white group-hover:scale-110 transition-transform duration-200" />
 
     <!-- Error icon -->
-    <svg v-if="status === PlaybackStatus.ERROR" class="relative z-10 w-7 h-7 text-white"
-         fill="currentColor" viewBox="0 0 20 20">
-      <path fill-rule="evenodd"
-            d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z"
-            clip-rule="evenodd"/>
-    </svg>
+    <ExclamationTriangleIcon v-if="status === PlaybackStatus.ERROR" 
+         class="relative z-10 w-7 h-7 text-white" />
   </button>
 </template>
 
@@ -46,6 +36,7 @@
 import {computed, inject} from 'vue'
 import {PlaybackStatus} from '@/types/audio'
 import type {UseAudioReturn} from '@/composables/useAudio'
+import { PlayIcon, PauseIcon, ExclamationTriangleIcon } from '@heroicons/vue/24/solid'
 
 interface Props {
   voiceName: string

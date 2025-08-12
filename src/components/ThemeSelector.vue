@@ -13,16 +13,10 @@
              :style="{ backgroundColor: themes[currentTheme].colors.accent }"></div>
       </div>
       <span class="text-white text-sm font-medium">{{ themes[currentTheme].name }}</span>
-      <svg
+      <ChevronDownIcon
         class="w-4 h-4 text-gray-400 transition-transform"
         :class="{ 'rotate-180': isOpen }"
-        fill="currentColor"
-        viewBox="0 0 20 20"
-      >
-        <path fill-rule="evenodd"
-              d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-              clip-rule="evenodd"/>
-      </svg>
+      />
     </button>
 
     <Teleport to="body">
@@ -53,12 +47,7 @@
                  :style="{ backgroundColor: theme.colors.accent }"></div>
           </div>
           <span class="text-white text-sm font-medium">{{ theme.name }}</span>
-          <svg v-if="currentTheme === key" class="w-4 h-4 text-primary-400 ml-auto"
-               fill="currentColor" viewBox="0 0 20 20">
-            <path fill-rule="evenodd"
-                  d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
-                  clip-rule="evenodd"/>
-          </svg>
+          <CheckIcon v-if="currentTheme === key" class="w-4 h-4 text-primary-400 ml-auto" />
         </button>
       </div>
     </Teleport>
@@ -68,6 +57,7 @@
 <script setup lang="ts">
 import {onMounted, onUnmounted, ref} from 'vue'
 import {type Theme, useTheme} from '@/composables/useTheme'
+import { ChevronDownIcon, CheckIcon } from '@heroicons/vue/24/solid'
 
 const {currentTheme, themes, setTheme} = useTheme()
 const isOpen = ref(false)
