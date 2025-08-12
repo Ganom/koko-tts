@@ -197,7 +197,7 @@ interface VoiceBuilderSettings {
 const defaultSettings: VoiceBuilderSettings = {
   selectedVoice: '',
   redeemMethod: 'cheer',
-  bitAmount: 300,
+  bitAmount: 5000,
   resubTier: 1,
   textEffect: 'none',
   selectedModel: 'none',
