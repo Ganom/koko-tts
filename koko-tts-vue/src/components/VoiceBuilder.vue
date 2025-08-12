@@ -191,7 +191,7 @@
           <div v-if="generatedCommand">
             <button
               @click="copyCommand"
-              class="w-full bg-gradient-to-r from-violet-500 to-pink-500 hover:from-violet-400 hover:to-pink-400 text-white font-bold py-3 px-6 rounded-lg transition-all duration-300 flex items-center justify-center"
+              class="w-full bg-gradient-dark hover:bg-gradient-to-r hover:from-primary-600/20 hover:to-secondary-600/20 text-white font-bold py-3 px-6 rounded-lg transition-all duration-300 flex items-center justify-center border border-primary-600/40 hover:border-primary-500/60"
             >
               <svg v-if="copied" class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
                 <path fill-rule="evenodd"
@@ -217,7 +217,7 @@ import {computed, onMounted, ref, watch} from 'vue'
 import {useVoiceStore} from '@/stores/voiceStore'
 import type {Voice} from '@/types/voice'
 import CustomSelect from './CustomSelect.vue'
-import { useLocalStorage } from '@/composables/useLocalStorage'
+import {useLocalStorage} from '@/composables/useLocalStorage'
 
 const voiceStore = useVoiceStore()
 
@@ -240,7 +240,7 @@ const defaultSettings: VoiceBuilderSettings = {
   resubTier: 1,
   showAdvanced: false,
   textEffect: 'none',
-  selectedModel: 'turbov2'
+  selectedModel: 'none'
 }
 
 // Load/save settings from localStorage
@@ -320,6 +320,7 @@ const textEffectOptions = [
 
 // Model options
 const modelOptions = [
+  {label: 'None', value: 'none'},
   {label: 'Turbo v2', value: 'turbo'},
   {label: 'Turbo v2.5', value: 'turbov2.5'},
   {label: 'Flash v2', value: 'flashv2'},
@@ -375,8 +376,8 @@ const generateVoiceTag = (): string => {
 
   const parts = [selectedVoice.value.toLowerCase()]
 
-  // Add model if not default (turbov2)
-  const hasCustomModel = selectedModel.value !== 'turbov2'
+  // Add model if not none or default
+  const hasCustomModel = selectedModel.value !== 'none'
   // Add effect if not none
   const hasEffect = textEffect.value !== 'none'
 
