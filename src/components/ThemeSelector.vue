@@ -47,7 +47,7 @@
                  :style="{ backgroundColor: theme.colors.accent }"></div>
           </div>
           <span class="text-white text-sm font-medium">{{ theme.name }}</span>
-          <CheckIcon v-if="currentTheme === key" class="w-4 h-4 text-primary-400 ml-auto" />
+          <CheckIcon v-if="currentTheme === key" class="w-4 h-4 text-primary-400 ml-auto"/>
         </button>
       </div>
     </Teleport>
@@ -57,7 +57,7 @@
 <script setup lang="ts">
 import {onMounted, onUnmounted, ref} from 'vue'
 import {type Theme, useTheme} from '@/composables/useTheme'
-import { ChevronDownIcon, CheckIcon } from '@heroicons/vue/24/solid'
+import {CheckIcon, ChevronDownIcon} from '@heroicons/vue/24/solid'
 
 const {currentTheme, themes, setTheme} = useTheme()
 const isOpen = ref(false)

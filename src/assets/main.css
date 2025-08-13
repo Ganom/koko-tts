@@ -191,9 +191,8 @@
 }
 
 .anime-card {
-  background:
-    var(--card-pattern),
-    linear-gradient(180deg, var(--theme-dark-700) 0%, var(--theme-dark-800) 100%);
+  background: var(--card-pattern),
+  linear-gradient(180deg, var(--theme-dark-700) 0%, var(--theme-dark-800) 100%);
   backdrop-filter: blur(8px);
 }
 

@@ -17,15 +17,15 @@
 
     <!-- Play button -->
     <PlayIcon v-else-if="!isCurrentlyPlaying"
-         class="w-4 h-4 text-white group-hover:scale-110 transition-transform duration-200" />
+              class="w-4 h-4 text-white group-hover:scale-110 transition-transform duration-200"/>
 
     <!-- Pause button -->
     <PauseIcon v-else
-         class="w-4 h-4 text-white group-hover:scale-110 transition-transform duration-200" />
+               class="w-4 h-4 text-white group-hover:scale-110 transition-transform duration-200"/>
 
     <!-- Error icon -->
-    <ExclamationTriangleIcon v-if="status === PlaybackStatus.ERROR" 
-         class="w-4 h-4 text-white" />
+    <ExclamationTriangleIcon v-if="status === PlaybackStatus.ERROR"
+                             class="w-4 h-4 text-white"/>
   </button>
 </template>
 
@@ -33,7 +33,7 @@
 import {computed, inject} from 'vue'
 import {PlaybackStatus} from '@/types/audio'
 import type {UseAudioReturn} from '@/composables/useAudio'
-import { PlayIcon, PauseIcon, ExclamationTriangleIcon } from '@heroicons/vue/24/solid'
+import {ExclamationTriangleIcon, PauseIcon, PlayIcon} from '@heroicons/vue/24/solid'
 
 interface Props {
   voiceName: string

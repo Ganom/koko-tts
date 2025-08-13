@@ -1,16 +1,16 @@
 <template>
   <div class="max-w-6xl mx-auto mb-16">
-    <div 
+    <div
       class="anime-card bg-gradient-dark rounded-4xl p-8 mb-8 border border-primary-700/30"
       v-motion
       :initial="{ opacity: 0, y: 50 }"
-:enter="{ opacity: 1, y: 0, transition: { delay: 200, duration: 400, ease: 'easeOut' } }"
+      :enter="{ opacity: 1, y: 0, transition: { delay: 200, duration: 400, ease: 'easeOut' } }"
     >
-      <div 
+      <div
         class="text-center mb-8"
         v-motion
         :initial="{ opacity: 0, y: 20 }"
-:enter="{ opacity: 1, y: 0, transition: { delay: 250, duration: 300 } }"
+        :enter="{ opacity: 1, y: 0, transition: { delay: 250, duration: 300 } }"
       >
         <h2 class="text-gradient-violet-pink text-3xl font-bold mb-3">Make Your Message Heard</h2>
         <p class="text-gray-300 text-lg">Use Bits, Channel Points, or Subs to have your message read
@@ -25,7 +25,7 @@
             class="glass rounded-2xl p-6 border border-primary-700/30 hover:border-primary-500/60 transition-all duration-300"
             v-motion
             :initial="{ opacity: 0, y: 30, scale: 0.9 }"
-:enter="{ opacity: 1, y: 0, scale: 1, transition: { delay: 300, duration: 300, ease: 'easeOut' } }"
+            :enter="{ opacity: 1, y: 0, scale: 1, transition: { delay: 300, duration: 300, ease: 'easeOut' } }"
             :hover="{ scale: 1.02, transition: { duration: 200 } }"
           >
             <div class="flex items-center mb-4">
@@ -48,7 +48,7 @@
             class="glass rounded-2xl p-6 border border-secondary-700/30 hover:border-secondary-500/60 transition-all duration-300"
             v-motion
             :initial="{ opacity: 0, y: 30, scale: 0.9 }"
-:enter="{ opacity: 1, y: 0, scale: 1, transition: { delay: 400, duration: 300, ease: 'easeOut' } }"
+            :enter="{ opacity: 1, y: 0, scale: 1, transition: { delay: 300, duration: 300, ease: 'easeOut' } }"
             :hover="{ scale: 1.02, transition: { duration: 200 } }"
           >
             <div class="flex items-center mb-4">
@@ -59,7 +59,8 @@
               <h3 class="text-white font-bold text-xl">With Channel Points</h3>
             </div>
             <p class="text-gray-300 mb-3">Redeem the "TTS Message" reward.</p>
-            <div class="bg-dark-900/50 border border-secondary-700/20 rounded-lg p-3 font-mono text-sm">
+            <div
+              class="bg-dark-900/50 border border-secondary-700/20 rounded-lg p-3 font-mono text-sm">
               <span class="text-secondary-400">[voicename] </span>
               <span class="text-gray-300">your message</span>
             </div>
@@ -69,7 +70,7 @@
             class="glass rounded-2xl p-6 border border-accent-700/30 hover:border-accent-500/60 transition-all duration-300"
             v-motion
             :initial="{ opacity: 0, y: 30, scale: 0.9 }"
-:enter="{ opacity: 1, y: 0, scale: 1, transition: { delay: 500, duration: 300, ease: 'easeOut' } }"
+            :enter="{ opacity: 1, y: 0, scale: 1, transition: { delay: 300, duration: 300, ease: 'easeOut' } }"
             :hover="{ scale: 1.02, transition: { duration: 200 } }"
           >
             <div class="flex items-center mb-4">
@@ -102,11 +103,11 @@
         <h3 class="text-white text-2xl font-semibold mb-6 text-center md:text-left">Voice
           Customization</h3>
 
-        <div 
+        <div
           class="glass rounded-2xl p-6 border border-primary-700/30"
           v-motion
           :initial="{ opacity: 0, y: 30 }"
-:enter="{ opacity: 1, y: 0, transition: { delay: 600, duration: 300, ease: 'easeOut' } }"
+          :enter="{ opacity: 1, y: 0, transition: { delay: 600, duration: 300, ease: 'easeOut' } }"
         >
           <div class="grid md:grid-cols-2 md:divide-x md:divide-primary-700/30 gap-6 md:gap-0">
 

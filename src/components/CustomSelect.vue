@@ -35,7 +35,7 @@
           @click="selectOption(option)"
           @mouseenter="highlightedIndex = index"
           class="px-4 py-3 text-white hover:bg-primary-600/20 cursor-pointer transition-colors border-b border-primary-700/20 last:border-b-0"
-          :class="{ 
+          :class="{
             'bg-primary-600/30': option.value === modelValue,
             'bg-primary-500/15': index === highlightedIndex && option.value !== modelValue
           }"
@@ -49,7 +49,7 @@
 
 <script setup lang="ts">
 import {computed, onMounted, onUnmounted, ref} from 'vue'
-import { ChevronDownIcon } from '@heroicons/vue/24/solid'
+import {ChevronDownIcon} from '@heroicons/vue/24/solid'
 
 interface SelectOption {
   label: string
@@ -76,7 +76,7 @@ const emit = defineEmits<Emits>()
 
 const isOpen = ref(false)
 const dropdownRef = ref<HTMLElement>()
-const dropdownPosition = ref<{top: number, left: number, width: number} | null>(null)
+const dropdownPosition = ref<{ top: number, left: number, width: number } | null>(null)
 const highlightedIndex = ref(-1)
 const isDropdownHovered = ref(false)
 
@@ -126,13 +126,13 @@ const navigateToOption = (option: SelectOption): void => {
 const scrollToOption = (index: number) => {
   const dropdown = document.querySelector('[data-dropdown-content]') as HTMLElement
   if (!dropdown) return
-  
+
   const option = dropdown.children[index] as HTMLElement
   if (!option) return
-  
+
   const dropdownRect = dropdown.getBoundingClientRect()
   const optionRect = option.getBoundingClientRect()
-  
+
   if (optionRect.bottom > dropdownRect.bottom) {
     dropdown.scrollTop += optionRect.bottom - dropdownRect.bottom
   } else if (optionRect.top < dropdownRect.top) {
@@ -192,12 +192,12 @@ const handleScroll = (event: Event): void => {
 
 const handleDropdownWheel = (event: WheelEvent): void => {
   const dropdown = event.currentTarget as HTMLElement
-  const { scrollTop, scrollHeight, clientHeight } = dropdown
-  
+  const {scrollTop, scrollHeight, clientHeight} = dropdown
+
   // Check if we're at the top or bottom of the dropdown
   const atTop = scrollTop === 0
   const atBottom = scrollTop + clientHeight >= scrollHeight - 1
-  
+
   // Prevent page scroll if we're trying to scroll beyond dropdown bounds
   if ((atTop && event.deltaY < 0) || (atBottom && event.deltaY > 0)) {
     event.preventDefault()
