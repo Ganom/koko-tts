@@ -1,10 +1,7 @@
 <template>
   <div class="space-y-4">
-    <div
-      class="relative"
-      v-motion="searchBarMotion"
-    >
-      <MagnifyingGlassIcon class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400"/>
+    <div class="relative" v-motion="searchBarMotion">
+      <MagnifyingGlassIcon class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
       <input
         v-model="searchQuery"
         type="text"
@@ -12,7 +9,7 @@
         class="w-full bg-dark-900/60 border border-primary-700/40 rounded-lg pl-10 pr-4 py-2 text-white text-sm focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-500/50 hover:border-primary-500/60 transition-colors"
         @focus="onSearchFocus"
         @blur="onSearchBlur"
-      >
+      />
     </div>
 
     <div
@@ -28,9 +25,14 @@
         v-motion="{
           key: `voice-${voice.name}`,
           initial: { opacity: 0, y: 10, scale: 0.95 },
-          enter: { opacity: 1, y: 0, scale: 1, transition: { delay: Math.min(index * 30, 300), duration: 250, ease: 'easeOut' } },
+          enter: {
+            opacity: 1,
+            y: 0,
+            scale: 1,
+            transition: { delay: Math.min(index * 30, 300), duration: 250, ease: 'easeOut' },
+          },
           leave: { opacity: 0, scale: 0.9, transition: { duration: 150, ease: 'easeIn' } },
-          hovered: { scale: 1.02, transition: { duration: 150 } }
+          hovered: { scale: 1.02, transition: { duration: 150 } },
         }"
         @mousedown.prevent
         @click="selectVoice(voice.name)"
@@ -40,20 +42,22 @@
             :src="`/icons/${voice.name.toLowerCase()}.webp`"
             :alt="`${voice.name} avatar`"
             class="voice-avatar w-20 h-20 rounded-full object-cover mx-auto transition-transform duration-200 group-hover:scale-110"
-            :class="{ 'grayscale opacity-60 group-hover:grayscale-0 group-hover:opacity-100': selectedVoice !== voice.name }"
-          >
+            :class="{
+              'grayscale opacity-60 group-hover:grayscale-0 group-hover:opacity-100':
+                selectedVoice !== voice.name,
+            }"
+          />
           <div v-if="selectedVoice === voice.name" class="absolute -top-1 -right-1">
-            <CheckCircleIcon class="h-6 w-6 text-primary-400 bg-dark-800 rounded-full"/>
+            <CheckCircleIcon class="h-6 w-6 text-primary-400 bg-dark-800 rounded-full" />
           </div>
         </div>
         <p
           class="font-semibold text-white text-sm leading-tight mb-1 min-h-[2.5rem] flex items-center justify-center truncate px-1"
-          :title="voice.name">
+          :title="voice.name"
+        >
           {{ voice.name }}
         </p>
-        <p :class="getCostTextClasses(voice)">
-          {{ voice.cost }} bits
-        </p>
+        <p :class="getCostTextClasses(voice)">{{ voice.cost }} bits</p>
       </div>
     </div>
   </div>
@@ -88,23 +92,17 @@ const searchFocused = ref(false);
 
 // --- COMPUTED ---
 
-const isSearching = computed(
-  () => searchQuery.value.trim().length > 0 || searchFocused.value,
-);
+const isSearching = computed(() => searchQuery.value.trim().length > 0 || searchFocused.value);
 
 const filteredVoices = computed<Voice[]>(() => {
   let voicesToDisplay = [...props.voices];
   const query = searchQuery.value.toLowerCase().trim();
 
   if (query) {
-    voicesToDisplay = voicesToDisplay.filter((voice) =>
-      voice.name.toLowerCase().includes(query),
-    );
+    voicesToDisplay = voicesToDisplay.filter((voice) => voice.name.toLowerCase().includes(query));
   } else if (!isSearching.value && props.currentBitAmount !== undefined) {
     const bitAmount = props.currentBitAmount;
-    voicesToDisplay = voicesToDisplay.filter(
-      (voice) => voice.cost <= bitAmount,
-    );
+    voicesToDisplay = voicesToDisplay.filter((voice) => voice.cost <= bitAmount);
   }
 
   return voicesToDisplay;
@@ -129,8 +127,7 @@ const onSearchBlur = () => {
 const handleWheel = (event: WheelEvent) => {
   const el = event.currentTarget as HTMLElement;
   const atTop = el.scrollTop === 0 && event.deltaY < 0;
-  const atBottom =
-    el.scrollHeight - el.scrollTop <= el.clientHeight + 1 && event.deltaY > 0;
+  const atBottom = el.scrollHeight - el.scrollTop <= el.clientHeight + 1 && event.deltaY > 0;
   if (atTop || atBottom) {
     event.preventDefault();
   }
@@ -139,9 +136,7 @@ const handleWheel = (event: WheelEvent) => {
 // --- DYNAMIC STYLING ---
 
 const isUnaffordable = (voice: Voice) =>
-  isSearching.value &&
-  props.currentBitAmount !== undefined &&
-  voice.cost > props.currentBitAmount;
+  isSearching.value && props.currentBitAmount !== undefined && voice.cost > props.currentBitAmount;
 
 const getVoiceCardClasses = (voice: Voice) => {
   const base =
@@ -156,10 +151,7 @@ const getVoiceCardClasses = (voice: Voice) => {
       "border-yellow-600/50 bg-yellow-900/20 hover:border-yellow-500/70 hover:bg-yellow-800/30",
     ];
   }
-  return [
-    base,
-    "border-dark-700 bg-dark-800/60 hover:border-primary-600/70 hover:bg-dark-700",
-  ];
+  return [base, "border-dark-700 bg-dark-800/60 hover:border-primary-600/70 hover:bg-dark-700"];
 };
 
 const getCostTextClasses = (voice: Voice) => [

@@ -17,7 +17,7 @@
         </h3>
         <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
           <div
-            v-for="(method) in activationMethods"
+            v-for="method in activationMethods"
             :key="method.title"
             v-motion="getCardMotion()"
             :class="getCardClasses(method.colorTheme)"
@@ -27,18 +27,14 @@
                 :class="getIconWrapperClasses(method.colorTheme)"
                 class="w-12 h-12 rounded-full flex items-center justify-center mr-4 flex-shrink-0"
               >
-                <component :is="method.icon" class="w-6 h-6 text-white"/>
+                <component :is="method.icon" class="w-6 h-6 text-white" />
               </div>
               <h3 class="text-white font-bold text-xl">{{ method.title }}</h3>
             </div>
             <p class="text-gray-300 mb-3">{{ method.description }}</p>
 
             <div v-if="method.command" :class="getCommandClasses(method.colorTheme)">
-              <span
-                v-for="part in method.command"
-                :key="part.text"
-                :class="part.class"
-              >
+              <span v-for="part in method.command" :key="part.text" :class="part.class">
                 {{ part.text }}
               </span>
             </div>
@@ -78,7 +74,7 @@
                   :class="getIconWrapperClasses(command.colorTheme)"
                   class="w-12 h-12 rounded-full flex items-center justify-center mr-4 flex-shrink-0"
                 >
-                  <component :is="command.icon" class="w-6 h-6 text-white"/>
+                  <component :is="command.icon" class="w-6 h-6 text-white" />
                 </div>
                 <div>
                   <h3 class="text-white font-bold text-xl">{{ command.title }}</h3>
@@ -86,11 +82,7 @@
                 </div>
               </div>
               <div :class="getCommandClasses(command.colorTheme)">
-                <span
-                  v-for="part in command.command"
-                  :key="part.text"
-                  :class="part.class"
-                >
+                <span v-for="part in command.command" :key="part.text" :class="part.class">
                   {{ part.text }}
                 </span>
               </div>
@@ -103,13 +95,7 @@
 </template>
 
 <script setup lang="ts">
-import {
-  ArrowPathIcon,
-  GiftIcon,
-  HeartIcon,
-  PlusIcon,
-  XMarkIcon,
-} from "@heroicons/vue/24/solid";
+import { ArrowPathIcon, GiftIcon, HeartIcon, PlusIcon, XMarkIcon } from "@heroicons/vue/24/solid";
 
 // --- ANIMATIONS ---
 

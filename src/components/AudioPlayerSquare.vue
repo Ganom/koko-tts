@@ -1,13 +1,8 @@
 <template>
-  <button
-    @click="togglePlay"
-    :disabled="isDisabled"
-    :class="buttonClasses"
-    :title="errorTitle"
-  >
-    <component :is="mainIconComponent" :class="mainIconClasses"/>
+  <button @click="togglePlay" :disabled="isDisabled" :class="buttonClasses" :title="errorTitle">
+    <component :is="mainIconComponent" :class="mainIconClasses" />
 
-    <ExclamationTriangleIcon v-if="isError" class="w-4 h-4 text-white"/>
+    <ExclamationTriangleIcon v-if="isError" class="w-4 h-4 text-white" />
   </button>
 </template>
 
@@ -58,10 +53,7 @@ const mainIconClasses = computed(() => {
   if (isLoading.value) {
     return [baseClasses, "animate-spin"];
   }
-  return [
-    baseClasses,
-    "group-hover:scale-110 transition-transform duration-200",
-  ];
+  return [baseClasses, "group-hover:scale-110 transition-transform duration-200"];
 });
 
 const buttonClasses = computed(() => [
@@ -69,9 +61,7 @@ const buttonClasses = computed(() => [
   { "animate-pulse": isCurrentlyPlaying.value },
 ]);
 
-const errorTitle = computed(() =>
-  isError.value ? "Audio file not available" : "",
-);
+const errorTitle = computed(() => (isError.value ? "Audio file not available" : ""));
 
 // --- METHODS ---
 const togglePlay = async () => {

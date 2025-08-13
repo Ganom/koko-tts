@@ -16,9 +16,7 @@ export const useVoiceStore = defineStore("voice", () => {
 
   // --- GETTERS & SELECTORS ---
 
-  const voicesMap = computed(
-    () => new Map(voices.value.map((voice) => [voice.name, voice])),
-  );
+  const voicesMap = computed(() => new Map(voices.value.map((voice) => [voice.name, voice])));
 
   const getVoiceByName = computed(() => {
     return (name: string): Voice | undefined => voicesMap.value.get(name);
@@ -72,8 +70,7 @@ export const useVoiceStore = defineStore("voice", () => {
         maxCost.value = Math.max(...costs);
       }
     } catch (err) {
-      error.value =
-        err instanceof Error ? err.message : "An unknown error occurred";
+      error.value = err instanceof Error ? err.message : "An unknown error occurred";
       console.error("Failed to load voices:", err);
     } finally {
       isLoading.value = false;

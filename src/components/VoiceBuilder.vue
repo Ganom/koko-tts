@@ -1,7 +1,9 @@
 <template>
   <div class="max-w-6xl mx-auto mb-16">
-    <div class="anime-card bg-gradient-dark rounded-4xl p-8 border border-primary-700/30"
-         v-motion="motions.container">
+    <div
+      class="anime-card bg-gradient-dark rounded-4xl p-8 border border-primary-700/30"
+      v-motion="motions.container"
+    >
       <div class="text-center mb-8" v-motion="motions.header">
         <h2 class="text-gradient-violet-pink text-3xl font-bold mb-3">TTS Message Builder</h2>
         <p class="text-gray-300 text-lg">Build and preview your TTS Message</p>
@@ -10,8 +12,11 @@
       <div class="grid lg:grid-cols-2 gap-8 mb-8">
         <div class="space-y-6" v-motion="motions.controls">
           <FormSection title="Redeem Method">
-            <ButtonGroup :options="redeemOptions" v-model="redeemMethod"
-                         @update:modelValue="checkVoiceEligibility"/>
+            <ButtonGroup
+              :options="redeemOptions"
+              v-model="redeemMethod"
+              @update:modelValue="checkVoiceEligibility"
+            />
           </FormSection>
 
           <FormSection v-if="redeemMethod === 'cheer'" title="Bit Amount">
@@ -20,10 +25,16 @@
               type="number"
               :min="minBitAmount"
               :placeholder="minBitAmount.toString()"
-              :class="['w-full bg-dark-900/60 border rounded-lg px-4 py-3 text-white focus:outline-none focus:ring-2 transition-colors', inputClasses, { 'flash-border': bitAmountUpdated }]"
+              :class="[
+                'w-full bg-dark-900/60 border rounded-lg px-4 py-3 text-white focus:outline-none focus:ring-2 transition-colors',
+                inputClasses,
+                { 'flash-border': bitAmountUpdated },
+              ]"
             />
-            <p v-if="selectedVoice && minBitAmount > voiceStore.minCost"
-               class="text-sm text-primary-300 mt-2">
+            <p
+              v-if="selectedVoice && minBitAmount > voiceStore.minCost"
+              class="text-sm text-primary-300 mt-2"
+            >
               Minimum {{ minBitAmount }} bits for {{ selectedVoice }}
             </p>
             <p v-else-if="redeemMethod === 'cheer' && bitAmount" class="text-sm text-gray-400 mt-2">
@@ -32,25 +43,31 @@
           </FormSection>
 
           <FormSection v-if="redeemMethod === 'resub'" title="Subscription Tier">
-            <ButtonGroup :options="tierOptions" v-model="resubTier"
-                         @update:modelValue="checkVoiceEligibility"/>
+            <ButtonGroup
+              :options="tierOptions"
+              v-model="resubTier"
+              @update:modelValue="checkVoiceEligibility"
+            />
           </FormSection>
 
           <FormSection title="Your Message">
             <textarea
               v-model="message"
               placeholder="Enter your message here..."
-              :class="['w-full bg-dark-900/60 border rounded-lg px-4 py-3 text-white focus:outline-none resize-none', inputClasses]"
+              :class="[
+                'w-full bg-dark-900/60 border rounded-lg px-4 py-3 text-white focus:outline-none resize-none',
+                inputClasses,
+              ]"
               rows="3"
             ></textarea>
           </FormSection>
 
           <FormSection title="Text Effect">
-            <CustomSelect v-model="textEffect" :options="textEffectOptions"/>
+            <CustomSelect v-model="textEffect" :options="textEffectOptions" />
           </FormSection>
 
           <FormSection title="Voice Model">
-            <CustomSelect v-model="selectedModel" :options="modelOptions"/>
+            <CustomSelect v-model="selectedModel" :options="modelOptions" />
           </FormSection>
         </div>
 
@@ -61,7 +78,7 @@
                 <span>Select a Voice</span>
                 <div v-if="selectedVoice" class="flex items-center gap-3">
                   <span class="text-gray-300 text-sm">Preview:</span>
-                  <AudioPlayerSquare :voice-name="selectedVoice"/>
+                  <AudioPlayerSquare :voice-name="selectedVoice" />
                 </div>
               </div>
             </template>
@@ -76,12 +93,12 @@
       </div>
 
       <div
-        class="w-full h-px bg-gradient-to-r from-transparent via-primary-700/50 to-transparent mb-8"></div>
+        class="w-full h-px bg-gradient-to-r from-transparent via-primary-700/50 to-transparent mb-8"
+      ></div>
 
-      <div class="glass rounded-2xl p-6 border border-primary-700/30"
-           v-motion="motions.preview">
+      <div class="glass rounded-2xl p-6 border border-primary-700/30" v-motion="motions.preview">
         <h4 class="text-white font-bold mb-4 flex items-center">
-          <Bars3Icon class="w-5 h-5 mr-2 text-primary-400"/>
+          <Bars3Icon class="w-5 h-5 mr-2 text-primary-400" />
           TTS Preview
         </h4>
         <div class="bg-dark-900/50 border border-primary-700/20 rounded-lg p-4 font-mono text-sm">
@@ -91,10 +108,12 @@
                 {{ part.text }}
               </span>
             </div>
-            <button @click="copyCommand"
-                    class="flex items-center gap-2 px-3 py-1.5 bg-primary-600 hover:bg-primary-700 text-white text-xs font-medium rounded transition-colors whitespace-nowrap">
-              <component :is="copied ? CheckIcon : ClipboardIcon" class="w-4 h-4"/>
-              <span>{{ copied ? 'Copied!' : 'Copy' }}</span>
+            <button
+              @click="copyCommand"
+              class="flex items-center gap-2 px-3 py-1.5 bg-primary-600 hover:bg-primary-700 text-white text-xs font-medium rounded transition-colors whitespace-nowrap"
+            >
+              <component :is="copied ? CheckIcon : ClipboardIcon" class="w-4 h-4" />
+              <span>{{ copied ? "Copied!" : "Copy" }}</span>
             </button>
           </div>
           <div v-else class="text-gray-500 italic">
@@ -124,17 +143,9 @@ const FormSection = defineComponent({
     return () =>
       h("div", {}, [
         props.title
-          ? h(
-              "label",
-              { class: "block text-white font-bold mb-3" },
-              props.title,
-            )
+          ? h("label", { class: "block text-white font-bold mb-3" }, props.title)
           : slots.title
-            ? h(
-                "div",
-                { class: "block text-white font-bold mb-3" },
-                slots.title(),
-              )
+            ? h("div", { class: "block text-white font-bold mb-3" }, slots.title())
             : null,
         slots.default ? slots.default() : null,
       ]);
@@ -161,9 +172,7 @@ const ButtonGroup = defineComponent({
     const getButtonClasses = (opt: ButtonOption, isSelected: boolean) => {
       const baseClasses =
         "p-3 rounded-lg border text-white font-medium transition-colors text-center";
-      const bgClasses = isSelected
-        ? getBgClass(opt.theme)
-        : "bg-dark-700 hover:bg-dark-600";
+      const bgClasses = isSelected ? getBgClass(opt.theme) : "bg-dark-700 hover:bg-dark-600";
       const borderClasses = getBorderClass(opt.theme);
       return `${baseClasses} ${bgClasses} ${borderClasses}`;
     };
@@ -221,9 +230,7 @@ const ButtonGroup = defineComponent({
             [
               opt.label,
               opt.detail ? h("br") : null,
-              opt.detail
-                ? h("span", { class: getTextClass(opt.theme) }, opt.detail)
-                : null,
+              opt.detail ? h("span", { class: getTextClass(opt.theme) }, opt.detail) : null,
             ],
           ),
         ),
@@ -339,10 +346,7 @@ const defaultSettings: Settings = {
   selectedModel: "none",
   message: "",
 };
-const [settings, setSettings] = useLocalStorage(
-  "voiceBuilderSettings",
-  defaultSettings,
-);
+const [settings, setSettings] = useLocalStorage("voiceBuilderSettings", defaultSettings);
 
 const selectedVoice = ref(settings.value.selectedVoice);
 const message = ref(settings.value.message);
@@ -357,12 +361,10 @@ const bitAmountUpdated = ref(false);
 // --- VOICE DATA & ELIGIBILITY ---
 
 const allVoices = computed(() => voiceStore.sortedVoices);
-const getVoiceByName = (name: string) =>
-  allVoices.value.find((v) => v.name === name);
+const getVoiceByName = (name: string) => allVoices.value.find((v) => v.name === name);
 
 const bitAmountForGrid = computed(() => {
-  if (redeemMethod.value === "resub")
-    return { 1: 500, 2: 1000, 3: 2500 }[resubTier.value];
+  if (redeemMethod.value === "resub") return { 1: 500, 2: 1000, 3: 2500 }[resubTier.value];
   if (redeemMethod.value === "points") return 999;
   return bitAmount.value;
 });
@@ -380,10 +382,7 @@ const minBitAmount = computed(() => {
 });
 
 function checkVoiceEligibility() {
-  if (
-    selectedVoice.value &&
-    !eligibleVoices.value.some((v) => v.name === selectedVoice.value)
-  ) {
+  if (selectedVoice.value && !eligibleVoices.value.some((v) => v.name === selectedVoice.value)) {
     selectedVoice.value = "";
   }
 }
@@ -480,15 +479,7 @@ watch(bitAmount, (newAmount) => {
 });
 
 watch(
-  [
-    selectedVoice,
-    redeemMethod,
-    bitAmount,
-    resubTier,
-    textEffect,
-    selectedModel,
-    message,
-  ],
+  [selectedVoice, redeemMethod, bitAmount, resubTier, textEffect, selectedModel, message],
   () => {
     setSettings({
       selectedVoice: selectedVoice.value,

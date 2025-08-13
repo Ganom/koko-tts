@@ -4,7 +4,7 @@
       @click="toggle"
       class="flex items-center space-x-2 px-4 py-2 bg-dark-800 border border-primary-600/40 rounded-lg hover:border-primary-500 transition-colors"
     >
-      <ThemePalette :theme="themes[currentTheme]"/>
+      <ThemePalette :theme="themes[currentTheme]" />
       <span class="text-white text-sm font-medium">{{ themes[currentTheme].name }}</span>
       <ChevronDownIcon
         class="w-4 h-4 text-gray-400 transition-transform"
@@ -25,9 +25,9 @@
           class="w-full flex items-center space-x-3 px-4 py-3 hover:bg-primary-600/10 transition-colors border-b border-primary-600/20 last:border-b-0"
           :class="{ 'bg-primary-600/20': currentTheme === key }"
         >
-          <ThemePalette :theme="theme"/>
+          <ThemePalette :theme="theme" />
           <span class="text-white text-sm font-medium">{{ theme.name }}</span>
-          <CheckIcon v-if="currentTheme === key" class="w-4 h-4 text-primary-400 ml-auto"/>
+          <CheckIcon v-if="currentTheme === key" class="w-4 h-4 text-primary-400 ml-auto" />
         </button>
       </div>
     </Teleport>

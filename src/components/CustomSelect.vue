@@ -1,9 +1,6 @@
 <template>
   <div class="relative" ref="triggerRef">
-    <button
-      @click="toggle"
-      :class="triggerClasses"
-    >
+    <button @click="toggle" :class="triggerClasses">
       <span :class="{ 'text-gray-400': !selectedLabel }">
         {{ selectedLabel || placeholder }}
       </span>
@@ -39,14 +36,7 @@
 
 <script setup lang="ts">
 import { ChevronDownIcon } from "@heroicons/vue/24/solid";
-import {
-  type CSSProperties,
-  computed,
-  nextTick,
-  onMounted,
-  onUnmounted,
-  ref,
-} from "vue";
+import { type CSSProperties, computed, nextTick, onMounted, onUnmounted, ref } from "vue";
 
 // --- TYPES ---
 interface SelectOption {
@@ -88,10 +78,7 @@ const isDropdownHovered = ref(false);
 // --- COMPUTED ---
 
 const selectedLabel = computed(() => {
-  return (
-    props.options.find((option) => option.value === props.modelValue)?.label ||
-    ""
-  );
+  return props.options.find((option) => option.value === props.modelValue)?.label || "";
 });
 
 const triggerClasses = computed(() => [
@@ -123,9 +110,7 @@ const open = () => {
   }
 
   nextTick(() => {
-    const currentIndex = props.options.findIndex(
-      (option) => option.value === props.modelValue,
-    );
+    const currentIndex = props.options.findIndex((option) => option.value === props.modelValue);
     highlightedIndex.value = currentIndex > -1 ? currentIndex : 0;
     scrollToOption(highlightedIndex.value);
   });
@@ -167,10 +152,7 @@ const navigateOptions = (direction: "up" | "down") => {
   if (!props.options.length) return;
 
   const delta = direction === "down" ? 1 : -1;
-  const newIndex = Math.max(
-    0,
-    Math.min(highlightedIndex.value + delta, props.options.length - 1),
-  );
+  const newIndex = Math.max(0, Math.min(highlightedIndex.value + delta, props.options.length - 1));
 
   if (newIndex !== highlightedIndex.value) {
     highlightedIndex.value = newIndex;
@@ -209,8 +191,7 @@ const handleDropdownWheel = (event: WheelEvent) => {
   const dropdown = event.currentTarget as HTMLElement;
   const { scrollTop, scrollHeight, clientHeight } = dropdown;
   const atTop = scrollTop === 0 && event.deltaY < 0;
-  const atBottom =
-    scrollHeight - scrollTop <= clientHeight + 1 && event.deltaY > 0;
+  const atBottom = scrollHeight - scrollTop <= clientHeight + 1 && event.deltaY > 0;
 
   if (atTop || atBottom) {
     event.preventDefault();
