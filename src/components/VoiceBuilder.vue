@@ -349,11 +349,20 @@ let debounceTimeout: number;
 watch(bitAmount, (newAmount) => {
   clearTimeout(debounceTimeout);
   debounceTimeout = setTimeout(() => {
-    if (newAmount < minBitAmount.value) {
-      bitAmount.value = minBitAmount.value;
+    const currentAmount = newAmount || 0;
+
+    if (selectedVoice.value) {
+      const voiceCost = getVoiceByName(selectedVoice.value)?.cost ?? 0;
+      if (currentAmount < voiceCost) {
+        selectedVoice.value = '';
+      }
+    }
+
+    if (currentAmount > 0 && currentAmount < voiceStore.minCost) {
+      bitAmount.value = voiceStore.minCost;
       triggerFlash();
     }
-    checkVoiceEligibility();
+
   }, 500);
 });
 
