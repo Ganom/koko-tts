@@ -6,7 +6,7 @@
     >
       <ThemePalette :theme="themes[currentTheme]" />
       <span class="text-white text-sm font-medium">{{ themes[currentTheme].name }}</span>
-      <ChevronDownIcon
+      <ChevronDown
         class="w-4 h-4 text-gray-400 transition-transform"
         :class="{ 'rotate-180': isOpen }"
       />
@@ -27,7 +27,7 @@
         >
           <ThemePalette :theme="theme" />
           <span class="text-white text-sm font-medium">{{ theme.name }}</span>
-          <CheckIcon v-if="currentTheme === key" class="w-4 h-4 text-primary-400 ml-auto" />
+          <Check v-if="currentTheme === key" class="w-4 h-4 text-primary-400 ml-auto" />
         </button>
       </div>
     </Teleport>
@@ -35,7 +35,7 @@
 </template>
 
 <script setup lang="ts">
-import { CheckIcon, ChevronDownIcon } from "@heroicons/vue/24/solid";
+import { Check, ChevronDown } from "lucide-vue-next";
 import type { CSSProperties, PropType, Ref } from "vue";
 import { computed, defineComponent, h, onMounted, onUnmounted, ref } from "vue";
 import { type Theme, useTheme } from "@/composables/useTheme";

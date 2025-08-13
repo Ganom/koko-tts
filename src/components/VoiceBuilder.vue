@@ -110,7 +110,7 @@
       >
         <div class="flex items-center justify-between mb-4">
           <h4 class="text-white font-bold flex items-center">
-            <Bars3Icon class="w-5 h-5 mr-2 text-primary-400" />
+            <Menu class="w-5 h-5 mr-2 text-primary-400" />
             TTS Preview
           </h4>
           <button
@@ -118,7 +118,7 @@
             @click="copyCommand"
             class="flex items-center gap-2 px-3 py-1.5 bg-primary-600 hover:bg-primary-700 text-white text-xs font-medium rounded transition-colors whitespace-nowrap"
           >
-            <component :is="copied ? CheckIcon : ClipboardIcon" class="w-4 h-4" />
+            <component :is="copied ? Check : Clipboard" class="w-4 h-4" />
             <span>{{ copied ? "Copied!" : "Copy" }}</span>
           </button>
         </div>
@@ -138,7 +138,7 @@
 </template>
 
 <script setup lang="ts">
-import { Bars3Icon, CheckIcon, ClipboardIcon } from "@heroicons/vue/24/solid";
+import { Check, Clipboard, Menu } from "lucide-vue-next";
 import { computed, defineComponent, h, onMounted, ref, watch } from "vue";
 import { useLocalStorage } from "@/composables/useLocalStorage";
 import { useVoiceStore } from "@/stores/voiceStore";

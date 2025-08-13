@@ -95,7 +95,7 @@
 </template>
 
 <script setup lang="ts">
-import { ArrowPathIcon, GiftIcon, HeartIcon, PlusIcon, XMarkIcon } from "@heroicons/vue/24/solid";
+import { Gift, Heart, Plus, RotateCcw, X } from "lucide-vue-next";
 
 // --- ANIMATIONS ---
 
@@ -138,7 +138,7 @@ const customizationContainerMotion = {
 const activationMethods = [
   {
     title: "With Bits",
-    icon: HeartIcon,
+    icon: Heart,
     description: "Cheer 300+ bits to activate TTS.",
     colorTheme: "primary",
     command: [
@@ -149,7 +149,7 @@ const activationMethods = [
   },
   {
     title: "With Channel Points",
-    icon: GiftIcon,
+    icon: Gift,
     description: 'Redeem the "TTS Message" reward.',
     colorTheme: "secondary",
     command: [
@@ -159,7 +159,7 @@ const activationMethods = [
   },
   {
     title: "Subscriber Perk",
-    icon: ArrowPathIcon,
+    icon: RotateCcw,
     description: "Your resub message gets a free TTS reading!",
     colorTheme: "accent",
     tiers: [
@@ -188,7 +188,7 @@ const activationMethods = [
 const customizationCommands = [
   {
     title: "Choose a Voice",
-    icon: PlusIcon,
+    icon: Plus,
     description: "Set a default voice for your messages.",
     colorTheme: "primary",
     command: [
@@ -198,7 +198,7 @@ const customizationCommands = [
   },
   {
     title: "Reset Your Voice",
-    icon: XMarkIcon,
+    icon: X,
     description: "Revert to the channel's default voice.",
     colorTheme: "secondary",
     command: [{ text: "!clearvoice", class: "text-secondary-300" }],

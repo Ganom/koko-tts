@@ -4,7 +4,7 @@
       <span :class="{ 'text-gray-400': !selectedLabel }">
         {{ selectedLabel || placeholder }}
       </span>
-      <ChevronDownIcon
+      <ChevronDown
         class="w-5 h-5 text-gray-400 transition-transform duration-200"
         :class="{ 'rotate-180': isOpen }"
       />
@@ -37,7 +37,7 @@
 </template>
 
 <script setup lang="ts">
-import { ChevronDownIcon } from "@heroicons/vue/24/solid";
+import { ChevronDown } from "lucide-vue-next";
 import { computed, type CSSProperties, nextTick, onMounted, onUnmounted, ref } from "vue";
 
 // --- TYPES ---

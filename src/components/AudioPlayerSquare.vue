@@ -2,17 +2,12 @@
   <button @click="togglePlay" :disabled="isDisabled" :class="buttonClasses" :title="errorTitle">
     <component :is="mainIconComponent" :class="mainIconClasses" />
 
-    <ExclamationTriangleIcon v-if="isError" class="w-4 h-4 text-white" />
+    <TriangleAlert v-if="isError" class="w-4 h-4 text-white" />
   </button>
 </template>
 
 <script setup lang="ts">
-import {
-  ArrowPathIcon,
-  ExclamationTriangleIcon,
-  PauseIcon,
-  PlayIcon,
-} from "@heroicons/vue/24/solid";
+import { Pause, Play, RotateCcw, TriangleAlert } from "lucide-vue-next";
 import { computed, inject } from "vue";
 import type { UseAudioReturn } from "@/composables/useAudio";
 import { PlaybackStatus } from "@/types/audio";
@@ -43,9 +38,9 @@ const isError = computed(() => status.value === PlaybackStatus.ERROR);
 const isDisabled = computed(() => isError.value);
 
 const mainIconComponent = computed(() => {
-  if (isLoading.value) return ArrowPathIcon;
-  if (isCurrentlyPlaying.value) return PauseIcon;
-  return PlayIcon;
+  if (isLoading.value) return RotateCcw;
+  if (isCurrentlyPlaying.value) return Pause;
+  return Play;
 });
 
 const mainIconClasses = computed(() => {
