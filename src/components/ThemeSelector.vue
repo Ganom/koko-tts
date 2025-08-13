@@ -2,7 +2,7 @@
   <div class="theme-selector" ref="triggerRef">
     <button
       @click="toggle"
-      class="flex items-center space-x-2 px-4 py-2 bg-dark-800 border border-primary-600/40 rounded-lg hover:border-primary-500 transition-colors"
+      class="flex items-center space-x-2 px-4 py-2 bg-dark-800 border-2 border-primary-600/40 rounded-lg hover:border-primary-500 transition-colors"
     >
       <ThemePalette :theme="themes[currentTheme]" />
       <span class="text-white text-sm font-medium">{{ themes[currentTheme].name }}</span>
@@ -16,7 +16,7 @@
       <div
         v-if="isOpen"
         :style="dropdownStyle"
-        class="bg-dark-800 border border-primary-600/40 rounded-lg shadow-xl overflow-hidden"
+        class="bg-dark-800 border-2 border-primary-600/40 rounded-lg shadow-xl overflow-hidden"
       >
         <button
           v-for="(theme, key) in themes"

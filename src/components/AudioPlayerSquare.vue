@@ -52,7 +52,7 @@ const mainIconClasses = computed(() => {
 });
 
 const buttonClasses = computed(() => [
-  "group relative flex min-w-[2.5rem] items-center justify-center rounded-lg border border-primary-600/40 bg-gradient-dark px-3 py-2 transition-all duration-300 hover:border-primary-500/60 hover:bg-gradient-to-r hover:from-primary-600/20 hover:to-secondary-600/20 focus:outline-none focus:ring-2 focus:ring-primary-500/50 disabled:cursor-not-allowed disabled:from-gray-600 disabled:to-gray-700",
+  "group relative flex min-w-[5rem] items-center justify-center rounded-lg border border-secondary-600/40 bg-gradient-dark px-3 py-2 transition-all duration-300 hover:border-secondary-500/60 hover:bg-gradient-to-r hover:from-secondary-600/20 hover:to-secondary-600/20 focus:outline-none focus:ring-2 focus:ring-secondary-500/50 disabled:cursor-not-allowed disabled:from-gray-600 disabled:to-gray-700",
   { "animate-pulse": isCurrentlyPlaying.value },
 ]);
 

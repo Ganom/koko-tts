@@ -1,5 +1,3 @@
-<!-- components/IconBackgroundConfigurator.vue -->
-<!-- Configuration panel ONLY - no background -->
 <script setup lang="ts">
 import { computed, ref } from "vue";
 import { getAvailableIconNames } from "@/utils/iconRegistry";
@@ -12,11 +10,12 @@ interface BackgroundConfig {
   color: string;
   randomRotation: boolean;
   randomOpacity: boolean;
+  randomColors: boolean;
   enableAnimation: boolean;
   animationSpeed: number;
   enableSlideAnimation: boolean;
   slideAnimationSpeed: number;
-  slideDirection: 'right' | 'left' | 'down' | 'up' | 'diagonal-down-right' | 'diagonal-up-left';
+  slideDirection: "right" | "left" | "down" | "up" | "diagonal-down-right" | "diagonal-up-left";
 }
 
 const props = defineProps<{
@@ -29,13 +28,11 @@ const emit = defineEmits<{
 
 const showConfigurator = ref(false);
 
-// Create local reactive copy
 const config = computed({
   get: () => props.modelValue,
   set: (value) => emit("update:modelValue", value),
 });
 
-// Available icons to choose from (Lucide icons)
 const availableIcons = getAvailableIconNames();
 
 const presets = [
@@ -290,6 +287,17 @@ const exportConfig = () => {
               </label>
               <label class="flex items-center gap-2 text-gray-400">
                 <input
+                  :checked="config.randomColors"
+                  @change="
+                    updateConfig('randomColors', ($event.target as HTMLInputElement).checked)
+                  "
+                  type="checkbox"
+                  class="rounded bg-gray-800 border-gray-700"
+                />
+                <span class="text-sm">Random Theme Colors</span>
+              </label>
+              <label class="flex items-center gap-2 text-gray-400">
+                <input
                   :checked="config.enableAnimation"
                   @change="
                     updateConfig('enableAnimation', ($event.target as HTMLInputElement).checked)
@@ -303,7 +311,10 @@ const exportConfig = () => {
                 <input
                   :checked="config.enableSlideAnimation"
                   @change="
-                    updateConfig('enableSlideAnimation', ($event.target as HTMLInputElement).checked)
+                    updateConfig(
+                      'enableSlideAnimation',
+                      ($event.target as HTMLInputElement).checked,
+                    )
                   "
                   type="checkbox"
                   class="rounded bg-gray-800 border-gray-700"
@@ -330,7 +341,6 @@ const exportConfig = () => {
               />
             </div>
 
-            <!-- Slide Animation Controls (only show when slide animation is enabled) -->
             <div v-if="config.enableSlideAnimation" class="space-y-4">
               <!-- Slide Direction -->
               <div>
@@ -339,7 +349,9 @@ const exportConfig = () => {
                 </label>
                 <select
                   :value="config.slideDirection"
-                  @change="updateConfig('slideDirection', ($event.target as HTMLSelectElement).value)"
+                  @change="
+                    updateConfig('slideDirection', ($event.target as HTMLSelectElement).value)
+                  "
                   class="w-full px-3 py-2 bg-gray-800 text-white rounded border border-gray-700 focus:border-blue-500 focus:outline-none"
                 >
                   <option value="right">Right →</option>
@@ -359,7 +371,10 @@ const exportConfig = () => {
                 <input
                   :value="config.slideAnimationSpeed"
                   @input="
-                    updateConfig('slideAnimationSpeed', Number(($event.target as HTMLInputElement).value))
+                    updateConfig(
+                      'slideAnimationSpeed',
+                      Number(($event.target as HTMLInputElement).value),
+                    )
                   "
                   type="range"
                   min="0.1"

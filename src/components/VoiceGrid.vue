@@ -6,7 +6,7 @@
         v-model="searchQuery"
         type="text"
         placeholder="Search voices..."
-        class="w-full bg-dark-900/60 border border-primary-700/40 rounded-lg pl-10 pr-4 py-2 text-white text-sm focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-500/50 hover:border-primary-500/60 transition-colors"
+        class="w-full bg-dark-900/60 border-2 border-secondary-500/40 rounded-lg pl-10 pr-4 py-2 text-white text-sm focus:border-secondary-500 focus:outline-none focus:ring-2 focus:ring-secondary-500/50 hover:border-secondary-500/60 transition-colors"
         @focus="onSearchFocus"
         @blur="onSearchBlur"
       />

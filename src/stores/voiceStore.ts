@@ -78,18 +78,15 @@ export const useVoiceStore = defineStore("voice", () => {
   };
 
   return {
-    // State
     voices,
     isLoading,
     error,
     searchQuery,
     minCost,
     maxCost,
-    // Getters
     filteredVoices,
     sortedVoices,
     getVoiceByName,
-    // Actions
     loadVoices,
   };
 });

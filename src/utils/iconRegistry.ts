@@ -1,4 +1,3 @@
-// Icon registry for background patterns - only imports icons that are actually used
 import {
   // Tech icons
   Terminal,
@@ -103,10 +102,8 @@ import {
 
 import type { FunctionalComponent } from "vue";
 
-// Type for icon components
 export type IconComponent = FunctionalComponent<any>;
 
-// Registry mapping icon names to components
 export const iconRegistry: Record<string, IconComponent> = {
   // Tech preset icons (mapped from Heroicons)
   Terminal,
@@ -215,17 +212,14 @@ export const iconRegistry: Record<string, IconComponent> = {
   Mail,
 };
 
-// Helper function to get icon component by name
 export function getIconComponent(iconName: string): IconComponent | undefined {
   return iconRegistry[iconName];
 }
 
-// Helper function to get all available icon names
 export function getAvailableIconNames(): string[] {
   return Object.keys(iconRegistry);
 }
 
-// Default tech icons for the background pattern
 export const defaultTechIcons = [
   "Terminal",
   "Cpu",

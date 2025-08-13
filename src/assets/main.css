@@ -199,10 +199,12 @@
 }
 
 .anime-card {
-  background:
-    var(--card-pattern),
-    linear-gradient(180deg, var(--theme-dark-700) 0%, var(--theme-dark-800) 100%);
-  backdrop-filter: blur(8px);
+  background: var(--theme-dark-800);
+  box-shadow:
+    0 20px 20px color-mix(in srgb, var(--theme-dark-950) 60%, transparent),
+    inset 0 1px 0 color-mix(in srgb, var(--theme-gray-100) 5%, transparent),
+    inset 0 -1px 0 color-mix(in srgb, var(--theme-dark-950) 20%, transparent);
+  border: 2px solid var(--theme-primary-700/30) !important;
 }
 
 .glass {
@@ -226,13 +228,6 @@
   --muted-foreground: var(--theme-gray-400);
   --border: var(--theme-dark-600);
 
-  /* Beach/Tropical Pattern */
-  --beach-pattern: url('data:image/svg+xml;charset=UTF-8,<svg xmlns="http://www.w3.org/2000/svg" width="200" height="200" viewBox="0 0 200 200"><defs><g id="tropical" opacity="0.15" fill="%23000000"><circle cx="30" cy="30" r="8"/><path d="M25 25l10 0 M30 20l0 10"/><path d="M70 50c-10 0-5-15 5-10s10-10 5 10z"/><circle cx="150" cy="40" r="6"/><circle cx="155" cy="35" r="4"/><path d="M80 100l15-20 M95 80l-15 20 M85 75l10 5"/><path d="M140 120c-15 5-10-20 10-15s15-15 10 15z"/><circle cx="50" cy="150" r="7"/><path d="M45 145l10 0 M50 140l0 10"/><path d="M180 80c0 10-20 5-15-5s-10-10 15 5z"/><path d="M20 180c10 0 20-10 30 0s20 10 30 0"/><circle cx="180" cy="170" r="5"/><path d="M175 165l10 0 M180 160l0 10"/></g></defs><use href="%23tropical"/></svg>')
-    repeat;
-
-  /* Card Pattern (lighter for better contrast) */
-  --card-pattern: url('data:image/svg+xml;charset=UTF-8,<svg xmlns="http://www.w3.org/2000/svg" width="150" height="150" viewBox="0 0 150 150"><defs><g id="card-tropical" opacity="0.01" fill="%23ffffff"><circle cx="25" cy="25" r="6"/><path d="M22 22l6 0 M25 19l0 6"/><path d="M60 40c-8 0-4-12 4-8s8-8 4 8z"/><circle cx="120" cy="30" r="4"/><circle cx="124" cy="27" r="3"/><path d="M70 80l12-16 M82 64l-12 16 M76 60l8 4"/><path d="M110 95c-12 4-8-16 8-12s12-12 8 12z"/><circle cx="40" cy="120" r="5"/><path d="M37 117l6 0 M40 114l0 6"/><path d="M140 65c0 8-16 4-12-4s-8-8 12 4z"/></g></defs><use href="%23card-tropical"/></svg>')
-    repeat;
 }
 
 @layer base {
@@ -248,10 +243,7 @@
     margin: 0;
     padding: 0;
     min-height: 100vh;
-    background:
-      var(--beach-pattern),
-      linear-gradient(180deg, var(--theme-dark-700) 0%, var(--theme-dark-800) 100%);
-    background-attachment: scroll, fixed;
+    background: linear-gradient(180deg, var(--theme-dark-700) 0%, var(--theme-dark-800) 100%);
   }
 
   * {

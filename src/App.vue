@@ -13,7 +13,6 @@ const audio = useAudio();
 
 provide("audio", audio);
 
-// Background configuration state
 const backgroundConfig = ref({
   icons: [
     "Terminal",
@@ -38,10 +37,11 @@ const backgroundConfig = ref({
   ],
   iconSize: 40,
   gap: 40,
-  opacity: 1.0,
+  opacity: 0.1,
   color: "#60a5fa",
   randomRotation: true,
   randomOpacity: true,
+  randomColors: true,
   enableAnimation: false,
   animationSpeed: 1.0,
   enableSlideAnimation: false,
@@ -56,12 +56,9 @@ onMounted(() => {
 
 <template>
   <div class="min-h-screen font-expressway relative bg-gray-900">
-    <!-- Dynamic Icon Pattern Background (BEFORE the blur layer) -->
     <IconPatternBackground v-bind="backgroundConfig" />
-
-    <!-- Main Content with semi-transparent background -->
     <div class="relative z-10">
-      <div class="min-h-screen bg-gray-900/80 <!--backdrop-blur-sm-->">
+      <div class="min-h-screen">
         <div class="container mx-auto px-6 py-8 max-w-7xl">
           <AppHeader />
           <InfoBox />
@@ -76,7 +73,7 @@ onMounted(() => {
 
           <div
             v-else-if="voiceStore.error"
-            class="bg-red-900 border border-red-700 text-red-300 px-4 py-3 rounded max-w-4xl mx-auto"
+            class="bg-red-900 border-2 border-red-700 text-red-300 px-4 py-3 rounded max-w-4xl mx-auto"
           >
             <strong>Error:</strong> {{ voiceStore.error }}
           </div>
@@ -84,7 +81,6 @@ onMounted(() => {
       </div>
     </div>
 
-    <!-- Configuration Panel (above everything, outside blur layer) -->
     <IconBackgroundConfigurator v-model="backgroundConfig" class="fixed bottom-4 right-4 z-50" />
   </div>
 </template>
