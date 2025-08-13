@@ -1,12 +1,12 @@
 <template>
   <div class="space-y-4">
     <div class="relative" v-motion="searchBarMotion">
-      <MagnifyingGlassIcon class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
+      <Search class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
       <input
         v-model="searchQuery"
         type="text"
         placeholder="Search voices..."
-        class="w-full bg-dark-900/60 border border-primary-700/40 rounded-lg pl-10 pr-4 py-2 text-white text-sm focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-500/50 hover:border-primary-500/60 transition-colors"
+        class="w-full bg-dark-900/60 border-2 border-secondary-500/40 rounded-lg pl-10 pr-4 py-2 text-white text-sm focus:border-secondary-500 focus:outline-none focus:ring-2 focus:ring-secondary-500/50 hover:border-secondary-500/60 transition-colors"
         @focus="onSearchFocus"
         @blur="onSearchBlur"
       />
@@ -48,7 +48,7 @@
             }"
           />
           <div v-if="selectedVoice === voice.name" class="absolute -top-1 -right-1">
-            <CheckCircleIcon class="h-6 w-6 text-primary-400 bg-dark-800 rounded-full" />
+            <CheckCircle class="h-6 w-6 text-primary-400 bg-dark-800 rounded-full" />
           </div>
         </div>
         <p
@@ -64,7 +64,7 @@
 </template>
 
 <script setup lang="ts">
-import { CheckCircleIcon, MagnifyingGlassIcon } from "@heroicons/vue/24/solid";
+import { CheckCircle, Search } from "lucide-vue-next";
 import { computed, ref } from "vue";
 import type { Voice } from "@/types/voice";
 

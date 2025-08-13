@@ -2,17 +2,12 @@
   <button @click="togglePlay" :disabled="isDisabled" :class="buttonClasses" :title="errorTitle">
     <component :is="mainIconComponent" :class="mainIconClasses" />
 
-    <ExclamationTriangleIcon v-if="isError" class="w-4 h-4 text-white" />
+    <TriangleAlert v-if="isError" class="w-4 h-4 text-white" />
   </button>
 </template>
 
 <script setup lang="ts">
-import {
-  ArrowPathIcon,
-  ExclamationTriangleIcon,
-  PauseIcon,
-  PlayIcon,
-} from "@heroicons/vue/24/solid";
+import { Pause, Play, RotateCcw, TriangleAlert } from "lucide-vue-next";
 import { computed, inject } from "vue";
 import type { UseAudioReturn } from "@/composables/useAudio";
 import { PlaybackStatus } from "@/types/audio";
@@ -43,9 +38,9 @@ const isError = computed(() => status.value === PlaybackStatus.ERROR);
 const isDisabled = computed(() => isError.value);
 
 const mainIconComponent = computed(() => {
-  if (isLoading.value) return ArrowPathIcon;
-  if (isCurrentlyPlaying.value) return PauseIcon;
-  return PlayIcon;
+  if (isLoading.value) return RotateCcw;
+  if (isCurrentlyPlaying.value) return Pause;
+  return Play;
 });
 
 const mainIconClasses = computed(() => {
@@ -57,7 +52,7 @@ const mainIconClasses = computed(() => {
 });
 
 const buttonClasses = computed(() => [
-  "group relative flex min-w-[2.5rem] items-center justify-center rounded-lg border border-primary-600/40 bg-gradient-dark px-3 py-2 transition-all duration-300 hover:border-primary-500/60 hover:bg-gradient-to-r hover:from-primary-600/20 hover:to-secondary-600/20 focus:outline-none focus:ring-2 focus:ring-primary-500/50 disabled:cursor-not-allowed disabled:from-gray-600 disabled:to-gray-700",
+  "group relative flex min-w-[5rem] items-center justify-center rounded-lg border border-secondary-600/40 bg-gradient-dark px-3 py-2 transition-all duration-300 hover:border-secondary-500/60 hover:bg-gradient-to-r hover:from-secondary-600/20 hover:to-secondary-600/20 focus:outline-none focus:ring-2 focus:ring-secondary-500/50 disabled:cursor-not-allowed disabled:from-gray-600 disabled:to-gray-700",
   { "animate-pulse": isCurrentlyPlaying.value },
 ]);
 

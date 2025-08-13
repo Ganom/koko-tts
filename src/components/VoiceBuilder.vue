@@ -1,7 +1,7 @@
 <template>
   <div class="max-w-6xl mx-auto mb-16">
     <div
-      class="anime-card bg-gradient-dark rounded-4xl p-8 border border-primary-700/30"
+      class="anime-card rounded-4xl p-8 border-2 border-primary-500/30"
       v-motion="motions.container"
     >
       <div class="text-center mb-8" v-motion="motions.header">
@@ -26,7 +26,7 @@
               :min="minBitAmount"
               :placeholder="minBitAmount.toString()"
               :class="[
-                'w-full bg-dark-900/60 border rounded-lg px-4 py-3 text-white focus:outline-none focus:ring-2 transition-colors',
+                'w-full bg-dark-900/60 border-2 rounded-lg px-4 py-3 text-white focus:outline-none focus:ring-2 transition-colors',
                 inputClasses,
                 { 'flash-border': bitAmountUpdated },
               ]"
@@ -55,7 +55,7 @@
               v-model="message"
               placeholder="Enter your message here..."
               :class="[
-                'w-full bg-dark-900/60 border rounded-lg px-4 py-3 text-white focus:outline-none resize-none',
+                'w-full bg-dark-900/60 border-2 rounded-lg px-4 py-3 text-white focus:outline-none resize-none',
                 inputClasses,
                 { 'border-red-500 focus:border-red-500 focus:ring-red-500/50': isMessageTooLong },
               ]"
@@ -85,7 +85,7 @@
               <div class="flex items-center justify-between w-full">
                 <span>Select a Voice</span>
                 <div v-if="selectedVoice" class="flex items-center gap-3">
-                  <span class="text-gray-300 text-sm">Preview:</span>
+                  <span class="">Preview:</span>
                   <AudioPlayerSquare :voice-name="selectedVoice" />
                 </div>
               </div>
@@ -105,12 +105,12 @@
       ></div>
 
       <div
-        class="anime-card bg-gradient-dark rounded-2xl p-6 border border-primary-700/30"
+        class="anime-card rounded-2xl p-6 border-2 border-primary-500/30"
         v-motion="motions.preview"
       >
         <div class="flex items-center justify-between mb-4">
           <h4 class="text-white font-bold flex items-center">
-            <Bars3Icon class="w-5 h-5 mr-2 text-primary-400" />
+            <Menu class="w-5 h-5 mr-2 text-primary-400" />
             TTS Preview
           </h4>
           <button
@@ -118,11 +118,11 @@
             @click="copyCommand"
             class="flex items-center gap-2 px-3 py-1.5 bg-primary-600 hover:bg-primary-700 text-white text-xs font-medium rounded transition-colors whitespace-nowrap"
           >
-            <component :is="copied ? CheckIcon : ClipboardIcon" class="w-4 h-4" />
+            <component :is="copied ? Check : Clipboard" class="w-4 h-4" />
             <span>{{ copied ? "Copied!" : "Copy" }}</span>
           </button>
         </div>
-        <div class="bg-dark-900/50 border border-primary-700/20 rounded-lg p-4 font-mono text-md">
+        <div class="bg-dark-900/50 border-2 border-primary-500/20 rounded-lg p-4 font-mono text-md">
           <div v-if="commandParts.length" class="break-all min-h-[2lh]">
             <span v-for="(part, index) in commandParts" :key="index" :class="part.class">
               {{ part.text }}
@@ -138,7 +138,7 @@
 </template>
 
 <script setup lang="ts">
-import { Bars3Icon, CheckIcon, ClipboardIcon } from "@heroicons/vue/24/solid";
+import { Check, Clipboard, Menu } from "lucide-vue-next";
 import { computed, defineComponent, h, onMounted, ref, watch } from "vue";
 import { useLocalStorage } from "@/composables/useLocalStorage";
 import { useVoiceStore } from "@/stores/voiceStore";
@@ -183,7 +183,7 @@ const ButtonGroup = defineComponent({
   setup(props, { emit }) {
     const getButtonClasses = (opt: ButtonOption, isSelected: boolean) => {
       const baseClasses =
-        "p-3 rounded-lg border text-white font-medium transition-colors text-center";
+        "p-3 rounded-lg border-2 text-white font-medium transition-colors text-center";
       const bgClasses = isSelected ? getBgClass(opt.theme) : "bg-dark-700 hover:bg-dark-600";
       const borderClasses = getBorderClass(opt.theme);
       return `${baseClasses} ${bgClasses} ${borderClasses}`;
@@ -196,7 +196,7 @@ const ButtonGroup = defineComponent({
         case "secondary":
           return "bg-secondary-600";
         case "accent":
-          return "bg-accent-600";
+          return "bg-accent-500";
         default:
           return "bg-primary-600";
       }
@@ -205,13 +205,13 @@ const ButtonGroup = defineComponent({
     const getBorderClass = (theme: string) => {
       switch (theme) {
         case "primary":
-          return "border-primary-700/40";
+          return "border-primary-500/40";
         case "secondary":
-          return "border-secondary-700/40";
+          return "border-secondary-500/40";
         case "accent":
-          return "border-accent-700/40";
+          return "border-accent-500/40";
         default:
-          return "border-primary-700/40";
+          return "border-primary-500/40";
       }
     };
 
@@ -254,7 +254,7 @@ const ButtonGroup = defineComponent({
 
 const voiceStore = useVoiceStore();
 const inputClasses =
-  "border-primary-700/40 hover:border-primary-500/60 focus:border-primary-500 focus:ring-2 focus:ring-primary-500/50";
+  "border-secondary-500/40 hover:border-secondary-500/60 focus:border-secondary-500 focus:ring-2 focus:ring-secondary-500/50";
 
 const redeemOptions = [
   { value: "cheer", label: "Cheer", theme: "primary" },

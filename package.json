@@ -16,8 +16,9 @@
     "format:check": "prettier --check ."
   },
   "dependencies": {
-    "@heroicons/vue": "^2.2.0",
+    "@lucide/lab": "^0.1.2",
     "@vueuse/motion": "^3.0.3",
+    "lucide-vue-next": "^0.539.0",
     "pinia": "^3.0.3",
     "vue": "^3.5.18"
   },

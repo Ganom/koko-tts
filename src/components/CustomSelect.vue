@@ -4,7 +4,7 @@
       <span :class="{ 'text-gray-400': !selectedLabel }">
         {{ selectedLabel || placeholder }}
       </span>
-      <ChevronDownIcon
+      <ChevronDown
         class="w-5 h-5 text-gray-400 transition-transform duration-200"
         :class="{ 'rotate-180': isOpen }"
       />
@@ -15,7 +15,7 @@
         v-if="isOpen && dropdownPosition"
         ref="contentRef"
         :style="dropdownStyle"
-        class="bg-dark-800 border border-primary-700/40 rounded-lg shadow-xl max-h-64 overflow-y-auto"
+        class="bg-dark-800 border-2 border-secondary-500/40 rounded-lg shadow-xl max-h-64 overflow-y-auto"
         @mouseenter="isDropdownHovered = true"
         @mouseleave="isDropdownHovered = false"
         @wheel="handleDropdownWheel"
@@ -37,7 +37,7 @@
 </template>
 
 <script setup lang="ts">
-import { ChevronDownIcon } from "@heroicons/vue/24/solid";
+import { ChevronDown } from "lucide-vue-next";
 import { computed, type CSSProperties, nextTick, onMounted, onUnmounted, ref } from "vue";
 
 // --- TYPES ---
@@ -84,9 +84,9 @@ const selectedLabel = computed(() => {
 });
 
 const triggerClasses = computed(() => [
-  "w-full bg-dark-900/60 border border-primary-700/40 rounded-lg px-4 py-3 text-white",
-  "focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-500/50",
-  "hover:border-primary-500/60 transition-colors cursor-pointer text-left",
+  "w-full bg-dark-900/60 border-2 border-secondary-500/40 rounded-lg px-4 py-3 text-white",
+  "focus:border-secondary-500 focus:outline-none focus:ring-2 focus:ring-secondary-500/50",
+  "hover:border-secondary-500/60 transition-colors cursor-pointer text-left",
   "flex items-center justify-between",
 ]);
 
@@ -214,11 +214,11 @@ const getOptionClasses = (option: SelectOption, index: number) => {
   const isSelected = option.value === props.modelValue;
   const isHighlighted = index === highlightedIndex.value;
   return [
-    "px-4 py-3 text-white hover:bg-primary-600/20 cursor-pointer",
-    "transition-colors border-b border-primary-700/20 last:border-b-0",
+    "px-4 py-3 text-white hover:bg-secondary-600/20 cursor-pointer",
+    "transition-colors border-b border-secondary-500/20 last:border-b-0",
     {
-      "bg-primary-600/30": isSelected,
-      "bg-primary-500/15": isHighlighted && !isSelected,
+      "bg-secondary-600/30": isSelected,
+      "bg-secondary-500/15": isHighlighted && !isSelected,
     },
   ];
 };

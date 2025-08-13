@@ -1,7 +1,6 @@
 <template>
   <header class="text-center mb-16 relative">
-    <!-- Theme Selector positioned at top right -->
-    <div class="absolute top-0 right-0 z-10" v-motion="themeSelectorMotion">
+    <div class="absolute top-0 right-0 z-10 hidden md:block" v-motion="themeSelectorMotion">
       <ThemeSelector />
     </div>
 
@@ -11,11 +10,10 @@
     >
       Koko TTS Voices
     </h1>
-    <!-- Decorative elements -->
     <div class="flex justify-center mt-8 space-x-3" v-motion="decorativeContainerMotion">
       <div class="w-3 h-3 bg-primary-500 rounded-full" v-motion="decorativeDot1Motion" />
       <div class="w-3 h-3 bg-secondary-500 rounded-full" v-motion="decorativeDot2Motion" />
-      <div class="w-3 h-3 bg-accent-400 rounded-full" v-motion="decorativeDot3Motion" />
+      <div class="w-3 h-3 bg-accent-500 rounded-full" v-motion="decorativeDot3Motion" />
     </div>
   </header>
 </template>

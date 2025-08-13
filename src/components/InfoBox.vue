@@ -1,7 +1,7 @@
 <template>
   <div class="max-w-6xl mx-auto mb-16">
     <div
-      class="anime-card bg-gradient-dark rounded-4xl p-8 mb-8 border border-primary-700/30"
+      class="anime-card rounded-4xl p-8 mb-8 border-2 border-primary-500/30"
       v-motion="containerMotion"
     >
       <div class="text-center mb-8" v-motion="headerMotion">
@@ -60,7 +60,7 @@
           Voice Customization
         </h3>
         <div
-          class="glass rounded-2xl p-6 border border-primary-700/30"
+          class="glass rounded-2xl p-6 border-2 border-primary-500/30"
           v-motion="customizationContainerMotion"
         >
           <div class="grid md:grid-cols-2 md:divide-x md:divide-primary-700/30 gap-6 md:gap-0">
@@ -95,7 +95,7 @@
 </template>
 
 <script setup lang="ts">
-import { ArrowPathIcon, GiftIcon, HeartIcon, PlusIcon, XMarkIcon } from "@heroicons/vue/24/solid";
+import { Gift, Heart, Plus, RotateCcw, X } from "lucide-vue-next";
 
 // --- ANIMATIONS ---
 
@@ -138,7 +138,7 @@ const customizationContainerMotion = {
 const activationMethods = [
   {
     title: "With Bits",
-    icon: HeartIcon,
+    icon: Heart,
     description: "Cheer 300+ bits to activate TTS.",
     colorTheme: "primary",
     command: [
@@ -149,7 +149,7 @@ const activationMethods = [
   },
   {
     title: "With Channel Points",
-    icon: GiftIcon,
+    icon: Gift,
     description: 'Redeem the "TTS Message" reward.',
     colorTheme: "secondary",
     command: [
@@ -159,7 +159,7 @@ const activationMethods = [
   },
   {
     title: "Subscriber Perk",
-    icon: ArrowPathIcon,
+    icon: RotateCcw,
     description: "Your resub message gets a free TTS reading!",
     colorTheme: "accent",
     tiers: [
@@ -188,7 +188,7 @@ const activationMethods = [
 const customizationCommands = [
   {
     title: "Choose a Voice",
-    icon: PlusIcon,
+    icon: Plus,
     description: "Set a default voice for your messages.",
     colorTheme: "primary",
     command: [
@@ -198,7 +198,7 @@ const customizationCommands = [
   },
   {
     title: "Reset Your Voice",
-    icon: XMarkIcon,
+    icon: X,
     description: "Revert to the channel's default voice.",
     colorTheme: "secondary",
     command: [{ text: "!clearvoice", class: "text-secondary-300" }],
@@ -211,13 +211,13 @@ const getCardClasses = (theme: string) => {
   const baseClasses = "glass rounded-2xl p-6 transition-all duration-300";
   switch (theme) {
     case "primary":
-      return `${baseClasses} border border-primary-700/30 hover:border-primary-500/60`;
+      return `${baseClasses} border-2 border-primary-500/30 hover:border-primary-500/60`;
     case "secondary":
-      return `${baseClasses} border border-secondary-700/30 hover:border-secondary-500/60`;
+      return `${baseClasses} border-2 border-secondary-500/30 hover:border-secondary-500/60`;
     case "accent":
-      return `${baseClasses} border border-accent-700/30 hover:border-accent-500/60`;
+      return `${baseClasses} border-2 border-accent-500/30 hover:border-accent-500/60`;
     default:
-      return `${baseClasses} border border-primary-700/30 hover:border-primary-500/60`;
+      return `${baseClasses} border-2 border-primary-500/30 hover:border-primary-500/60`;
   }
 };
 
@@ -228,7 +228,7 @@ const getIconWrapperClasses = (theme: string) => {
     case "secondary":
       return "bg-secondary-600";
     case "accent":
-      return "bg-accent-600";
+      return "bg-accent-500";
     default:
       return "bg-primary-600";
   }
@@ -238,13 +238,13 @@ const getCommandClasses = (theme: string) => {
   const baseClasses = "bg-dark-900/50 rounded-lg p-3 font-mono text-sm";
   switch (theme) {
     case "primary":
-      return `${baseClasses} border border-primary-700/20`;
+      return `${baseClasses} border-2 border-primary-500/20`;
     case "secondary":
-      return `${baseClasses} border border-secondary-700/20`;
+      return `${baseClasses} border-2 border-secondary-500/20`;
     case "accent":
-      return `${baseClasses} border border-accent-700/20`;
+      return `${baseClasses} border-2 border-accent-500/20`;
     default:
-      return `${baseClasses} border border-primary-700/20`;
+      return `${baseClasses} border-2 border-primary-500/20`;
   }
 };
 </script>

@@ -2,11 +2,11 @@
   <div class="theme-selector" ref="triggerRef">
     <button
       @click="toggle"
-      class="flex items-center space-x-2 px-4 py-2 bg-dark-800 border border-primary-600/40 rounded-lg hover:border-primary-500 transition-colors"
+      class="flex items-center space-x-2 px-4 py-2 bg-dark-800 border-2 border-primary-600/40 rounded-lg hover:border-primary-500 transition-colors"
     >
       <ThemePalette :theme="themes[currentTheme]" />
       <span class="text-white text-sm font-medium">{{ themes[currentTheme].name }}</span>
-      <ChevronDownIcon
+      <ChevronDown
         class="w-4 h-4 text-gray-400 transition-transform"
         :class="{ 'rotate-180': isOpen }"
       />
@@ -16,7 +16,7 @@
       <div
         v-if="isOpen"
         :style="dropdownStyle"
-        class="bg-dark-800 border border-primary-600/40 rounded-lg shadow-xl overflow-hidden"
+        class="bg-dark-800 border-2 border-primary-600/40 rounded-lg shadow-xl overflow-hidden"
       >
         <button
           v-for="(theme, key) in themes"
@@ -27,7 +27,7 @@
         >
           <ThemePalette :theme="theme" />
           <span class="text-white text-sm font-medium">{{ theme.name }}</span>
-          <CheckIcon v-if="currentTheme === key" class="w-4 h-4 text-primary-400 ml-auto" />
+          <Check v-if="currentTheme === key" class="w-4 h-4 text-primary-400 ml-auto" />
         </button>
       </div>
     </Teleport>
@@ -35,7 +35,7 @@
 </template>
 
 <script setup lang="ts">
-import { CheckIcon, ChevronDownIcon } from "@heroicons/vue/24/solid";
+import { Check, ChevronDown } from "lucide-vue-next";
 import type { CSSProperties, PropType, Ref } from "vue";
 import { computed, defineComponent, h, onMounted, onUnmounted, ref } from "vue";
 import { type Theme, useTheme } from "@/composables/useTheme";
