@@ -42,8 +42,6 @@ const backgroundConfig = ref({
   randomRotation: true,
   randomOpacity: true,
   randomColors: true,
-  enableAnimation: false,
-  animationSpeed: 1.0,
   enableSlideAnimation: false,
   slideAnimationSpeed: 3.0,
   slideDirection: "right" as const,

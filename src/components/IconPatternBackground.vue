@@ -12,8 +12,6 @@ interface Props {
   randomRotation?: boolean;
   randomOpacity?: boolean;
   randomColors?: boolean;
-  enableAnimation?: boolean;
-  animationSpeed?: number;
   enableSlideAnimation?: boolean;
   slideAnimationSpeed?: number;
   slideDirection?: "right" | "left" | "down" | "up" | "diagonal-down-right" | "diagonal-up-left";
@@ -28,8 +26,6 @@ const props = withDefaults(defineProps<Props>(), {
   randomRotation: true,
   randomOpacity: true,
   randomColors: false,
-  enableAnimation: false,
-  animationSpeed: 1.0,
   enableSlideAnimation: false,
   slideAnimationSpeed: 3.0,
   slideDirection: "right",
@@ -44,15 +40,12 @@ const gridConfig = computed(() => ({
   randomRotation: props.randomRotation,
   randomOpacity: props.randomOpacity,
   randomColors: props.randomColors,
-  enableRotationAnimation: props.enableAnimation,
-  rotationSpeed: props.animationSpeed,
   enableSlideAnimation: props.enableSlideAnimation,
   slideSpeed: props.slideAnimationSpeed,
   slideDirection: props.slideDirection,
 }));
 
-const { visibleIcons, scrollOffsetX, scrollOffsetY, getCurrentRotation } =
-  useVirtualGrid(gridConfig);
+const { visibleIcons, scrollOffsetX, scrollOffsetY } = useVirtualGrid(gridConfig);
 </script>
 
 <template>
@@ -77,12 +70,12 @@ const { visibleIcons, scrollOffsetX, scrollOffsetY, getCurrentRotation } =
           height: props.iconSize + 'px',
           color: icon.color,
           opacity: icon.opacity,
-          transform: `rotate(${getCurrentRotation(icon)}deg)`,
+          transform: `rotate(${icon.rotation}deg)`,
           transformOrigin: 'center center',
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
-          willChange: props.enableAnimation || props.enableSlideAnimation ? 'transform' : 'auto',
+          willChange: props.enableSlideAnimation ? 'transform' : 'auto',
         }"
       >
         <component

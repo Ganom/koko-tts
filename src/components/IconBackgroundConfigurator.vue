@@ -11,8 +11,6 @@ interface BackgroundConfig {
   randomRotation: boolean;
   randomOpacity: boolean;
   randomColors: boolean;
-  enableAnimation: boolean;
-  animationSpeed: number;
   enableSlideAnimation: boolean;
   slideAnimationSpeed: number;
   slideDirection: "right" | "left" | "down" | "up" | "diagonal-down-right" | "diagonal-up-left";
@@ -298,17 +296,6 @@ const exportConfig = () => {
               </label>
               <label class="flex items-center gap-2 text-gray-400">
                 <input
-                  :checked="config.enableAnimation"
-                  @change="
-                    updateConfig('enableAnimation', ($event.target as HTMLInputElement).checked)
-                  "
-                  type="checkbox"
-                  class="rounded bg-gray-800 border-gray-700"
-                />
-                <span class="text-sm">Rotate Animation</span>
-              </label>
-              <label class="flex items-center gap-2 text-gray-400">
-                <input
                   :checked="config.enableSlideAnimation"
                   @change="
                     updateConfig(
@@ -323,23 +310,6 @@ const exportConfig = () => {
               </label>
             </div>
 
-            <!-- Animation Speed (only show when rotation animation is enabled) -->
-            <div v-if="config.enableAnimation">
-              <label class="block text-sm font-medium text-gray-400 mb-2">
-                Rotation Speed: {{ config.animationSpeed.toFixed(1) }}x
-              </label>
-              <input
-                :value="config.animationSpeed"
-                @input="
-                  updateConfig('animationSpeed', Number(($event.target as HTMLInputElement).value))
-                "
-                type="range"
-                min="0.1"
-                max="5.0"
-                step="0.1"
-                class="w-full"
-              />
-            </div>
 
             <div v-if="config.enableSlideAnimation" class="space-y-4">
               <!-- Slide Direction -->

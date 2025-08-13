@@ -22,8 +22,6 @@ export interface VirtualGridConfig {
   randomRotation: boolean;
   randomOpacity: boolean;
   randomColors: boolean;
-  enableRotationAnimation: boolean;
-  rotationSpeed: number;
   enableSlideAnimation: boolean;
   slideSpeed: number;
   slideDirection: "right" | "left" | "down" | "up" | "diagonal-down-right" | "diagonal-up-left";
@@ -110,7 +108,6 @@ export function useVirtualGrid(config: Ref<VirtualGridConfig>) {
 
   let animationId: number | null = null;
   const animationStartTime = ref(0);
-  const currentTime = ref(0);
 
   const startAnimation = () => {
     if (animationId) return;
@@ -118,8 +115,6 @@ export function useVirtualGrid(config: Ref<VirtualGridConfig>) {
     animationStartTime.value = performance.now();
 
     const animate = (timestamp: number) => {
-      currentTime.value = timestamp;
-
       if (config.value.enableSlideAnimation) {
         const elapsed = (timestamp - animationStartTime.value) / 1000; // seconds
         const speed = config.value.slideSpeed * 30; // pixels per second
@@ -154,7 +149,7 @@ export function useVirtualGrid(config: Ref<VirtualGridConfig>) {
         scrollOffsetY.value = deltaY;
       }
 
-      if (config.value.enableSlideAnimation || config.value.enableRotationAnimation) {
+      if (config.value.enableSlideAnimation) {
         animationId = requestAnimationFrame(animate);
       }
     };
@@ -215,23 +210,11 @@ export function useVirtualGrid(config: Ref<VirtualGridConfig>) {
     },
   );
 
-  const getCurrentRotation = (icon: VirtualIcon): number => {
-    if (!config.value.enableRotationAnimation) {
-      return icon.rotation;
-    }
-
-    const elapsed = (currentTime.value - animationStartTime.value) / 1000;
-    const rotationSpeed = config.value.rotationSpeed * 18; // degrees per second (360° in 20s at 1x speed)
-    const animationRotation = (elapsed * rotationSpeed) % 360;
-
-    return icon.rotation + animationRotation;
-  };
 
   return {
     visibleIcons,
     scrollOffsetX,
     scrollOffsetY,
-    getCurrentRotation,
     patternSize,
   };
 }
