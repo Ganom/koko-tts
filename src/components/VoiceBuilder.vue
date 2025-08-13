@@ -3,7 +3,7 @@
     <div
       class="anime-card bg-gradient-dark rounded-4xl p-8 border border-primary-700/30">
       <div class="text-center mb-8">
-        <h2 class="text-gradient text-3xl font-bold mb-3">TTS Message Builder</h2>
+        <h2 class="text-gradient-violet-pink text-3xl font-bold mb-3">TTS Message Builder</h2>
         <p class="text-gray-300 text-lg">Build and preview your TTS Message</p>
       </div>
 

@@ -130,6 +130,7 @@
   }
 }
 
+
 /* Component styles using theme variables */
 
 .bg-gradient-dark {
@@ -142,6 +143,14 @@
 
 .text-gradient {
   background: linear-gradient(to right, var(--theme-primary-400), var(--theme-secondary-400));
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+}
+
+.text-gradient-violet-pink {
+  background: linear-gradient(to right, #f472b6, #fbbf24);
   background-clip: text;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;

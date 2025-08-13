@@ -5,7 +5,7 @@
       <ThemeSelector />
     </div>
 
-    <h1 class="text-4xl md:text-6xl font-bold text-gradient mb-4 animate-float">
+    <h1 class="text-4xl md:text-6xl font-bold text-gradient-violet-pink mb-4 animate-float">
       Koko TTS Voices
     </h1>
     <!-- Decorative elements -->
