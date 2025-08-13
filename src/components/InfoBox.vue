@@ -207,15 +207,44 @@ const customizationCommands = [
 
 // --- DYNAMIC STYLING HELPERS ---
 
-const getCardClasses = (theme: string) => [
-  'glass rounded-2xl p-6 transition-all duration-300',
-  `border border-${theme}-700/30 hover:border-${theme}-500/60`
-];
+const getCardClasses = (theme: string) => {
+  const baseClasses = 'glass rounded-2xl p-6 transition-all duration-300';
+  switch (theme) {
+    case 'primary':
+      return `${baseClasses} border border-primary-700/30 hover:border-primary-500/60`;
+    case 'secondary':
+      return `${baseClasses} border border-secondary-700/30 hover:border-secondary-500/60`;
+    case 'accent':
+      return `${baseClasses} border border-accent-700/30 hover:border-accent-500/60`;
+    default:
+      return `${baseClasses} border border-primary-700/30 hover:border-primary-500/60`;
+  }
+};
 
-const getIconWrapperClasses = (theme: string) => `bg-${theme}-600`;
+const getIconWrapperClasses = (theme: string) => {
+  switch (theme) {
+    case 'primary':
+      return 'bg-primary-600';
+    case 'secondary':
+      return 'bg-secondary-600';
+    case 'accent':
+      return 'bg-accent-600';
+    default:
+      return 'bg-primary-600';
+  }
+};
 
-const getCommandClasses = (theme: string) => [
-  'bg-dark-900/50 rounded-lg p-3 font-mono text-sm',
-  `border border-${theme}-700/20`
-];
+const getCommandClasses = (theme: string) => {
+  const baseClasses = 'bg-dark-900/50 rounded-lg p-3 font-mono text-sm';
+  switch (theme) {
+    case 'primary':
+      return `${baseClasses} border border-primary-700/20`;
+    case 'secondary':
+      return `${baseClasses} border border-secondary-700/20`;
+    case 'accent':
+      return `${baseClasses} border border-accent-700/20`;
+    default:
+      return `${baseClasses} border border-primary-700/20`;
+  }
+};
 </script>

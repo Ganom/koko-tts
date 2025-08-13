@@ -145,19 +145,49 @@ const ButtonGroup = defineComponent({
   },
   emits: ['update:modelValue'],
   setup(props, {emit}) {
+    const getButtonClasses = (opt: any, isSelected: boolean) => {
+      const baseClasses = 'p-3 rounded-lg border text-white font-medium transition-colors text-center';
+      const bgClasses = isSelected ? getBgClass(opt.theme) : 'bg-dark-700 hover:bg-dark-600';
+      const borderClasses = getBorderClass(opt.theme);
+      return `${baseClasses} ${bgClasses} ${borderClasses}`;
+    };
+
+    const getBgClass = (theme: string) => {
+      switch (theme) {
+        case 'primary': return 'bg-primary-600';
+        case 'secondary': return 'bg-secondary-600';
+        case 'accent': return 'bg-accent-600';
+        default: return 'bg-primary-600';
+      }
+    };
+
+    const getBorderClass = (theme: string) => {
+      switch (theme) {
+        case 'primary': return 'border-primary-700/40';
+        case 'secondary': return 'border-secondary-700/40';
+        case 'accent': return 'border-accent-700/40';
+        default: return 'border-primary-700/40';
+      }
+    };
+
+    const getTextClass = (theme: string) => {
+      switch (theme) {
+        case 'primary': return 'text-sm text-primary-300';
+        case 'secondary': return 'text-sm text-secondary-300';
+        case 'accent': return 'text-sm text-accent-300';
+        default: return 'text-sm text-primary-300';
+      }
+    };
+
     return () => h('div', {class: 'grid grid-cols-3 gap-3'},
       props.options.map(opt =>
         h('button', {
           onClick: () => emit('update:modelValue', opt.value),
-          class: [
-            'p-3 rounded-lg border text-white font-medium transition-colors text-center',
-            props.modelValue === opt.value ? `bg-${opt.theme}-600` : 'bg-dark-700 hover:bg-dark-600',
-            `border-${opt.theme}-700/40`
-          ],
+          class: getButtonClasses(opt, props.modelValue === opt.value),
         }, [
           opt.label,
           opt.detail ? h('br') : null,
-          opt.detail ? h('span', {class: `text-sm text-${opt.theme}-300`}, opt.detail) : null,
+          opt.detail ? h('span', {class: getTextClass(opt.theme)}, opt.detail) : null,
         ])
       )
     );
