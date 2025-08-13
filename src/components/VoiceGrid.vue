@@ -19,7 +19,7 @@
       v-motion="gridMotion"
     >
       <div
-        v-for="(voice, index) in filteredVoices"
+        v-for="voice in filteredVoices"
         :key="voice.name"
         :class="getVoiceCardClasses(voice)"
         v-motion="{
@@ -29,7 +29,7 @@
             opacity: 1,
             y: 0,
             scale: 1,
-            transition: { delay: Math.min(index * 30, 300), duration: 250, ease: 'easeOut' },
+            transition: { delay: 30, duration: 150, ease: 'easeOut' },
           },
           leave: { opacity: 0, scale: 0.9, transition: { duration: 150, ease: 'easeIn' } },
           hovered: { scale: 1.02, transition: { duration: 150 } },
