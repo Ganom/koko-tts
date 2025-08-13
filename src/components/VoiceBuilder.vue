@@ -141,22 +141,24 @@ const FormSection = defineComponent({
   },
 });
 
+interface ButtonOption {
+  value: string | number;
+  label: string;
+  detail?: string;
+  theme: string;
+}
+
 const ButtonGroup = defineComponent({
   props: {
     modelValue: { type: [String, Number], required: true },
     options: {
-      type: Array as () => Array<{
-        value: string | number;
-        label: string;
-        detail?: string;
-        theme: string;
-      }>,
+      type: Array as () => Array<ButtonOption>,
       required: true,
     },
   },
   emits: ["update:modelValue"],
   setup(props, { emit }) {
-    const getButtonClasses = (opt: any, isSelected: boolean) => {
+    const getButtonClasses = (opt: ButtonOption, isSelected: boolean) => {
       const baseClasses =
         "p-3 rounded-lg border text-white font-medium transition-colors text-center";
       const bgClasses = isSelected
@@ -426,7 +428,9 @@ const commandParts = computed(() => {
 
 function triggerFlash() {
   bitAmountUpdated.value = true;
-  setTimeout(() => (bitAmountUpdated.value = false), 1500);
+  setTimeout(() => {
+    bitAmountUpdated.value = false;
+  }, 1500);
 }
 
 function updateBitAmountFromGrid(isSearching: boolean = false) {
@@ -448,7 +452,9 @@ async function copyCommand() {
   if (!generatedCommand.value || copied.value) return;
   await navigator.clipboard.writeText(generatedCommand.value);
   copied.value = true;
-  setTimeout(() => (copied.value = false), 2000);
+  setTimeout(() => {
+    copied.value = false;
+  }, 2000);
 }
 
 // --- WATCHERS & LIFECYCLE ---

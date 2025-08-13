@@ -52,7 +52,11 @@ export function useAudio(): UseAudioReturn {
       _setupAudioEvents(audio, voiceName);
       audioCache.set(voiceName, audio);
     }
-    return audioCache.get(voiceName)!;
+    const audio = audioCache.get(voiceName);
+    if (!audio) {
+      throw new Error(`Failed to create audio for voice: ${voiceName}`);
+    }
+    return audio;
   };
 
   // --- ACTIONS ---

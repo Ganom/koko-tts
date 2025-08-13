@@ -101,8 +101,9 @@ const filteredVoices = computed<Voice[]>(() => {
       voice.name.toLowerCase().includes(query),
     );
   } else if (!isSearching.value && props.currentBitAmount !== undefined) {
+    const bitAmount = props.currentBitAmount;
     voicesToDisplay = voicesToDisplay.filter(
-      (voice) => voice.cost <= props.currentBitAmount!,
+      (voice) => voice.cost <= bitAmount,
     );
   }
 
