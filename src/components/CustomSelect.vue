@@ -19,6 +19,8 @@
         @mouseenter="isDropdownHovered = true"
         @mouseleave="isDropdownHovered = false"
         @wheel="handleDropdownWheel"
+        @touchstart="handleDropdownTouch"
+        @touchmove="handleDropdownTouch"
       >
         <div
           v-for="(option, index) in options"
@@ -36,7 +38,7 @@
 
 <script setup lang="ts">
 import { ChevronDownIcon } from "@heroicons/vue/24/solid";
-import { type CSSProperties, computed, nextTick, onMounted, onUnmounted, ref } from "vue";
+import { computed, type CSSProperties, nextTick, onMounted, onUnmounted, ref } from "vue";
 
 // --- TYPES ---
 interface SelectOption {
@@ -98,8 +100,7 @@ const dropdownStyle = computed<CSSProperties>(() => ({
 
 // --- CORE LOGIC ---
 
-const open = () => {
-  isOpen.value = true;
+const updateDropdownPosition = () => {
   const rect = triggerRef.value?.getBoundingClientRect();
   if (rect) {
     dropdownPosition.value = {
@@ -108,6 +109,11 @@ const open = () => {
       width: rect.width,
     };
   }
+};
+
+const open = () => {
+  isOpen.value = true;
+  updateDropdownPosition();
 
   nextTick(() => {
     const currentIndex = props.options.findIndex((option) => option.value === props.modelValue);
@@ -198,6 +204,10 @@ const handleDropdownWheel = (event: WheelEvent) => {
   }
 };
 
+const handleDropdownTouch = (event: TouchEvent) => {
+  event.stopPropagation();
+};
+
 // --- DYNAMIC STYLING ---
 
 const getOptionClasses = (option: SelectOption, index: number) => {
@@ -229,17 +239,23 @@ const handlePageScroll = (event: Event) => {
   if (isOpen.value && !isDropdownHovered.value && event instanceof WheelEvent) {
     close();
   }
+
+  if (isOpen.value) {
+    updateDropdownPosition();
+  }
 };
 
 onMounted(() => {
   document.addEventListener("keydown", handleKeydown);
   document.addEventListener("click", handleClickOutside, true);
   document.addEventListener("wheel", handlePageScroll, true);
+  document.addEventListener("scroll", handlePageScroll, true);
 });
 
 onUnmounted(() => {
   document.removeEventListener("keydown", handleKeydown);
   document.removeEventListener("click", handleClickOutside, true);
   document.removeEventListener("wheel", handlePageScroll, true);
+  document.removeEventListener("scroll", handlePageScroll, true);
 });
 </script>

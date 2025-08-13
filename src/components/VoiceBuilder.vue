@@ -54,13 +54,13 @@
             <textarea
               v-model="message"
               placeholder="Enter your message here..."
-              maxlength="500"
               :class="[
                 'w-full bg-dark-900/60 border rounded-lg px-4 py-3 text-white focus:outline-none resize-none',
                 inputClasses,
                 { 'border-red-500 focus:border-red-500 focus:ring-red-500/50': isMessageTooLong },
               ]"
               rows="3"
+              @input="handleMessageInput"
             ></textarea>
             <div class="flex justify-between items-center mt-2">
               <p v-if="isMessageTooLong" class="text-sm text-red-400">
@@ -108,24 +108,25 @@
         class="anime-card bg-gradient-dark rounded-2xl p-6 border border-primary-700/30"
         v-motion="motions.preview"
       >
-        <h4 class="text-white font-bold mb-4 flex items-center">
-          <Bars3Icon class="w-5 h-5 mr-2 text-primary-400" />
-          TTS Preview
-        </h4>
+        <div class="flex items-center justify-between mb-4">
+          <h4 class="text-white font-bold flex items-center">
+            <Bars3Icon class="w-5 h-5 mr-2 text-primary-400" />
+            TTS Preview
+          </h4>
+          <button
+            v-if="commandParts.length"
+            @click="copyCommand"
+            class="flex items-center gap-2 px-3 py-1.5 bg-primary-600 hover:bg-primary-700 text-white text-xs font-medium rounded transition-colors whitespace-nowrap"
+          >
+            <component :is="copied ? CheckIcon : ClipboardIcon" class="w-4 h-4" />
+            <span>{{ copied ? "Copied!" : "Copy" }}</span>
+          </button>
+        </div>
         <div class="bg-dark-900/50 border border-primary-700/20 rounded-lg p-4 font-mono text-md">
-          <div v-if="commandParts.length" class="flex items-start justify-between gap-4">
-            <div class="break-all flex-1 min-h-[2lh]">
-              <span v-for="(part, index) in commandParts" :key="index" :class="part.class">
-                {{ part.text }}
-              </span>
-            </div>
-            <button
-              @click="copyCommand"
-              class="flex items-center gap-2 px-3 py-1.5 bg-primary-600 hover:bg-primary-700 text-white text-xs font-medium rounded transition-colors whitespace-nowrap"
-            >
-              <component :is="copied ? CheckIcon : ClipboardIcon" class="w-4 h-4" />
-              <span>{{ copied ? "Copied!" : "Copy" }}</span>
-            </button>
+          <div v-if="commandParts.length" class="break-all min-h-[2lh]">
+            <span v-for="(part, index) in commandParts" :key="index" :class="part.class">
+              {{ part.text }}
+            </span>
           </div>
           <div v-else class="text-gray-500 italic">
             Configure your voice message to see the TTS preview
@@ -403,7 +404,7 @@ function checkVoiceEligibility() {
 // --- COMMAND GENERATION ---
 
 const displayMessage = computed(
-  () => message.value.trim() || getVoiceByName(selectedVoice.value)?.text || "",
+  () => message.value || getVoiceByName(selectedVoice.value)?.text || "",
 );
 
 const generatedCommand = computed(() => {
@@ -422,60 +423,51 @@ const generatedCommand = computed(() => {
 const commandParts = computed(() => {
   if (!generatedCommand.value) return [];
 
-  const command = generatedCommand.value;
-  const characterLimit = 500;
-  
-  if (command.length <= characterLimit) {
-    // Normal rendering when under limit
-    const parts = [];
-    if (redeemMethod.value === "cheer") {
-      parts.push({ text: `Cheer${bitAmount.value} `, class: "text-primary-300" });
-    }
-
-    const voiceTagMatch = command.match(/(\[.*?])/);
-    if (voiceTagMatch) {
-      parts.push({ text: `${voiceTagMatch[1]} `, class: "text-secondary-400" });
-    }
-
-    parts.push({ text: displayMessage.value, class: "text-accent-400" });
-    return parts;
-  } else {
-    // Split at character limit and highlight overflow
-    const validPart = command.substring(0, characterLimit);
-    const overflowPart = command.substring(characterLimit);
-    
-    const parts = [];
-    
-    // Parse the valid part normally
-    let remaining = validPart;
-    if (redeemMethod.value === "cheer") {
-      const cheerPrefix = `Cheer${bitAmount.value} `;
-      if (remaining.startsWith(cheerPrefix)) {
-        parts.push({ text: cheerPrefix, class: "text-primary-300" });
-        remaining = remaining.substring(cheerPrefix.length);
-      }
-    }
-
-    const voiceTagMatch = remaining.match(/^(\[.*?] )/);
-    if (voiceTagMatch) {
-      parts.push({ text: voiceTagMatch[1], class: "text-secondary-400" });
-      remaining = remaining.substring(voiceTagMatch[1].length);
-    }
-
-    if (remaining) {
-      parts.push({ text: remaining, class: "text-accent-400" });
-    }
-
-    // Add the overflow part with red highlighting
-    if (overflowPart) {
-      parts.push({ text: overflowPart, class: "text-accent-400 bg-red-500/30 border border-red-500/50 rounded px-1" });
-    }
-
-    return parts;
+  const parts = [];
+  if (redeemMethod.value === "cheer") {
+    parts.push({ text: `Cheer${bitAmount.value} `, class: "text-primary-300" });
   }
+
+  const voiceTagMatch = generatedCommand.value.match(/(\[.*?])/);
+  if (voiceTagMatch) {
+    parts.push({ text: `${voiceTagMatch[1]} `, class: "text-secondary-400" });
+  }
+
+  parts.push({ text: displayMessage.value, class: "text-accent-400" });
+  return parts;
 });
 
 // --- METHODS & ACTIONS ---
+
+function handleMessageInput(event: Event) {
+  const target = event.target as HTMLTextAreaElement;
+  const newMessage = target.value;
+
+  if (!selectedVoice.value) {
+    message.value = newMessage;
+    return;
+  }
+
+  const voiceName = selectedVoice.value.toLowerCase();
+  const model = selectedModel.value !== "none" ? `:${selectedModel.value}` : "";
+  const effect = textEffect.value !== "none" ? `:${textEffect.value}` : "";
+  const voiceTag = `[${voiceName}${model}${effect}] `;
+
+  let prefixLength = voiceTag.length;
+  if (redeemMethod.value === "cheer") {
+    prefixLength += `Cheer${bitAmount.value} `.length;
+  }
+
+  const maxMessageLength = 500 - prefixLength;
+
+  if (newMessage.length > maxMessageLength) {
+    message.value = newMessage.substring(0, maxMessageLength);
+    target.value = message.value;
+    target.setSelectionRange(message.value.length, message.value.length);
+  } else {
+    message.value = newMessage;
+  }
+}
 
 function triggerFlash() {
   bitAmountUpdated.value = true;

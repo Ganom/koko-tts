@@ -13,7 +13,7 @@
     </div>
 
     <div
-      class="voice-grid grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 pr-2"
+      class="voice-grid grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 pr-2 justify-items-center sm:justify-items-stretch"
       @wheel="handleWheel"
       @mousedown.prevent
       v-motion="gridMotion"
@@ -78,7 +78,6 @@ interface Props {
 
 interface Emits {
   (e: "update:selectedVoice", voiceName: string): void;
-
   (e: "change", isSearching: boolean): void;
 }
 
@@ -140,7 +139,7 @@ const isUnaffordable = (voice: Voice) =>
 
 const getVoiceCardClasses = (voice: Voice) => {
   const base =
-    "group relative cursor-pointer rounded-lg border-2 p-4 text-center transition-all duration-200 m-1";
+    "group relative cursor-pointer rounded-lg border-2 p-4 text-center transition-all duration-200 m-1 sm:w-auto w-48";
 
   if (props.selectedVoice === voice.name) {
     return [base, "border-primary-500 bg-primary-500/20 scale-105 shadow-lg"];
@@ -176,9 +175,15 @@ const gridMotion = {
 
 <style scoped>
 .voice-grid {
-  height: 550px;
+  height: 350px;
   overflow-y: scroll;
   align-content: start;
+}
+
+@media (min-width: 640px) {
+  .voice-grid {
+    height: 550px;
+  }
 }
 
 .voice-avatar {
