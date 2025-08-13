@@ -134,26 +134,6 @@
 
 /* Component styles using theme variables */
 
-.bg-gradient-dark {
-  background: linear-gradient(180deg, var(--theme-dark-700) 0%, var(--theme-dark-800) 100%);
-}
-
-.bg-gradient-radial-primary {
-  background: radial-gradient(
-    circle at center,
-    color-mix(in srgb, var(--theme-primary-500) 30%, transparent) 0%,
-    transparent 70%
-  );
-}
-
-.text-gradient {
-  background: linear-gradient(to right, var(--theme-primary-400), var(--theme-secondary-400));
-  background-clip: text;
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  color: transparent;
-}
-
 .text-gradient-violet-pink {
   background: linear-gradient(to right, #f472b6, #fbbf24);
   background-clip: text;
@@ -162,48 +142,12 @@
   color: transparent;
 }
 
-.shadow-primary {
-  box-shadow: 0 4px 20px -4px color-mix(in srgb, var(--theme-primary-500) 20%, transparent);
-}
-
-.shadow-secondary {
-  box-shadow: 0 4px 20px -4px color-mix(in srgb, var(--theme-secondary-500) 20%, transparent);
-}
-
-.shadow-accent {
-  box-shadow: 0 4px 20px -4px color-mix(in srgb, var(--theme-accent-500) 15%, transparent);
-}
-
-.border-gradient {
-  border-image: linear-gradient(135deg, var(--theme-primary-500), var(--theme-secondary-500)) 1;
-}
-
-.bg-gradient-radial-violet {
-  background: radial-gradient(
-    circle at center,
-    color-mix(in srgb, var(--theme-primary-500) 30%, transparent) 0%,
-    transparent 70%
-  );
-}
-
-.shadow-violet {
-  box-shadow: 0 4px 20px -4px color-mix(in srgb, var(--theme-primary-500) 20%, transparent);
-}
-
-.shadow-pink {
-  box-shadow: 0 4px 20px -4px color-mix(in srgb, var(--theme-secondary-500) 20%, transparent);
-}
-
-.shadow-gold {
-  box-shadow: 0 4px 20px -4px color-mix(in srgb, var(--theme-accent-500) 15%, transparent);
-}
-
 .anime-card {
-  background: var(--theme-dark-800);
-  box-shadow:
-    0 20px 20px color-mix(in srgb, var(--theme-dark-950) 60%, transparent),
-    inset 0 1px 0 color-mix(in srgb, var(--theme-gray-100) 5%, transparent),
-    inset 0 -1px 0 color-mix(in srgb, var(--theme-dark-950) 20%, transparent);
+  background: color-mix(in srgb, var(--theme-dark-900) 30%, transparent);
+  backdrop-filter: blur(8px);
+  box-shadow: 0 20px 20px color-mix(in srgb, var(--theme-dark-950) 60%, transparent),
+  inset 0 1px 0 color-mix(in srgb, var(--theme-gray-100) 5%, transparent),
+  inset 0 -1px 0 color-mix(in srgb, var(--theme-dark-950) 20%, transparent);
   border: 2px solid var(--theme-primary-700/30) !important;
 }
 

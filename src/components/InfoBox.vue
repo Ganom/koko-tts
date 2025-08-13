@@ -1,7 +1,7 @@
 <template>
   <div class="max-w-6xl mx-auto mb-16">
     <div
-      class="anime-card bg-gradient-dark rounded-4xl p-8 mb-8 border-2 border-primary-500/30"
+      class="anime-card rounded-4xl p-8 mb-8 border-2 border-primary-500/30"
       v-motion="containerMotion"
     >
       <div class="text-center mb-8" v-motion="headerMotion">
