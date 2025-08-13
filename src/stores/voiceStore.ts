@@ -1,9 +1,7 @@
 import {defineStore} from 'pinia';
 import {computed, ref} from 'vue';
-import type {Voice, VoiceMap, VoiceSection} from '@/types/voice';
+import type {Voice, VoiceMap} from '@/types/voice';
 
-// A constant for the premium cost threshold
-const PREMIUM_COST_THRESHOLD = 1000;
 
 export const useVoiceStore = defineStore('voice', () => {
   // --- STATE ---
@@ -16,7 +14,6 @@ export const useVoiceStore = defineStore('voice', () => {
   const error = ref<string | null>(null);
 
   const searchQuery = ref('');
-  const showPremiumOnly = ref(false);
 
   // --- GETTERS & SELECTORS ---
 
@@ -32,39 +29,16 @@ export const useVoiceStore = defineStore('voice', () => {
     const query = searchQuery.value.toLowerCase().trim();
 
     return voices.value.filter(voice => {
-      if (showPremiumOnly.value && voice.cost < PREMIUM_COST_THRESHOLD) {
-        return false;
-      }
-      if (query && !voice.name.toLowerCase().includes(query) && !voice.text.toLowerCase().includes(query)) {
-        return false;
-      }
-      return true;
+      return !(query && !voice.name.toLowerCase().includes(query) && !voice.text.toLowerCase().includes(query));
     });
   });
 
-  const voiceSections = computed<VoiceSection[]>(() => {
-    if (!filteredVoices.value.length) return [];
-
-    const grouped = filteredVoices.value.reduce((acc, voice) => {
-      const key = voice.cost >= PREMIUM_COST_THRESHOLD ? 'Premium Voices' : `${voice.cost} Bits`;
-      if (!acc[key]) {
-        acc[key] = [];
-      }
-      acc[key].push(voice);
-      return acc;
-    }, {} as Record<string, Voice[]>);
-
-    return Object.entries(grouped)
-      .map(([title, voices]) => ({
-        title,
-        voices: voices.sort((a, b) => a.name.localeCompare(b.name)),
-        isPremium: title === 'Premium Voices',
-      }))
-      .sort((a, b) => {
-        if (a.isPremium) return -1;
-        if (b.isPremium) return 1;
-        return parseInt(b.title) - parseInt(a.title);
-      });
+  const sortedVoices = computed<Voice[]>(() => {
+    return filteredVoices.value.sort((a, b) => {
+      const costDiff = b.cost - a.cost;
+      if (costDiff !== 0) return costDiff;
+      return a.name.localeCompare(b.name);
+    });
   });
 
   // --- ACTIONS ---
@@ -105,12 +79,11 @@ export const useVoiceStore = defineStore('voice', () => {
     isLoading,
     error,
     searchQuery,
-    showPremiumOnly,
     minCost,
     maxCost,
     // Getters
     filteredVoices,
-    voiceSections,
+    sortedVoices,
     getVoiceByName,
     // Actions
     loadVoices,

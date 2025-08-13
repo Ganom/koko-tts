@@ -257,7 +257,7 @@ const bitAmountUpdated = ref(false);
 
 // --- VOICE DATA & ELIGIBILITY ---
 
-const allVoices = computed(() => voiceStore.voiceSections.flatMap(section => section.voices));
+const allVoices = computed(() => voiceStore.sortedVoices);
 const getVoiceByName = (name: string) => allVoices.value.find(v => v.name === name);
 
 const bitAmountForGrid = computed(() => {
