@@ -41,7 +41,6 @@ export function useTheme() {
     currentTheme.value = theme;
   };
 
-  // Watch for theme changes and update document attribute
   watch(currentTheme, (newTheme) => {
     document.documentElement.setAttribute("data-theme", newTheme);
     localStorage.setItem(THEME_KEY, newTheme);

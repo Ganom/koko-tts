@@ -11,7 +11,6 @@ const app = createApp(App);
 app.use(createPinia());
 app.use(MotionPlugin);
 
-// Initialize theme before mounting
 const { initTheme } = useTheme();
 initTheme();
 

@@ -235,11 +235,7 @@ const handleClickOutside = (event: MouseEvent) => {
   }
 };
 
-const handlePageScroll = (event: Event) => {
-  if (isOpen.value && !isDropdownHovered.value && event instanceof WheelEvent) {
-    close();
-  }
-
+const handlePageScroll = () => {
   if (isOpen.value) {
     updateDropdownPosition();
   }
