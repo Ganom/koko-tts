@@ -176,7 +176,7 @@ const gridMotion = {
 
 <style scoped>
 .voice-grid {
-  height: 525px;
+  height: 550px;
   overflow-y: scroll;
   align-content: start;
 }

@@ -9,7 +9,7 @@
         <p class="text-gray-300 text-lg">Build and preview your TTS Message</p>
       </div>
 
-      <div class="grid lg:grid-cols-2 gap-8 mb-8">
+      <div class="grid lg:grid-cols-2 gap-8 mb-8 items-start">
         <div class="space-y-6" v-motion="motions.controls">
           <FormSection title="Redeem Method">
             <ButtonGroup
@@ -54,12 +54,20 @@
             <textarea
               v-model="message"
               placeholder="Enter your message here..."
+              maxlength="500"
               :class="[
                 'w-full bg-dark-900/60 border rounded-lg px-4 py-3 text-white focus:outline-none resize-none',
                 inputClasses,
+                { 'border-red-500 focus:border-red-500 focus:ring-red-500/50': isMessageTooLong },
               ]"
               rows="3"
             ></textarea>
+            <div class="flex justify-between items-center mt-2">
+              <p v-if="isMessageTooLong" class="text-sm text-red-400">
+                Message exceeds 500 character limit
+              </p>
+              <p class="text-sm text-gray-400 ml-auto">{{ generatedCommand.length }}/500</p>
+            </div>
           </FormSection>
 
           <FormSection title="Text Effect">
@@ -104,9 +112,9 @@
           <Bars3Icon class="w-5 h-5 mr-2 text-primary-400" />
           TTS Preview
         </h4>
-        <div class="bg-dark-900/50 border border-primary-700/20 rounded-lg p-4 font-mono text-sm">
-          <div v-if="commandParts.length" class="flex items-center justify-between gap-4">
-            <div class="break-all flex-1">
+        <div class="bg-dark-900/50 border border-primary-700/20 rounded-lg p-4 font-mono text-md">
+          <div v-if="commandParts.length" class="flex items-start justify-between gap-4">
+            <div class="break-all flex-1 min-h-[2lh]">
               <span v-for="(part, index) in commandParts" :key="index" :class="part.class">
                 {{ part.text }}
               </span>
@@ -384,6 +392,8 @@ const minBitAmount = computed(() => {
   return Math.max(voiceStore.minCost, voiceCost);
 });
 
+const isMessageTooLong = computed(() => generatedCommand.value.length > 500);
+
 function checkVoiceEligibility() {
   if (selectedVoice.value && !eligibleVoices.value.some((v) => v.name === selectedVoice.value)) {
     selectedVoice.value = "";
@@ -412,18 +422,57 @@ const generatedCommand = computed(() => {
 const commandParts = computed(() => {
   if (!generatedCommand.value) return [];
 
-  const parts = [];
-  if (redeemMethod.value === "cheer") {
-    parts.push({ text: `Cheer${bitAmount.value} `, class: "text-primary-300" });
-  }
+  const command = generatedCommand.value;
+  const characterLimit = 500;
+  
+  if (command.length <= characterLimit) {
+    // Normal rendering when under limit
+    const parts = [];
+    if (redeemMethod.value === "cheer") {
+      parts.push({ text: `Cheer${bitAmount.value} `, class: "text-primary-300" });
+    }
 
-  const voiceTagMatch = generatedCommand.value.match(/(\[.*?])/);
-  if (voiceTagMatch) {
-    parts.push({ text: `${voiceTagMatch[1]} `, class: "text-secondary-400" });
-  }
+    const voiceTagMatch = command.match(/(\[.*?])/);
+    if (voiceTagMatch) {
+      parts.push({ text: `${voiceTagMatch[1]} `, class: "text-secondary-400" });
+    }
 
-  parts.push({ text: displayMessage.value, class: "text-accent-400" });
-  return parts;
+    parts.push({ text: displayMessage.value, class: "text-accent-400" });
+    return parts;
+  } else {
+    // Split at character limit and highlight overflow
+    const validPart = command.substring(0, characterLimit);
+    const overflowPart = command.substring(characterLimit);
+    
+    const parts = [];
+    
+    // Parse the valid part normally
+    let remaining = validPart;
+    if (redeemMethod.value === "cheer") {
+      const cheerPrefix = `Cheer${bitAmount.value} `;
+      if (remaining.startsWith(cheerPrefix)) {
+        parts.push({ text: cheerPrefix, class: "text-primary-300" });
+        remaining = remaining.substring(cheerPrefix.length);
+      }
+    }
+
+    const voiceTagMatch = remaining.match(/^(\[.*?] )/);
+    if (voiceTagMatch) {
+      parts.push({ text: voiceTagMatch[1], class: "text-secondary-400" });
+      remaining = remaining.substring(voiceTagMatch[1].length);
+    }
+
+    if (remaining) {
+      parts.push({ text: remaining, class: "text-accent-400" });
+    }
+
+    // Add the overflow part with red highlighting
+    if (overflowPart) {
+      parts.push({ text: overflowPart, class: "text-accent-400 bg-red-500/30 border border-red-500/50 rounded px-1" });
+    }
+
+    return parts;
+  }
 });
 
 // --- METHODS & ACTIONS ---
