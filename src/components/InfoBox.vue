@@ -1,7 +1,17 @@
 <template>
   <div class="max-w-6xl mx-auto mb-16">
-    <div class="anime-card bg-gradient-dark rounded-4xl p-8 mb-8 border border-primary-700/30">
-      <div class="text-center mb-8">
+    <div 
+      class="anime-card bg-gradient-dark rounded-4xl p-8 mb-8 border border-primary-700/30"
+      v-motion
+      :initial="{ opacity: 0, y: 50 }"
+:enter="{ opacity: 1, y: 0, transition: { delay: 200, duration: 400, ease: 'easeOut' } }"
+    >
+      <div 
+        class="text-center mb-8"
+        v-motion
+        :initial="{ opacity: 0, y: 20 }"
+:enter="{ opacity: 1, y: 0, transition: { delay: 250, duration: 300 } }"
+      >
         <h2 class="text-gradient-violet-pink text-3xl font-bold mb-3">Make Your Message Heard</h2>
         <p class="text-gray-300 text-lg">Use Bits, Channel Points, or Subs to have your message read
           aloud on stream!</p>
@@ -12,7 +22,12 @@
           Methods</h3>
         <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
           <div
-            class="glass rounded-2xl p-6 border border-primary-700/30 hover:border-primary-500/60 transition-all duration-300">
+            class="glass rounded-2xl p-6 border border-primary-700/30 hover:border-primary-500/60 transition-all duration-300"
+            v-motion
+            :initial="{ opacity: 0, y: 30, scale: 0.9 }"
+:enter="{ opacity: 1, y: 0, scale: 1, transition: { delay: 300, duration: 300, ease: 'easeOut' } }"
+            :hover="{ scale: 1.02, transition: { duration: 200 } }"
+          >
             <div class="flex items-center mb-4">
               <div
                 class="w-12 h-12 bg-primary-600 rounded-full flex items-center justify-center mr-4 flex-shrink-0">
@@ -30,7 +45,12 @@
           </div>
 
           <div
-            class="glass rounded-2xl p-6 border border-secondary-700/30 hover:border-secondary-500/60 transition-all duration-300">
+            class="glass rounded-2xl p-6 border border-secondary-700/30 hover:border-secondary-500/60 transition-all duration-300"
+            v-motion
+            :initial="{ opacity: 0, y: 30, scale: 0.9 }"
+:enter="{ opacity: 1, y: 0, scale: 1, transition: { delay: 400, duration: 300, ease: 'easeOut' } }"
+            :hover="{ scale: 1.02, transition: { duration: 200 } }"
+          >
             <div class="flex items-center mb-4">
               <div
                 class="w-12 h-12 bg-secondary-600 rounded-full flex items-center justify-center mr-4 flex-shrink-0">
@@ -46,7 +66,12 @@
           </div>
 
           <div
-            class="glass rounded-2xl p-6 border border-accent-700/30 hover:border-accent-500/60 transition-all duration-300">
+            class="glass rounded-2xl p-6 border border-accent-700/30 hover:border-accent-500/60 transition-all duration-300"
+            v-motion
+            :initial="{ opacity: 0, y: 30, scale: 0.9 }"
+:enter="{ opacity: 1, y: 0, scale: 1, transition: { delay: 500, duration: 300, ease: 'easeOut' } }"
+            :hover="{ scale: 1.02, transition: { duration: 200 } }"
+          >
             <div class="flex items-center mb-4">
               <div
                 class="w-12 h-12 bg-accent-600 rounded-full flex items-center justify-center mr-4 flex-shrink-0">
@@ -77,7 +102,12 @@
         <h3 class="text-white text-2xl font-semibold mb-6 text-center md:text-left">Voice
           Customization</h3>
 
-        <div class="glass rounded-2xl p-6 border border-primary-700/30">
+        <div 
+          class="glass rounded-2xl p-6 border border-primary-700/30"
+          v-motion
+          :initial="{ opacity: 0, y: 30 }"
+:enter="{ opacity: 1, y: 0, transition: { delay: 600, duration: 300, ease: 'easeOut' } }"
+        >
           <div class="grid md:grid-cols-2 md:divide-x md:divide-primary-700/30 gap-6 md:gap-0">
 
             <div class="md:pr-6">

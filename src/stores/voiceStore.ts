@@ -88,6 +88,18 @@ export const useVoiceStore = defineStore('voice', () => {
     return sections
   })
 
+  // Get minimum cost from all voices
+  const minCost = computed<number>(() => {
+    if (voices.value.length === 0) return 100
+    return Math.min(...voices.value.map(voice => voice.cost))
+  })
+
+  // Get maximum cost from all voices
+  const maxCost = computed<number>(() => {
+    if (voices.value.length === 0) return 5000
+    return Math.max(...voices.value.map(voice => voice.cost))
+  })
+
   return {
     voices,
     isLoading,
@@ -96,6 +108,8 @@ export const useVoiceStore = defineStore('voice', () => {
     showPremiumOnly,
     filteredVoices,
     voiceSections,
+    minCost,
+    maxCost,
     loadVoices
   }
 })

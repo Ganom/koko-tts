@@ -1,14 +1,28 @@
 <template>
   <div class="max-w-6xl mx-auto mb-16">
     <div
-      class="anime-card bg-gradient-dark rounded-4xl p-8 border border-primary-700/30">
-      <div class="text-center mb-8">
+      class="anime-card bg-gradient-dark rounded-4xl p-8 border border-primary-700/30"
+      v-motion
+      :initial="{ opacity: 0, y: 50 }"
+:enter="{ opacity: 1, y: 0, transition: { delay: 400, duration: 400, ease: 'easeOut' } }"
+    >
+      <div 
+        class="text-center mb-8"
+        v-motion
+        :initial="{ opacity: 0, y: 20 }"
+:enter="{ opacity: 1, y: 0, transition: { delay: 450, duration: 300 } }"
+      >
         <h2 class="text-gradient-violet-pink text-3xl font-bold mb-3">TTS Message Builder</h2>
         <p class="text-gray-300 text-lg">Build and preview your TTS Message</p>
       </div>
 
       <div class="grid lg:grid-cols-2 gap-8 mb-8">
-        <div class="space-y-6">
+        <div 
+          class="space-y-6"
+          v-motion
+          :initial="{ opacity: 0, x: -30 }"
+:enter="{ opacity: 1, x: 0, transition: { delay: 500, duration: 300, ease: 'easeOut' } }"
+        >
           <div>
             <label class="block text-white font-bold mb-3">Redeem Method</label>
             <div class="grid grid-cols-3 gap-3">
@@ -48,7 +62,7 @@
                 { 'flash-border': bitAmountUpdated }
               ]"
             >
-            <p v-if="selectedVoice && minBitAmount > 300" class="text-sm text-primary-300 mt-2">
+            <p v-if="selectedVoice && minBitAmount > voiceStore.minCost" class="text-sm text-primary-300 mt-2">
               Minimum {{ minBitAmount }} bits for {{ selectedVoice }}
             </p>
             <p v-else-if="redeemMethod === 'cheer' && bitAmount" class="text-sm text-gray-400 mt-2">
@@ -110,7 +124,12 @@
           </div>
         </div>
 
-        <div class="space-y-6">
+        <div 
+          class="space-y-6"
+          v-motion
+          :initial="{ opacity: 0, x: 30 }"
+:enter="{ opacity: 1, x: 0, transition: { delay: 550, duration: 300, ease: 'easeOut' } }"
+        >
           <div>
             <div class="flex items-center justify-between">
               <label class="block text-white font-bold mb-3">Select a Voice</label>
@@ -121,8 +140,9 @@
             </div>
             <VoiceGrid
               v-model:selectedVoice="selectedVoice"
-              :voices="eligibleVoices"
-              @change="updateBitAmount"
+              :voices="availableVoices"
+              :current-bit-amount="bitAmount"
+              @change="(isSearching) => updateBitAmount(isSearching)"
             />
           </div>
         </div>
@@ -133,7 +153,12 @@
         class="w-full h-px bg-gradient-to-r from-transparent via-primary-700/50 to-transparent mb-8"></div>
 
       <!-- Command Preview Section -->
-      <div class="glass rounded-2xl p-6 border border-primary-700/30">
+      <div 
+        class="glass rounded-2xl p-6 border border-primary-700/30"
+        v-motion
+        :initial="{ opacity: 0, y: 30 }"
+:enter="{ opacity: 1, y: 0, transition: { delay: 600, duration: 300, ease: 'easeOut' } }"
+      >
         <h4 class="text-white font-bold mb-4 flex items-center">
           <Bars3Icon class="w-5 h-5 mr-2 text-primary-400"/>
           TTS Preview
@@ -310,16 +335,28 @@ const displayMessage = computed<string>(() => {
 
 // Get minimum bit amount based on selected voice
 const minBitAmount = computed<number>(() => {
-  if (!selectedVoice.value) return 300
+  if (!selectedVoice.value) return voiceStore.minCost
   const voiceCost = getVoiceCost(selectedVoice.value)
-  return Math.max(300, voiceCost)
+  return Math.max(voiceStore.minCost, voiceCost || voiceStore.minCost)
 })
 
 // Update bit amount when voice changes
-const updateBitAmount = (): void => {
-  const currentMin = minBitAmount.value
-  if (bitAmount.value < currentMin) {
-    bitAmount.value = currentMin
+const updateBitAmount = (isSearching: boolean = false): void => {
+  if (!selectedVoice.value) return
+  
+  const voiceCost = getVoiceCost(selectedVoice.value)
+  const targetAmount = Math.max(voiceStore.minCost, voiceCost)
+  
+  // Only auto-update bit amount when actively searching
+  if (isSearching && bitAmount.value !== targetAmount) {
+    bitAmount.value = targetAmount
+    // Trigger visual feedback
+    bitAmountUpdated.value = true
+    setTimeout(() => bitAmountUpdated.value = false, 1500)
+  }
+  // When not searching, only bump up if current amount is too low
+  else if (!isSearching && bitAmount.value < targetAmount) {
+    bitAmount.value = targetAmount
     // Trigger visual feedback
     bitAmountUpdated.value = true
     setTimeout(() => bitAmountUpdated.value = false, 1500)
@@ -345,6 +382,23 @@ watch(bitAmount, () => {
     clearTimeout(bitAmountTimeout)
   }
   bitAmountTimeout = setTimeout(() => {
+    // Check if selected voice is still affordable
+    if (selectedVoice.value) {
+      const voiceCost = getVoiceCost(selectedVoice.value)
+      if (bitAmount.value < voiceCost) {
+        // Clear the selected voice if user can't afford it
+        selectedVoice.value = ''
+      }
+    }
+    
+    // Enforce minimum bit amount
+    const currentMin = minBitAmount.value
+    if (bitAmount.value < currentMin) {
+      bitAmount.value = currentMin
+      // Trigger visual feedback
+      bitAmountUpdated.value = true
+      setTimeout(() => bitAmountUpdated.value = false, 1500)
+    }
     checkVoiceEligibility()
   }, 500) as unknown as number
 })
