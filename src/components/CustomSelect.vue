@@ -1,8 +1,8 @@
 <template>
-  <div class="relative" ref="dropdownRef">
+  <div class="relative" ref="triggerRef">
     <button
-      @click="toggleDropdown"
-      class="w-full bg-dark-900/60 border border-primary-700/40 rounded-lg px-4 py-3 text-white focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-500/50 hover:border-primary-500/60 transition-colors cursor-pointer text-left flex items-center justify-between"
+      @click="toggle"
+      :class="triggerClasses"
     >
       <span :class="{ 'text-gray-400': !selectedLabel }">
         {{ selectedLabel || placeholder }}
@@ -16,15 +16,9 @@
     <Teleport to="body">
       <div
         v-if="isOpen && dropdownPosition"
-        :style="{
-          position: 'fixed',
-          top: dropdownPosition.top + 'px',
-          left: dropdownPosition.left + 'px',
-          width: dropdownPosition.width + 'px',
-          zIndex: 999999
-        }"
+        ref="contentRef"
+        :style="dropdownStyle"
         class="bg-dark-800 border border-primary-700/40 rounded-lg shadow-xl max-h-64 overflow-y-auto"
-        data-dropdown-content
         @mouseenter="isDropdownHovered = true"
         @mouseleave="isDropdownHovered = false"
         @wheel="handleDropdownWheel"
@@ -32,13 +26,9 @@
         <div
           v-for="(option, index) in options"
           :key="option.value"
+          :class="getOptionClasses(option, index)"
           @click="selectOption(option)"
           @mouseenter="highlightedIndex = index"
-          class="px-4 py-3 text-white hover:bg-primary-600/20 cursor-pointer transition-colors border-b border-primary-700/20 last:border-b-0"
-          :class="{
-            'bg-primary-600/30': option.value === modelValue,
-            'bg-primary-500/15': index === highlightedIndex && option.value !== modelValue
-          }"
         >
           {{ option.label }}
         </div>
@@ -48,14 +38,16 @@
 </template>
 
 <script setup lang="ts">
-import {computed, onMounted, onUnmounted, ref} from 'vue'
+import {computed, type CSSProperties, nextTick, onMounted, onUnmounted, ref} from 'vue'
 import {ChevronDownIcon} from '@heroicons/vue/24/solid'
 
+// --- TYPES ---
 interface SelectOption {
   label: string
   value: string | number
 }
 
+// --- PROPS & EMITS ---
 interface Props {
   modelValue: string | number
   options: SelectOption[]
@@ -69,74 +61,103 @@ interface Emits {
 }
 
 const props = withDefaults(defineProps<Props>(), {
-  placeholder: 'Select an option...'
+  placeholder: 'Select an option...',
 })
-
 const emit = defineEmits<Emits>()
 
+// --- REFS & STATE ---
+
+const triggerRef = ref<HTMLElement | null>(null)
+const contentRef = ref<HTMLElement | null>(null)
 const isOpen = ref(false)
-const dropdownRef = ref<HTMLElement>()
 const dropdownPosition = ref<{ top: number, left: number, width: number } | null>(null)
 const highlightedIndex = ref(-1)
 const isDropdownHovered = ref(false)
 
-const updateDropdownPosition = () => {
-  if (dropdownRef.value && isOpen.value) {
-    const rect = dropdownRef.value.getBoundingClientRect()
+// --- COMPUTED ---
+
+const selectedLabel = computed(() => {
+  return props.options.find(option => option.value === props.modelValue)?.label || ''
+})
+
+const triggerClasses = computed(() => [
+  'w-full bg-dark-900/60 border border-primary-700/40 rounded-lg px-4 py-3 text-white',
+  'focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-500/50',
+  'hover:border-primary-500/60 transition-colors cursor-pointer text-left',
+  'flex items-center justify-between',
+])
+
+const dropdownStyle = computed<CSSProperties>(() => ({
+  position: 'fixed',
+  top: `${dropdownPosition.value?.top ?? 0}px`,
+  left: `${dropdownPosition.value?.left ?? 0}px`,
+  width: `${dropdownPosition.value?.width ?? 0}px`,
+  zIndex: 999999,
+}))
+
+// --- CORE LOGIC ---
+
+const open = () => {
+  isOpen.value = true
+  const rect = triggerRef.value?.getBoundingClientRect()
+  if (rect) {
     dropdownPosition.value = {
       top: rect.bottom + 4,
       left: rect.left,
-      width: rect.width
+      width: rect.width,
     }
   }
+
+  nextTick(() => {
+    const currentIndex = props.options.findIndex(option => option.value === props.modelValue)
+    highlightedIndex.value = currentIndex > -1 ? currentIndex : 0
+    scrollToOption(highlightedIndex.value)
+  })
 }
 
-const selectedLabel = computed(() => {
-  const selected = props.options.find(option => option.value === props.modelValue)
-  return selected?.label || ''
-})
+const close = () => {
+  isOpen.value = false
+  highlightedIndex.value = -1
+}
 
-const toggleDropdown = () => {
-  isOpen.value = !isOpen.value
-  if (isOpen.value) {
-    updateDropdownPosition()
-    // Start at currently selected item or first item
-    const currentIndex = props.options.findIndex(option => option.value === props.modelValue)
-    highlightedIndex.value = currentIndex >= 0 ? currentIndex : 0
-  } else {
-    dropdownPosition.value = null
-    highlightedIndex.value = -1
-  }
+const toggle = () => {
+  isOpen.value ? close() : open()
 }
 
 const selectOption = (option: SelectOption): void => {
   emit('update:modelValue', option.value)
   emit('change')
-  isOpen.value = false
-  dropdownPosition.value = null
-  highlightedIndex.value = -1
+  close()
 }
 
-const navigateToOption = (option: SelectOption): void => {
-  emit('update:modelValue', option.value)
-  emit('change')
-  // Don't close dropdown for keyboard navigation
-}
+// --- KEYBOARD & SCROLL HANDLING ---
 
 const scrollToOption = (index: number) => {
-  const dropdown = document.querySelector('[data-dropdown-content]') as HTMLElement
-  if (!dropdown) return
-
-  const option = dropdown.children[index] as HTMLElement
-  if (!option) return
+  const dropdown = contentRef.value
+  const optionEl = dropdown?.children[index] as HTMLElement
+  if (!dropdown || !optionEl) return
 
   const dropdownRect = dropdown.getBoundingClientRect()
-  const optionRect = option.getBoundingClientRect()
+  const optionRect = optionEl.getBoundingClientRect()
 
   if (optionRect.bottom > dropdownRect.bottom) {
     dropdown.scrollTop += optionRect.bottom - dropdownRect.bottom
   } else if (optionRect.top < dropdownRect.top) {
     dropdown.scrollTop -= dropdownRect.top - optionRect.top
+  }
+}
+
+const navigateOptions = (direction: 'up' | 'down') => {
+  if (!props.options.length) return
+
+  const delta = direction === 'down' ? 1 : -1
+  const newIndex = Math.max(0, Math.min(highlightedIndex.value + delta, props.options.length - 1))
+
+  if (newIndex !== highlightedIndex.value) {
+    highlightedIndex.value = newIndex
+    scrollToOption(newIndex)
+    emit('update:modelValue', props.options[newIndex].value)
+    emit('change')
   }
 }
 
@@ -146,73 +167,74 @@ const handleKeydown = (event: KeyboardEvent) => {
   switch (event.key) {
     case 'ArrowDown':
       event.preventDefault()
-      const nextIndex = Math.min(highlightedIndex.value + 1, props.options.length - 1)
-      if (nextIndex !== highlightedIndex.value) {
-        highlightedIndex.value = nextIndex
-        scrollToOption(nextIndex)
-        navigateToOption(props.options[nextIndex])
-      }
+      navigateOptions('down')
       break
     case 'ArrowUp':
       event.preventDefault()
-      const prevIndex = Math.max(highlightedIndex.value - 1, 0)
-      if (prevIndex !== highlightedIndex.value) {
-        highlightedIndex.value = prevIndex
-        scrollToOption(prevIndex)
-        navigateToOption(props.options[prevIndex])
+      navigateOptions('up')
+      break
+    case 'Enter':
+      event.preventDefault()
+      if (highlightedIndex.value > -1) {
+        selectOption(props.options[highlightedIndex.value])
       }
       break
     case 'Escape':
       event.preventDefault()
-      isOpen.value = false
-      dropdownPosition.value = null
-      highlightedIndex.value = -1
+      close()
       break
   }
 }
 
-const closeDropdown = (event: MouseEvent): void => {
-  if (dropdownRef.value && !dropdownRef.value.contains(event.target as Node)) {
-    isOpen.value = false
-    dropdownPosition.value = null
-    highlightedIndex.value = -1
-  }
-}
-
-const handleScroll = (event: Event): void => {
-  if (isOpen.value && !isDropdownHovered.value) {
-    // Only close if dropdown isn't hovered and it's a wheel event
-    if (event instanceof WheelEvent) {
-      isOpen.value = false
-      dropdownPosition.value = null
-      highlightedIndex.value = -1
-    }
-  }
-}
-
-const handleDropdownWheel = (event: WheelEvent): void => {
+const handleDropdownWheel = (event: WheelEvent) => {
   const dropdown = event.currentTarget as HTMLElement
   const {scrollTop, scrollHeight, clientHeight} = dropdown
+  const atTop = scrollTop === 0 && event.deltaY < 0
+  const atBottom = scrollHeight - scrollTop <= clientHeight + 1 && event.deltaY > 0
 
-  // Check if we're at the top or bottom of the dropdown
-  const atTop = scrollTop === 0
-  const atBottom = scrollTop + clientHeight >= scrollHeight - 1
-
-  // Prevent page scroll if we're trying to scroll beyond dropdown bounds
-  if ((atTop && event.deltaY < 0) || (atBottom && event.deltaY > 0)) {
+  if (atTop || atBottom) {
     event.preventDefault()
   }
 }
 
+// --- DYNAMIC STYLING ---
+
+const getOptionClasses = (option: SelectOption, index: number) => {
+  const isSelected = option.value === props.modelValue
+  const isHighlighted = index === highlightedIndex.value
+  return [
+    'px-4 py-3 text-white hover:bg-primary-600/20 cursor-pointer',
+    'transition-colors border-b border-primary-700/20 last:border-b-0',
+    {
+      'bg-primary-600/30': isSelected,
+      'bg-primary-500/15': isHighlighted && !isSelected,
+    },
+  ]
+}
+
+// --- GLOBAL EVENT LISTENERS ---
+
+const handleClickOutside = (event: MouseEvent) => {
+  if (triggerRef.value && !triggerRef.value.contains(event.target as Node) && !contentRef.value?.contains(event.target as Node)) {
+    close()
+  }
+}
+
+const handlePageScroll = (event: Event) => {
+  if (isOpen.value && !isDropdownHovered.value && event instanceof WheelEvent) {
+    close()
+  }
+}
+
 onMounted(() => {
-  document.addEventListener('click', closeDropdown)
   document.addEventListener('keydown', handleKeydown)
-  document.addEventListener('wheel', handleScroll, true)
+  document.addEventListener('click', handleClickOutside, true)
+  document.addEventListener('wheel', handlePageScroll, true)
 })
 
 onUnmounted(() => {
-  document.removeEventListener('click', closeDropdown)
   document.removeEventListener('keydown', handleKeydown)
-  document.removeEventListener('wheel', handleScroll, true)
+  document.removeEventListener('click', handleClickOutside, true)
+  document.removeEventListener('wheel', handlePageScroll, true)
 })
 </script>
