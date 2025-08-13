@@ -14,7 +14,7 @@ const audio = useAudio();
 provide("audio", audio);
 
 // Dev-only configurator
-const IconBackgroundConfigurator = import.meta.env.DEV 
+const IconBackgroundConfigurator = import.meta.env.DEV
   ? defineAsyncComponent(() => import("@/components/IconBackgroundConfigurator.vue"))
   : null;
 
@@ -38,7 +38,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="min-h-screen font-expressway relative bg-gray-900">
+  <div class="min-h-screen font-expressway relative bg-dark-700/70">
     <IconPatternBackground v-bind="backgroundConfig" />
     <div class="relative z-10">
       <div class="min-h-screen">
@@ -65,11 +65,11 @@ onMounted(() => {
     </div>
 
     <!-- Configuration Panel (dev only) -->
-    <component 
-      v-if="IconBackgroundConfigurator" 
-      :is="IconBackgroundConfigurator" 
-      v-model="backgroundConfig" 
-      class="fixed bottom-4 right-4 z-50" 
+    <component
+      v-if="IconBackgroundConfigurator"
+      :is="IconBackgroundConfigurator"
+      v-model="backgroundConfig"
+      class="fixed bottom-4 right-4 z-50"
     />
   </div>
 </template>

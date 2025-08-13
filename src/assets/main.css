@@ -187,7 +187,6 @@
     margin: 0;
     padding: 0;
     min-height: 100vh;
-    background: linear-gradient(180deg, var(--theme-dark-700) 0%, var(--theme-dark-800) 100%);
   }
 
   * {
