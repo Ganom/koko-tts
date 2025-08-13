@@ -1,9 +1,11 @@
 <script setup lang="ts">
 import { computed, ref } from "vue";
-import { getAvailableIconNames } from "@/utils/iconRegistry";
+import { tropicalIcons } from "@/utils/iconRegistry";
+
+import type { IconComponent } from "@/utils/iconRegistry";
 
 interface BackgroundConfig {
-  icons: string[];
+  icons: IconComponent[];
   iconSize: number;
   gap: number;
   opacity: number;
@@ -31,72 +33,11 @@ const config = computed({
   set: (value) => emit("update:modelValue", value),
 });
 
-const availableIcons = getAvailableIconNames();
-
 const presets = [
   {
     name: "Tech",
-    icons: [
-      "Terminal",
-      "Cpu",
-      "Server",
-      "Code",
-      "Wifi",
-      "Cloud",
-      "Globe",
-      "ShieldCheck",
-      "Zap",
-      "Signal",
-    ],
+    icons: tropicalIcons,
     color: "#60a5fa",
-  },
-  {
-    name: "Creative",
-    icons: [
-      "Sparkles",
-      "Star",
-      "Heart",
-      "Camera",
-      "Image",
-      "Film",
-      "Music",
-      "Megaphone",
-      "Palette",
-      "Lightbulb",
-    ],
-    color: "#f472b6",
-  },
-  {
-    name: "Business",
-    icons: [
-      "Briefcase",
-      "BarChart3",
-      "PieChart",
-      "Building2",
-      "CreditCard",
-      "FileText",
-      "Scale",
-      "Trophy",
-      "Users",
-      "Clipboard",
-    ],
-    color: "#34d399",
-  },
-  {
-    name: "Science",
-    icons: [
-      "Beaker",
-      "GraduationCap",
-      "Calculator",
-      "Search",
-      "Lightbulb",
-      "Globe",
-      "BookOpen",
-      "Puzzle",
-      "Flame",
-      "Zap",
-    ],
-    color: "#fbbf24",
   },
 ];
 
@@ -105,17 +46,6 @@ const updateConfig = (key: keyof BackgroundConfig, value: any) => {
     ...props.modelValue,
     [key]: value,
   });
-};
-
-const toggleIcon = (iconName: string) => {
-  const currentIcons = [...props.modelValue.icons];
-  const index = currentIcons.indexOf(iconName);
-  if (index > -1) {
-    currentIcons.splice(index, 1);
-  } else {
-    currentIcons.push(iconName);
-  }
-  updateConfig("icons", currentIcons);
 };
 
 const applyPreset = (preset: (typeof presets)[0]) => {
@@ -175,21 +105,6 @@ const exportConfig = () => {
                 ></path>
               </svg>
             </button>
-          </div>
-
-          <!-- Presets -->
-          <div class="mb-6">
-            <h3 class="text-sm font-semibold text-gray-400 mb-3">Presets</h3>
-            <div class="grid grid-cols-2 gap-2">
-              <button
-                v-for="preset in presets"
-                :key="preset.name"
-                @click="applyPreset(preset)"
-                class="px-3 py-2 bg-gray-800 text-white rounded hover:bg-gray-700 transition-colors text-sm"
-              >
-                {{ preset.name }}
-              </button>
-            </div>
           </div>
 
           <!-- Controls -->
@@ -309,7 +224,6 @@ const exportConfig = () => {
                 <span class="text-sm">Slide Animation</span>
               </label>
             </div>
-
 
             <div v-if="config.enableSlideAnimation" class="space-y-4">
               <!-- Slide Direction -->

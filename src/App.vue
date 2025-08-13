@@ -7,6 +7,7 @@ import IconPatternBackground from "@/components/IconPatternBackground.vue";
 import IconBackgroundConfigurator from "@/components/IconBackgroundConfigurator.vue";
 import { useAudio } from "@/composables/useAudio";
 import { useVoiceStore } from "@/stores/voiceStore";
+import { monkeyIcons } from "@/utils/iconRegistry";
 
 const voiceStore = useVoiceStore();
 const audio = useAudio();
@@ -14,27 +15,7 @@ const audio = useAudio();
 provide("audio", audio);
 
 const backgroundConfig = ref({
-  icons: [
-    "Terminal",
-    "Cpu",
-    "Server",
-    "Code",
-    "Box",
-    "Beaker",
-    "Zap",
-    "BarChart3",
-    "Cloud",
-    "Settings",
-    "Smartphone",
-    "Fingerprint",
-    "Globe",
-    "Mic",
-    "Rocket",
-    "ShieldCheck",
-    "Signal",
-    "Sparkles",
-    "Wifi",
-  ],
+  icons: monkeyIcons,
   iconSize: 40,
   gap: 40,
   opacity: 0.1,
@@ -43,7 +24,7 @@ const backgroundConfig = ref({
   randomOpacity: true,
   randomColors: true,
   enableSlideAnimation: false,
-  slideAnimationSpeed: 3.0,
+  slideAnimationSpeed: 0.1,
   slideDirection: "right" as const,
 });
 

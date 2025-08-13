@@ -1,9 +1,12 @@
 import { computed, ref, onMounted, onUnmounted, watch, type Ref } from "vue";
-import { getIconComponent } from "@/utils/iconRegistry";
+import type { IconComponent } from "@/utils/iconRegistry";
+import { normalizeIcon } from "@/utils/iconRegistry";
+
+import type { FunctionalComponent } from "vue";
 
 export interface VirtualIcon {
   id: string;
-  component: any;
+  component: FunctionalComponent<any>;
   x: number;
   y: number;
   rotation: number;
@@ -14,7 +17,7 @@ export interface VirtualIcon {
 }
 
 export interface VirtualGridConfig {
-  icons: string[];
+  icons: IconComponent[];
   iconSize: number;
   gap: number;
   baseOpacity: number;
@@ -61,8 +64,8 @@ export function useVirtualGrid(config: Ref<VirtualGridConfig>) {
 
   const getIconAt = (logicalX: number, logicalY: number): VirtualIcon => {
     const iconIndex = Math.abs(logicalX * 37 + logicalY * 23) % config.value.icons.length;
-    const iconName = config.value.icons[iconIndex];
-    const component = getIconComponent(iconName);
+    const rawIcon = config.value.icons[iconIndex];
+    const component = normalizeIcon(rawIcon);
 
     const rotationSeed = Math.abs(logicalX * 73 + logicalY * 31) % 360;
     const opacitySeed = Math.abs(logicalX * 47 + logicalY * 59) % 100;
@@ -97,9 +100,7 @@ export function useVirtualGrid(config: Ref<VirtualGridConfig>) {
     for (let logicalY = bounds.startY; logicalY <= bounds.endY; logicalY++) {
       for (let logicalX = bounds.startX; logicalX <= bounds.endX; logicalX++) {
         const icon = getIconAt(logicalX, logicalY);
-        if (icon.component) {
-          icons.push(icon);
-        }
+        icons.push(icon);
       }
     }
 

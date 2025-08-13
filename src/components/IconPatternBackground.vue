@@ -1,10 +1,12 @@
 <script setup lang="ts">
 import { computed } from "vue";
-import { defaultTechIcons } from "@/utils/iconRegistry";
+import { tropicalIcons } from "@/utils/iconRegistry";
 import { useVirtualGrid } from "@/composables/useVirtualGrid";
 
+import type { IconComponent } from "@/utils/iconRegistry";
+
 interface Props {
-  icons?: string[];
+  icons?: IconComponent[];
   iconSize?: number;
   gap?: number;
   opacity?: number;
@@ -18,7 +20,7 @@ interface Props {
 }
 
 const props = withDefaults(defineProps<Props>(), {
-  icons: () => defaultTechIcons,
+  icons: () => tropicalIcons,
   iconSize: 48,
   gap: 32,
   opacity: 0.15,
