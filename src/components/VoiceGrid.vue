@@ -182,7 +182,7 @@ const gridMotion = {
 
 @media (min-width: 640px) {
   .voice-grid {
-    height: 550px;
+    height: 600px;
   }
 }
 
