@@ -25,7 +25,7 @@
               class="bg-dark-900/50 border border-violet-700/20 rounded-lg p-3 font-mono text-sm">
               <span class="text-violet-300">Cheer300 </span>
               <span class="text-pink-400">[voicename] </span>
-              <span class="text-gray-300">&lt;your message&gt;</span>
+              <span class="text-gray-300">your message</span>
             </div>
           </div>
 
@@ -41,7 +41,7 @@
             <p class="text-gray-300 mb-3">Redeem the "TTS Message" reward.</p>
             <div class="bg-dark-900/50 border border-pink-700/20 rounded-lg p-3 font-mono text-sm">
               <span class="text-pink-400">[voicename] </span>
-              <span class="text-gray-300">&lt;your message&gt;</span>
+              <span class="text-gray-300">your message</span>
             </div>
           </div>
 
@@ -94,7 +94,7 @@
               <div
                 class="bg-dark-900/50 border border-violet-700/20 rounded-lg p-3 font-mono text-sm">
                 <span class="text-violet-300">!setvoice </span>
-                <span class="text-pink-400">&lt;voicename&gt;</span>
+                <span class="text-pink-400">voicename</span>
               </div>
             </div>
 
