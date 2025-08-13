@@ -1,10 +1,9 @@
 <script setup lang="ts">
-import { onMounted, provide, ref } from "vue";
+import { onMounted, provide, ref, defineAsyncComponent } from "vue";
 import AppHeader from "@/components/AppHeader.vue";
 import InfoBox from "@/components/InfoBox.vue";
 import VoiceBuilder from "@/components/VoiceBuilder.vue";
 import IconPatternBackground from "@/components/IconPatternBackground.vue";
-import IconBackgroundConfigurator from "@/components/IconBackgroundConfigurator.vue";
 import { useAudio } from "@/composables/useAudio";
 import { useVoiceStore } from "@/stores/voiceStore";
 import { monkeyIcons } from "@/utils/iconRegistry";
@@ -13,6 +12,11 @@ const voiceStore = useVoiceStore();
 const audio = useAudio();
 
 provide("audio", audio);
+
+// Dev-only configurator
+const IconBackgroundConfigurator = import.meta.env.DEV 
+  ? defineAsyncComponent(() => import("@/components/IconBackgroundConfigurator.vue"))
+  : null;
 
 const backgroundConfig = ref({
   icons: monkeyIcons,
@@ -60,7 +64,13 @@ onMounted(() => {
       </div>
     </div>
 
-    <IconBackgroundConfigurator v-model="backgroundConfig" class="fixed bottom-4 right-4 z-50" />
+    <!-- Configuration Panel (dev only) -->
+    <component 
+      v-if="IconBackgroundConfigurator" 
+      :is="IconBackgroundConfigurator" 
+      v-model="backgroundConfig" 
+      class="fixed bottom-4 right-4 z-50" 
+    />
   </div>
 </template>
 
