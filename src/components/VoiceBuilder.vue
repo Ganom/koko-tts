@@ -96,7 +96,10 @@
         class="w-full h-px bg-gradient-to-r from-transparent via-primary-700/50 to-transparent mb-8"
       ></div>
 
-      <div class="glass rounded-2xl p-6 border border-primary-700/30" v-motion="motions.preview">
+      <div
+        class="anime-card bg-gradient-dark rounded-2xl p-6 border border-primary-700/30"
+        v-motion="motions.preview"
+      >
         <h4 class="text-white font-bold mb-4 flex items-center">
           <Bars3Icon class="w-5 h-5 mr-2 text-primary-400" />
           TTS Preview
