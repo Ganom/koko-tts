@@ -12,6 +12,11 @@ interface BackgroundConfig {
   color: string;
   randomRotation: boolean;
   randomOpacity: boolean;
+  enableAnimation: boolean;
+  animationSpeed: number;
+  enableSlideAnimation: boolean;
+  slideAnimationSpeed: number;
+  slideDirection: 'right' | 'left' | 'down' | 'up' | 'diagonal-down-right' | 'diagonal-up-left';
 }
 
 const props = defineProps<{
@@ -194,7 +199,6 @@ const exportConfig = () => {
 
           <!-- Controls -->
           <div class="space-y-4">
-
             <!-- Icon Size -->
             <div>
               <label class="block text-sm font-medium text-gray-400 mb-2">
@@ -284,6 +288,86 @@ const exportConfig = () => {
                 />
                 <span class="text-sm">Random Opacity</span>
               </label>
+              <label class="flex items-center gap-2 text-gray-400">
+                <input
+                  :checked="config.enableAnimation"
+                  @change="
+                    updateConfig('enableAnimation', ($event.target as HTMLInputElement).checked)
+                  "
+                  type="checkbox"
+                  class="rounded bg-gray-800 border-gray-700"
+                />
+                <span class="text-sm">Rotate Animation</span>
+              </label>
+              <label class="flex items-center gap-2 text-gray-400">
+                <input
+                  :checked="config.enableSlideAnimation"
+                  @change="
+                    updateConfig('enableSlideAnimation', ($event.target as HTMLInputElement).checked)
+                  "
+                  type="checkbox"
+                  class="rounded bg-gray-800 border-gray-700"
+                />
+                <span class="text-sm">Slide Animation</span>
+              </label>
+            </div>
+
+            <!-- Animation Speed (only show when rotation animation is enabled) -->
+            <div v-if="config.enableAnimation">
+              <label class="block text-sm font-medium text-gray-400 mb-2">
+                Rotation Speed: {{ config.animationSpeed.toFixed(1) }}x
+              </label>
+              <input
+                :value="config.animationSpeed"
+                @input="
+                  updateConfig('animationSpeed', Number(($event.target as HTMLInputElement).value))
+                "
+                type="range"
+                min="0.1"
+                max="5.0"
+                step="0.1"
+                class="w-full"
+              />
+            </div>
+
+            <!-- Slide Animation Controls (only show when slide animation is enabled) -->
+            <div v-if="config.enableSlideAnimation" class="space-y-4">
+              <!-- Slide Direction -->
+              <div>
+                <label class="block text-sm font-medium text-gray-400 mb-2">
+                  Slide Direction
+                </label>
+                <select
+                  :value="config.slideDirection"
+                  @change="updateConfig('slideDirection', ($event.target as HTMLSelectElement).value)"
+                  class="w-full px-3 py-2 bg-gray-800 text-white rounded border border-gray-700 focus:border-blue-500 focus:outline-none"
+                >
+                  <option value="right">Right →</option>
+                  <option value="left">Left ←</option>
+                  <option value="down">Down ↓</option>
+                  <option value="up">Up ↑</option>
+                  <option value="diagonal-down-right">Diagonal ↘</option>
+                  <option value="diagonal-up-left">Diagonal ↖</option>
+                </select>
+              </div>
+
+              <!-- Slide Speed -->
+              <div>
+                <label class="block text-sm font-medium text-gray-400 mb-2">
+                  Slide Speed: {{ config.slideAnimationSpeed.toFixed(1) }}x
+                </label>
+                <input
+                  :value="config.slideAnimationSpeed"
+                  @input="
+                    updateConfig('slideAnimationSpeed', Number(($event.target as HTMLInputElement).value))
+                  "
+                  type="range"
+                  min="0.1"
+                  max="5.0"
+                  step="0.1"
+                  class="w-full"
+                />
+              </div>
             </div>
 
             <!-- Export Button -->

@@ -42,6 +42,11 @@ const backgroundConfig = ref({
   color: "#60a5fa",
   randomRotation: true,
   randomOpacity: true,
+  enableAnimation: false,
+  animationSpeed: 1.0,
+  enableSlideAnimation: false,
+  slideAnimationSpeed: 3.0,
+  slideDirection: "right" as const,
 });
 
 onMounted(() => {
