@@ -2,7 +2,7 @@
   <div class="relative" ref="dropdownRef">
     <button
       @click="toggleDropdown"
-      class="w-full bg-dark-900/60 border border-violet-700/40 rounded-lg px-4 py-3 text-white focus:border-violet-500 focus:outline-none focus:ring-2 focus:ring-violet-500/50 hover:border-violet-500/60 transition-colors cursor-pointer text-left flex items-center justify-between"
+      class="w-full bg-dark-900/60 border border-primary-700/40 rounded-lg px-4 py-3 text-white focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-500/50 hover:border-primary-500/60 transition-colors cursor-pointer text-left flex items-center justify-between"
     >
       <span :class="{ 'text-gray-400': !selectedLabel }">
         {{ selectedLabel || placeholder }}
@@ -23,7 +23,7 @@
           width: dropdownPosition.width + 'px',
           zIndex: 999999
         }"
-        class="bg-dark-800 border border-violet-700/40 rounded-lg shadow-xl max-h-64 overflow-y-auto"
+        class="bg-dark-800 border border-primary-700/40 rounded-lg shadow-xl max-h-64 overflow-y-auto"
         data-dropdown-content
         @mouseenter="isDropdownHovered = true"
         @mouseleave="isDropdownHovered = false"
@@ -34,10 +34,10 @@
           :key="option.value"
           @click="selectOption(option)"
           @mouseenter="highlightedIndex = index"
-          class="px-4 py-3 text-white hover:bg-violet-600/20 cursor-pointer transition-colors border-b border-violet-700/20 last:border-b-0"
+          class="px-4 py-3 text-white hover:bg-primary-600/20 cursor-pointer transition-colors border-b border-primary-700/20 last:border-b-0"
           :class="{ 
-            'bg-violet-600/30': option.value === modelValue,
-            'bg-violet-500/15': index === highlightedIndex && option.value !== modelValue
+            'bg-primary-600/30': option.value === modelValue,
+            'bg-primary-500/15': index === highlightedIndex && option.value !== modelValue
           }"
         >
           {{ option.label }}

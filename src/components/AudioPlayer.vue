@@ -2,13 +2,13 @@
   <button
     @click="togglePlay"
     :disabled="status === PlaybackStatus.ERROR"
-    class="relative w-20 h-20 bg-gradient-to-br from-violet-500 to-pink-600 rounded-full flex items-center justify-center hover:from-violet-400 hover:to-pink-400 transition-all duration-300 focus:outline-none focus:ring-4 focus:ring-violet-500/50 disabled:from-gray-600 disabled:to-gray-700 disabled:cursor-not-allowed shadow-violet hover:shadow-pink group"
+    class="relative w-20 h-20 bg-gradient-to-br from-primary-500 to-secondary-600 rounded-full flex items-center justify-center hover:from-primary-400 hover:to-secondary-400 transition-all duration-300 focus:outline-none focus:ring-4 focus:ring-primary-500/50 disabled:from-gray-600 disabled:to-gray-700 disabled:cursor-not-allowed shadow-violet hover:shadow-pink group"
     :class="{ 'animate-pulse-slow': isCurrentlyPlaying, 'hover:scale-105': status !== PlaybackStatus.ERROR }"
     :title="status === PlaybackStatus.ERROR ? 'Audio file not available' : ''"
   >
     <!-- Ripple effect for playing state -->
     <div v-if="isCurrentlyPlaying"
-         class="absolute inset-0 rounded-full bg-violet-500/30 animate-ping"></div>
+         class="absolute inset-0 rounded-full bg-primary-500/30 animate-ping"></div>
     <!-- Loading spinner -->
     <svg v-if="status === PlaybackStatus.LOADING" class="w-6 h-6 text-white animate-spin"
          fill="none" viewBox="0 0 24 24">

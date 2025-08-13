@@ -25,7 +25,7 @@ onMounted(() => {
 
       <div v-if="voiceStore.isLoading" class="text-center">
         <div
-          class="animate-spin rounded-full h-16 w-16 border-b-2 border-violet-500 mx-auto shadow-glow"></div>
+          class="animate-spin rounded-full h-16 w-16 border-b-2 border-primary-500 mx-auto shadow-glow"></div>
         <p class="mt-4 text-gray-300">Loading voices...</p>
       </div>
 
