@@ -139,7 +139,7 @@ const isUnaffordable = (voice: Voice) =>
 
 const getVoiceCardClasses = (voice: Voice) => {
   const base =
-    "group relative cursor-pointer rounded-lg border-2 p-4 text-center transition-all duration-200 m-1 sm:w-auto w-48";
+    "group relative cursor-pointer rounded-lg border-2 p-4 text-center transition-all duration-200 m-2 sm:w-auto w-48";
 
   if (props.selectedVoice === voice.name) {
     return [base, "border-primary-500 bg-primary-500/20 scale-105 shadow-lg"];
