@@ -131,13 +131,6 @@
 }
 
 /* Component styles using theme variables */
-.bg-gradient-primary-secondary {
-  background: linear-gradient(135deg, var(--theme-primary-500) 0%, var(--theme-secondary-500) 100%);
-}
-
-.bg-gradient-accent-secondary {
-  background: linear-gradient(135deg, var(--theme-accent-400) 0%, var(--theme-secondary-400) 100%);
-}
 
 .bg-gradient-dark {
   background: linear-gradient(180deg, var(--theme-dark-700) 0%, var(--theme-dark-800) 100%);
@@ -171,14 +164,6 @@
   border-image: linear-gradient(135deg, var(--theme-primary-500), var(--theme-secondary-500)) 1;
 }
 
-/* Legacy classes for backwards compatibility */
-.bg-gradient-violet-pink {
-  background: linear-gradient(135deg, var(--theme-primary-500) 0%, var(--theme-secondary-500) 100%);
-}
-
-.bg-gradient-gold-pink {
-  background: linear-gradient(135deg, var(--theme-accent-400) 0%, var(--theme-secondary-400) 100%);
-}
 
 .bg-gradient-radial-violet {
   background: radial-gradient(circle at center, color-mix(in srgb, var(--theme-primary-500) 30%, transparent) 0%, transparent 70%);
