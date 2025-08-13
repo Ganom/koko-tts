@@ -116,7 +116,7 @@
               <label class="block text-white font-bold mb-3">Select a Voice</label>
               <div v-if="selectedVoice" class="flex items-center gap-3">
                 <span class="text-gray-300 text-sm">Preview:</span>
-                <AudioPlayerSquare :voice-name="selectedVoice" />
+                <AudioPlayerSquare :voice-name="selectedVoice"/>
               </div>
             </div>
             <VoiceGrid
@@ -129,7 +129,8 @@
       </div>
 
       <!-- Divider -->
-      <div class="w-full h-px bg-gradient-to-r from-transparent via-primary-700/50 to-transparent mb-8"></div>
+      <div
+        class="w-full h-px bg-gradient-to-r from-transparent via-primary-700/50 to-transparent mb-8"></div>
 
       <!-- Command Preview Section -->
       <div class="glass rounded-2xl p-6 border border-primary-700/30">
@@ -141,13 +142,10 @@
           class="bg-dark-900/50 border border-primary-700/20 rounded-lg p-4 font-mono text-sm">
           <div v-if="generatedCommand" class="flex items-center justify-between gap-4">
             <div class="break-all flex-1">
-              <span v-if="redeemMethod === 'cheer'" class="text-primary-300">Cheer{{
-                  bitAmount
-                }} </span>
-              <span v-if="selectedVoice" class="text-secondary-400">{{
-                  generateVoiceTag()
-                }} </span>
-              <span class="text-accent-400">{{ displayMessage }}</span>
+              <span v-if="redeemMethod === 'cheer'" class="text-primary-300">Cheer{{ bitAmount }}&nbsp;</span><span
+              v-if="selectedVoice" class="text-secondary-400">{{
+                generateVoiceTag()
+              }}&nbsp;</span><span class="text-accent-400">{{ displayMessage }}</span>
             </div>
             <div class="flex items-center gap-2">
               <div class="w-8 h-px bg-gray-500"></div>
