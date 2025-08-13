@@ -1,18 +1,18 @@
-import './assets/main.css'
+import "./assets/main.css";
 
-import {createApp} from 'vue'
-import {createPinia} from 'pinia'
-import {MotionPlugin} from '@vueuse/motion'
-import App from './App.vue'
-import {useTheme} from './composables/useTheme'
+import { MotionPlugin } from "@vueuse/motion";
+import { createPinia } from "pinia";
+import { createApp } from "vue";
+import App from "./App.vue";
+import { useTheme } from "./composables/useTheme";
 
-const app = createApp(App)
+const app = createApp(App);
 
-app.use(createPinia())
-app.use(MotionPlugin)
+app.use(createPinia());
+app.use(MotionPlugin);
 
 // Initialize theme before mounting
-const {initTheme} = useTheme()
-initTheme()
+const { initTheme } = useTheme();
+initTheme();
 
-app.mount('#app')
+app.mount("#app");

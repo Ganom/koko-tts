@@ -36,41 +36,53 @@
 </template>
 
 <script setup lang="ts">
-
 // --- IMPORTS ---
 
-import ThemeSelector from './ThemeSelector.vue'
-import { computed } from 'vue'
+import { computed } from "vue";
+import ThemeSelector from "./ThemeSelector.vue";
 
 // --- COMPUTED MOTION CONFIGURATIONS ---
 
 const themeSelectorMotion = computed(() => ({
   initial: { opacity: 0, x: 20 },
-  enter: { opacity: 1, x: 0, transition: { delay: 100, duration: 300 } }
-}))
+  enter: { opacity: 1, x: 0, transition: { delay: 100, duration: 300 } },
+}));
 
 const titleMotion = computed(() => ({
   initial: { opacity: 0, y: -30 },
-  enter: { opacity: 1, y: 0, transition: { duration: 400, ease: 'easeOut' } }
-}))
+  enter: { opacity: 1, y: 0, transition: { duration: 400, ease: "easeOut" } },
+}));
 
 const decorativeContainerMotion = computed(() => ({
   initial: { opacity: 0, scale: 0.8 },
-  enter: { opacity: 1, scale: 1, transition: { delay: 50, duration: 300, ease: 'easeOut' } }
-}))
+  enter: {
+    opacity: 1,
+    scale: 1,
+    transition: { delay: 50, duration: 300, ease: "easeOut" },
+  },
+}));
 
 const decorativeDot1Motion = computed(() => ({
   initial: { scale: 0 },
-  enter: { scale: 1, transition: { delay: 150, duration: 200, ease: 'backOut' } }
-}))
+  enter: {
+    scale: 1,
+    transition: { delay: 150, duration: 200, ease: "backOut" },
+  },
+}));
 
 const decorativeDot2Motion = computed(() => ({
   initial: { scale: 0 },
-  enter: { scale: 1, transition: { delay: 200, duration: 200, ease: 'backOut' } }
-}))
+  enter: {
+    scale: 1,
+    transition: { delay: 200, duration: 200, ease: "backOut" },
+  },
+}));
 
 const decorativeDot3Motion = computed(() => ({
   initial: { scale: 0 },
-  enter: { scale: 1, transition: { delay: 250, duration: 200, ease: 'backOut' } }
-}))
+  enter: {
+    scale: 1,
+    transition: { delay: 250, duration: 200, ease: "backOut" },
+  },
+}));
 </script>

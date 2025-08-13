@@ -103,118 +103,132 @@
 </template>
 
 <script setup lang="ts">
-import {ArrowPathIcon, GiftIcon, HeartIcon, PlusIcon, XMarkIcon} from '@heroicons/vue/24/solid';
+import {
+  ArrowPathIcon,
+  GiftIcon,
+  HeartIcon,
+  PlusIcon,
+  XMarkIcon,
+} from "@heroicons/vue/24/solid";
 
 // --- ANIMATIONS ---
 
 const containerMotion = {
-  initial: {opacity: 0, y: 50},
-  enter: {opacity: 1, y: 0, transition: {delay: 200, duration: 400, ease: 'easeOut'}}
+  initial: { opacity: 0, y: 50 },
+  enter: {
+    opacity: 1,
+    y: 0,
+    transition: { delay: 200, duration: 400, ease: "easeOut" },
+  },
 };
 
 const headerMotion = {
-  initial: {opacity: 0, y: 20},
-  enter: {opacity: 1, y: 0, transition: {delay: 250, duration: 300}}
+  initial: { opacity: 0, y: 20 },
+  enter: { opacity: 1, y: 0, transition: { delay: 250, duration: 300 } },
 };
 
 const getCardMotion = () => ({
-  initial: {opacity: 0, y: 30, scale: 0.9},
+  initial: { opacity: 0, y: 30, scale: 0.9 },
   enter: {
     opacity: 1,
     y: 0,
     scale: 1,
-    transition: {delay: 0, duration: 300, ease: 'easeOut'}
+    transition: { delay: 0, duration: 300, ease: "easeOut" },
   },
-  hover: {scale: 1.02, transition: {duration: 200}}
+  hover: { scale: 1.02, transition: { duration: 200 } },
 });
 
 const customizationContainerMotion = {
-  initial: {opacity: 0, y: 30},
-  enter: {opacity: 1, y: 0, transition: {delay: 300, duration: 300, ease: 'easeOut'}}
+  initial: { opacity: 0, y: 30 },
+  enter: {
+    opacity: 1,
+    y: 0,
+    transition: { delay: 300, duration: 300, ease: "easeOut" },
+  },
 };
 
 // --- DATA ---
 
 const activationMethods = [
   {
-    title: 'With Bits',
+    title: "With Bits",
     icon: HeartIcon,
-    description: 'Cheer 300+ bits to activate TTS.',
-    colorTheme: 'primary',
+    description: "Cheer 300+ bits to activate TTS.",
+    colorTheme: "primary",
     command: [
-      {text: 'Cheer300 ', class: 'text-primary-300'},
-      {text: '[voicename] ', class: 'text-secondary-400'},
-      {text: 'your message', class: 'text-gray-300'}
-    ]
+      { text: "Cheer300 ", class: "text-primary-300" },
+      { text: "[voicename] ", class: "text-secondary-400" },
+      { text: "your message", class: "text-gray-300" },
+    ],
   },
   {
-    title: 'With Channel Points',
+    title: "With Channel Points",
     icon: GiftIcon,
     description: 'Redeem the "TTS Message" reward.',
-    colorTheme: 'secondary',
+    colorTheme: "secondary",
     command: [
-      {text: '[voicename] ', class: 'text-secondary-400'},
-      {text: 'your message', class: 'text-gray-300'}
-    ]
+      { text: "[voicename] ", class: "text-secondary-400" },
+      { text: "your message", class: "text-gray-300" },
+    ],
   },
   {
-    title: 'Subscriber Perk',
+    title: "Subscriber Perk",
     icon: ArrowPathIcon,
-    description: 'Your resub message gets a free TTS reading!',
-    colorTheme: 'accent',
+    description: "Your resub message gets a free TTS reading!",
+    colorTheme: "accent",
     tiers: [
       {
-        name: 'Tier 1 Resub',
-        value: '500 Bit Value',
-        class: 'text-primary-300',
-        badgeClass: 'bg-primary-900/40'
+        name: "Tier 1 Resub",
+        value: "500 Bit Value",
+        class: "text-primary-300",
+        badgeClass: "bg-primary-900/40",
       },
       {
-        name: 'Tier 2 Resub',
-        value: '1000 Bit Value',
-        class: 'text-secondary-300',
-        badgeClass: 'bg-secondary-900/40'
+        name: "Tier 2 Resub",
+        value: "1000 Bit Value",
+        class: "text-secondary-300",
+        badgeClass: "bg-secondary-900/40",
       },
       {
-        name: 'Tier 3 Resub',
-        value: '2500 Bit Value',
-        class: 'text-accent-300',
-        badgeClass: 'bg-accent-900/40'
-      }
-    ]
-  }
+        name: "Tier 3 Resub",
+        value: "2500 Bit Value",
+        class: "text-accent-300",
+        badgeClass: "bg-accent-900/40",
+      },
+    ],
+  },
 ];
 
 const customizationCommands = [
   {
-    title: 'Choose a Voice',
+    title: "Choose a Voice",
     icon: PlusIcon,
-    description: 'Set a default voice for your messages.',
-    colorTheme: 'primary',
+    description: "Set a default voice for your messages.",
+    colorTheme: "primary",
     command: [
-      {text: '!setvoice ', class: 'text-primary-300'},
-      {text: 'voicename', class: 'text-secondary-400'}
-    ]
+      { text: "!setvoice ", class: "text-primary-300" },
+      { text: "voicename", class: "text-secondary-400" },
+    ],
   },
   {
-    title: 'Reset Your Voice',
+    title: "Reset Your Voice",
     icon: XMarkIcon,
     description: "Revert to the channel's default voice.",
-    colorTheme: 'secondary',
-    command: [{text: '!clearvoice', class: 'text-secondary-300'}]
-  }
+    colorTheme: "secondary",
+    command: [{ text: "!clearvoice", class: "text-secondary-300" }],
+  },
 ];
 
 // --- DYNAMIC STYLING HELPERS ---
 
 const getCardClasses = (theme: string) => {
-  const baseClasses = 'glass rounded-2xl p-6 transition-all duration-300';
+  const baseClasses = "glass rounded-2xl p-6 transition-all duration-300";
   switch (theme) {
-    case 'primary':
+    case "primary":
       return `${baseClasses} border border-primary-700/30 hover:border-primary-500/60`;
-    case 'secondary':
+    case "secondary":
       return `${baseClasses} border border-secondary-700/30 hover:border-secondary-500/60`;
-    case 'accent':
+    case "accent":
       return `${baseClasses} border border-accent-700/30 hover:border-accent-500/60`;
     default:
       return `${baseClasses} border border-primary-700/30 hover:border-primary-500/60`;
@@ -223,25 +237,25 @@ const getCardClasses = (theme: string) => {
 
 const getIconWrapperClasses = (theme: string) => {
   switch (theme) {
-    case 'primary':
-      return 'bg-primary-600';
-    case 'secondary':
-      return 'bg-secondary-600';
-    case 'accent':
-      return 'bg-accent-600';
+    case "primary":
+      return "bg-primary-600";
+    case "secondary":
+      return "bg-secondary-600";
+    case "accent":
+      return "bg-accent-600";
     default:
-      return 'bg-primary-600';
+      return "bg-primary-600";
   }
 };
 
 const getCommandClasses = (theme: string) => {
-  const baseClasses = 'bg-dark-900/50 rounded-lg p-3 font-mono text-sm';
+  const baseClasses = "bg-dark-900/50 rounded-lg p-3 font-mono text-sm";
   switch (theme) {
-    case 'primary':
+    case "primary":
       return `${baseClasses} border border-primary-700/20`;
-    case 'secondary':
+    case "secondary":
       return `${baseClasses} border border-secondary-700/20`;
-    case 'accent':
+    case "accent":
       return `${baseClasses} border border-accent-700/20`;
     default:
       return `${baseClasses} border border-primary-700/20`;

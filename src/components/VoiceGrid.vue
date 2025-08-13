@@ -60,9 +60,9 @@
 </template>
 
 <script setup lang="ts">
-import {computed, ref} from 'vue';
-import {CheckCircleIcon, MagnifyingGlassIcon} from '@heroicons/vue/24/solid';
-import type {Voice} from '@/types/voice';
+import { CheckCircleIcon, MagnifyingGlassIcon } from "@heroicons/vue/24/solid";
+import { computed, ref } from "vue";
+import type { Voice } from "@/types/voice";
 
 // --- PROPS & EMITS ---
 
@@ -73,9 +73,9 @@ interface Props {
 }
 
 interface Emits {
-  (e: 'update:selectedVoice', voiceName: string): void;
+  (e: "update:selectedVoice", voiceName: string): void;
 
-  (e: 'change', isSearching: boolean): void;
+  (e: "change", isSearching: boolean): void;
 }
 
 const props = defineProps<Props>();
@@ -83,24 +83,26 @@ const emit = defineEmits<Emits>();
 
 // --- STATE ---
 
-const searchQuery = ref('');
+const searchQuery = ref("");
 const searchFocused = ref(false);
 
 // --- COMPUTED ---
 
-const isSearching = computed(() => searchQuery.value.trim().length > 0 || searchFocused.value);
+const isSearching = computed(
+  () => searchQuery.value.trim().length > 0 || searchFocused.value,
+);
 
 const filteredVoices = computed<Voice[]>(() => {
   let voicesToDisplay = [...props.voices];
   const query = searchQuery.value.toLowerCase().trim();
 
   if (query) {
-    voicesToDisplay = voicesToDisplay.filter(voice =>
-      voice.name.toLowerCase().includes(query)
+    voicesToDisplay = voicesToDisplay.filter((voice) =>
+      voice.name.toLowerCase().includes(query),
     );
   } else if (!isSearching.value && props.currentBitAmount !== undefined) {
-    voicesToDisplay = voicesToDisplay.filter(voice =>
-      voice.cost <= props.currentBitAmount!
+    voicesToDisplay = voicesToDisplay.filter(
+      (voice) => voice.cost <= props.currentBitAmount!,
     );
   }
 
@@ -110,8 +112,8 @@ const filteredVoices = computed<Voice[]>(() => {
 // --- METHODS ---
 
 const selectVoice = (voiceName: string) => {
-  emit('update:selectedVoice', voiceName);
-  emit('change', isSearching.value);
+  emit("update:selectedVoice", voiceName);
+  emit("change", isSearching.value);
 };
 
 const onSearchFocus = () => {
@@ -126,7 +128,8 @@ const onSearchBlur = () => {
 const handleWheel = (event: WheelEvent) => {
   const el = event.currentTarget as HTMLElement;
   const atTop = el.scrollTop === 0 && event.deltaY < 0;
-  const atBottom = el.scrollHeight - el.scrollTop <= el.clientHeight + 1 && event.deltaY > 0;
+  const atBottom =
+    el.scrollHeight - el.scrollTop <= el.clientHeight + 1 && event.deltaY > 0;
   if (atTop || atBottom) {
     event.preventDefault();
   }
@@ -135,33 +138,46 @@ const handleWheel = (event: WheelEvent) => {
 // --- DYNAMIC STYLING ---
 
 const isUnaffordable = (voice: Voice) =>
-  isSearching.value && props.currentBitAmount !== undefined && voice.cost > props.currentBitAmount;
+  isSearching.value &&
+  props.currentBitAmount !== undefined &&
+  voice.cost > props.currentBitAmount;
 
 const getVoiceCardClasses = (voice: Voice) => {
-  const base = 'group relative cursor-pointer rounded-lg border-2 p-4 text-center transition-all duration-200 m-1';
+  const base =
+    "group relative cursor-pointer rounded-lg border-2 p-4 text-center transition-all duration-200 m-1";
 
   if (props.selectedVoice === voice.name) {
-    return [base, 'border-primary-500 bg-primary-500/20 scale-105 shadow-lg'];
+    return [base, "border-primary-500 bg-primary-500/20 scale-105 shadow-lg"];
   }
   if (isUnaffordable(voice)) {
-    return [base, 'border-yellow-600/50 bg-yellow-900/20 hover:border-yellow-500/70 hover:bg-yellow-800/30'];
+    return [
+      base,
+      "border-yellow-600/50 bg-yellow-900/20 hover:border-yellow-500/70 hover:bg-yellow-800/30",
+    ];
   }
-  return [base, 'border-dark-700 bg-dark-800/60 hover:border-primary-600/70 hover:bg-dark-700'];
+  return [
+    base,
+    "border-dark-700 bg-dark-800/60 hover:border-primary-600/70 hover:bg-dark-700",
+  ];
 };
 
 const getCostTextClasses = (voice: Voice) => [
-  'text-xs',
-  isUnaffordable(voice) ? 'text-yellow-300 font-semibold' : 'text-primary-300',
+  "text-xs",
+  isUnaffordable(voice) ? "text-yellow-300 font-semibold" : "text-primary-300",
 ];
 
 const searchBarMotion = {
-  initial: {opacity: 0, y: -20},
-  enter: {opacity: 1, y: 0, transition: {delay: 100, duration: 300, ease: 'easeOut'}},
+  initial: { opacity: 0, y: -20 },
+  enter: {
+    opacity: 1,
+    y: 0,
+    transition: { delay: 100, duration: 300, ease: "easeOut" },
+  },
 };
 
 const gridMotion = {
-  initial: {opacity: 0},
-  enter: {opacity: 1, transition: {delay: 150, duration: 300}},
+  initial: { opacity: 0 },
+  enter: { opacity: 1, transition: { delay: 150, duration: 300 } },
 };
 </script>
 

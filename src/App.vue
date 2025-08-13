@@ -1,19 +1,19 @@
 <script setup lang="ts">
-import {onMounted, provide} from 'vue'
-import {useVoiceStore} from '@/stores/voiceStore'
-import {useAudio} from '@/composables/useAudio'
-import AppHeader from '@/components/AppHeader.vue'
-import InfoBox from '@/components/InfoBox.vue'
-import VoiceBuilder from '@/components/VoiceBuilder.vue'
+import { onMounted, provide } from "vue";
+import AppHeader from "@/components/AppHeader.vue";
+import InfoBox from "@/components/InfoBox.vue";
+import VoiceBuilder from "@/components/VoiceBuilder.vue";
+import { useAudio } from "@/composables/useAudio";
+import { useVoiceStore } from "@/stores/voiceStore";
 
-const voiceStore = useVoiceStore()
-const audio = useAudio()
+const voiceStore = useVoiceStore();
+const audio = useAudio();
 
-provide('audio', audio)
+provide("audio", audio);
 
 onMounted(() => {
-  voiceStore.loadVoices()
-})
+  voiceStore.loadVoices();
+});
 </script>
 
 <template>

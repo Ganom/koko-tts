@@ -1,6 +1,6 @@
-import type {ComputedRef, Ref} from 'vue';
-import {computed, ref} from 'vue';
-import {PlaybackStatus} from '@/types/audio';
+import type { ComputedRef, Ref } from "vue";
+import { computed, ref } from "vue";
+import { PlaybackStatus } from "@/types/audio";
 
 export interface UseAudioReturn {
   currentlyPlaying: ComputedRef<HTMLAudioElement | null>;
@@ -22,7 +22,7 @@ export function useAudio(): UseAudioReturn {
 
   const currentlyPlaying = computed(() => {
     const voiceName = currentlyPlayingVoiceName.value;
-    return voiceName ? audioCache.get(voiceName) ?? null : null;
+    return voiceName ? (audioCache.get(voiceName) ?? null) : null;
   });
 
   // --- HELPERS ---
@@ -32,14 +32,14 @@ export function useAudio(): UseAudioReturn {
   };
 
   const _setupAudioEvents = (audio: HTMLAudioElement, voiceName: string) => {
-    audio.addEventListener('ended', () => {
+    audio.addEventListener("ended", () => {
       setStatus(voiceName, PlaybackStatus.IDLE);
       if (currentlyPlayingVoiceName.value === voiceName) {
         currentlyPlayingVoiceName.value = null;
       }
     });
 
-    audio.addEventListener('error', (e) => {
+    audio.addEventListener("error", (e) => {
       setStatus(voiceName, PlaybackStatus.ERROR);
       console.error(`Error loading audio for "${voiceName}":`, e);
     });

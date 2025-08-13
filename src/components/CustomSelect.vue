@@ -38,203 +38,227 @@
 </template>
 
 <script setup lang="ts">
-import {computed, type CSSProperties, nextTick, onMounted, onUnmounted, ref} from 'vue'
-import {ChevronDownIcon} from '@heroicons/vue/24/solid'
+import { ChevronDownIcon } from "@heroicons/vue/24/solid";
+import {
+  type CSSProperties,
+  computed,
+  nextTick,
+  onMounted,
+  onUnmounted,
+  ref,
+} from "vue";
 
 // --- TYPES ---
 interface SelectOption {
-  label: string
-  value: string | number
+  label: string;
+  value: string | number;
 }
 
 // --- PROPS & EMITS ---
 interface Props {
-  modelValue: string | number
-  options: SelectOption[]
-  placeholder?: string
+  modelValue: string | number;
+  options: SelectOption[];
+  placeholder?: string;
 }
 
 interface Emits {
-  (e: 'update:modelValue', value: string | number): void
+  (e: "update:modelValue", value: string | number): void;
 
-  (e: 'change'): void
+  (e: "change"): void;
 }
 
 const props = withDefaults(defineProps<Props>(), {
-  placeholder: 'Select an option...',
-})
-const emit = defineEmits<Emits>()
+  placeholder: "Select an option...",
+});
+const emit = defineEmits<Emits>();
 
 // --- REFS & STATE ---
 
-const triggerRef = ref<HTMLElement | null>(null)
-const contentRef = ref<HTMLElement | null>(null)
-const isOpen = ref(false)
-const dropdownPosition = ref<{ top: number, left: number, width: number } | null>(null)
-const highlightedIndex = ref(-1)
-const isDropdownHovered = ref(false)
+const triggerRef = ref<HTMLElement | null>(null);
+const contentRef = ref<HTMLElement | null>(null);
+const isOpen = ref(false);
+const dropdownPosition = ref<{
+  top: number;
+  left: number;
+  width: number;
+} | null>(null);
+const highlightedIndex = ref(-1);
+const isDropdownHovered = ref(false);
 
 // --- COMPUTED ---
 
 const selectedLabel = computed(() => {
-  return props.options.find(option => option.value === props.modelValue)?.label || ''
-})
+  return (
+    props.options.find((option) => option.value === props.modelValue)?.label ||
+    ""
+  );
+});
 
 const triggerClasses = computed(() => [
-  'w-full bg-dark-900/60 border border-primary-700/40 rounded-lg px-4 py-3 text-white',
-  'focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-500/50',
-  'hover:border-primary-500/60 transition-colors cursor-pointer text-left',
-  'flex items-center justify-between',
-])
+  "w-full bg-dark-900/60 border border-primary-700/40 rounded-lg px-4 py-3 text-white",
+  "focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-500/50",
+  "hover:border-primary-500/60 transition-colors cursor-pointer text-left",
+  "flex items-center justify-between",
+]);
 
 const dropdownStyle = computed<CSSProperties>(() => ({
-  position: 'fixed',
+  position: "fixed",
   top: `${dropdownPosition.value?.top ?? 0}px`,
   left: `${dropdownPosition.value?.left ?? 0}px`,
   width: `${dropdownPosition.value?.width ?? 0}px`,
   zIndex: 999999,
-}))
+}));
 
 // --- CORE LOGIC ---
 
 const open = () => {
-  isOpen.value = true
-  const rect = triggerRef.value?.getBoundingClientRect()
+  isOpen.value = true;
+  const rect = triggerRef.value?.getBoundingClientRect();
   if (rect) {
     dropdownPosition.value = {
       top: rect.bottom + 4,
       left: rect.left,
       width: rect.width,
-    }
+    };
   }
 
   nextTick(() => {
-    const currentIndex = props.options.findIndex(option => option.value === props.modelValue)
-    highlightedIndex.value = currentIndex > -1 ? currentIndex : 0
-    scrollToOption(highlightedIndex.value)
-  })
-}
+    const currentIndex = props.options.findIndex(
+      (option) => option.value === props.modelValue,
+    );
+    highlightedIndex.value = currentIndex > -1 ? currentIndex : 0;
+    scrollToOption(highlightedIndex.value);
+  });
+};
 
 const close = () => {
-  isOpen.value = false
-  highlightedIndex.value = -1
-}
+  isOpen.value = false;
+  highlightedIndex.value = -1;
+};
 
 const toggle = () => {
-  isOpen.value ? close() : open()
-}
+  isOpen.value ? close() : open();
+};
 
 const selectOption = (option: SelectOption): void => {
-  emit('update:modelValue', option.value)
-  emit('change')
-  close()
-}
+  emit("update:modelValue", option.value);
+  emit("change");
+  close();
+};
 
 // --- KEYBOARD & SCROLL HANDLING ---
 
 const scrollToOption = (index: number) => {
-  const dropdown = contentRef.value
-  const optionEl = dropdown?.children[index] as HTMLElement
-  if (!dropdown || !optionEl) return
+  const dropdown = contentRef.value;
+  const optionEl = dropdown?.children[index] as HTMLElement;
+  if (!dropdown || !optionEl) return;
 
-  const dropdownRect = dropdown.getBoundingClientRect()
-  const optionRect = optionEl.getBoundingClientRect()
+  const dropdownRect = dropdown.getBoundingClientRect();
+  const optionRect = optionEl.getBoundingClientRect();
 
   if (optionRect.bottom > dropdownRect.bottom) {
-    dropdown.scrollTop += optionRect.bottom - dropdownRect.bottom
+    dropdown.scrollTop += optionRect.bottom - dropdownRect.bottom;
   } else if (optionRect.top < dropdownRect.top) {
-    dropdown.scrollTop -= dropdownRect.top - optionRect.top
+    dropdown.scrollTop -= dropdownRect.top - optionRect.top;
   }
-}
+};
 
-const navigateOptions = (direction: 'up' | 'down') => {
-  if (!props.options.length) return
+const navigateOptions = (direction: "up" | "down") => {
+  if (!props.options.length) return;
 
-  const delta = direction === 'down' ? 1 : -1
-  const newIndex = Math.max(0, Math.min(highlightedIndex.value + delta, props.options.length - 1))
+  const delta = direction === "down" ? 1 : -1;
+  const newIndex = Math.max(
+    0,
+    Math.min(highlightedIndex.value + delta, props.options.length - 1),
+  );
 
   if (newIndex !== highlightedIndex.value) {
-    highlightedIndex.value = newIndex
-    scrollToOption(newIndex)
-    emit('update:modelValue', props.options[newIndex].value)
-    emit('change')
+    highlightedIndex.value = newIndex;
+    scrollToOption(newIndex);
+    emit("update:modelValue", props.options[newIndex].value);
+    emit("change");
   }
-}
+};
 
 const handleKeydown = (event: KeyboardEvent) => {
-  if (!isOpen.value) return
+  if (!isOpen.value) return;
 
   switch (event.key) {
-    case 'ArrowDown':
-      event.preventDefault()
-      navigateOptions('down')
-      break
-    case 'ArrowUp':
-      event.preventDefault()
-      navigateOptions('up')
-      break
-    case 'Enter':
-      event.preventDefault()
+    case "ArrowDown":
+      event.preventDefault();
+      navigateOptions("down");
+      break;
+    case "ArrowUp":
+      event.preventDefault();
+      navigateOptions("up");
+      break;
+    case "Enter":
+      event.preventDefault();
       if (highlightedIndex.value > -1) {
-        selectOption(props.options[highlightedIndex.value])
+        selectOption(props.options[highlightedIndex.value]);
       }
-      break
-    case 'Escape':
-      event.preventDefault()
-      close()
-      break
+      break;
+    case "Escape":
+      event.preventDefault();
+      close();
+      break;
   }
-}
+};
 
 const handleDropdownWheel = (event: WheelEvent) => {
-  const dropdown = event.currentTarget as HTMLElement
-  const {scrollTop, scrollHeight, clientHeight} = dropdown
-  const atTop = scrollTop === 0 && event.deltaY < 0
-  const atBottom = scrollHeight - scrollTop <= clientHeight + 1 && event.deltaY > 0
+  const dropdown = event.currentTarget as HTMLElement;
+  const { scrollTop, scrollHeight, clientHeight } = dropdown;
+  const atTop = scrollTop === 0 && event.deltaY < 0;
+  const atBottom =
+    scrollHeight - scrollTop <= clientHeight + 1 && event.deltaY > 0;
 
   if (atTop || atBottom) {
-    event.preventDefault()
+    event.preventDefault();
   }
-}
+};
 
 // --- DYNAMIC STYLING ---
 
 const getOptionClasses = (option: SelectOption, index: number) => {
-  const isSelected = option.value === props.modelValue
-  const isHighlighted = index === highlightedIndex.value
+  const isSelected = option.value === props.modelValue;
+  const isHighlighted = index === highlightedIndex.value;
   return [
-    'px-4 py-3 text-white hover:bg-primary-600/20 cursor-pointer',
-    'transition-colors border-b border-primary-700/20 last:border-b-0',
+    "px-4 py-3 text-white hover:bg-primary-600/20 cursor-pointer",
+    "transition-colors border-b border-primary-700/20 last:border-b-0",
     {
-      'bg-primary-600/30': isSelected,
-      'bg-primary-500/15': isHighlighted && !isSelected,
+      "bg-primary-600/30": isSelected,
+      "bg-primary-500/15": isHighlighted && !isSelected,
     },
-  ]
-}
+  ];
+};
 
 // --- GLOBAL EVENT LISTENERS ---
 
 const handleClickOutside = (event: MouseEvent) => {
-  if (triggerRef.value && !triggerRef.value.contains(event.target as Node) && !contentRef.value?.contains(event.target as Node)) {
-    close()
+  if (
+    triggerRef.value &&
+    !triggerRef.value.contains(event.target as Node) &&
+    !contentRef.value?.contains(event.target as Node)
+  ) {
+    close();
   }
-}
+};
 
 const handlePageScroll = (event: Event) => {
   if (isOpen.value && !isDropdownHovered.value && event instanceof WheelEvent) {
-    close()
+    close();
   }
-}
+};
 
 onMounted(() => {
-  document.addEventListener('keydown', handleKeydown)
-  document.addEventListener('click', handleClickOutside, true)
-  document.addEventListener('wheel', handlePageScroll, true)
-})
+  document.addEventListener("keydown", handleKeydown);
+  document.addEventListener("click", handleClickOutside, true);
+  document.addEventListener("wheel", handlePageScroll, true);
+});
 
 onUnmounted(() => {
-  document.removeEventListener('keydown', handleKeydown)
-  document.removeEventListener('click', handleClickOutside, true)
-  document.removeEventListener('wheel', handlePageScroll, true)
-})
+  document.removeEventListener("keydown", handleKeydown);
+  document.removeEventListener("click", handleClickOutside, true);
+  document.removeEventListener("wheel", handlePageScroll, true);
+});
 </script>

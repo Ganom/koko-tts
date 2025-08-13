@@ -107,148 +107,212 @@
 </template>
 
 <script setup lang="ts">
-
-import {computed, defineComponent, h, onMounted, ref, watch} from 'vue'
-import {useVoiceStore} from '@/stores/voiceStore'
-import type {Voice} from '@/types/voice'
-import CustomSelect from './CustomSelect.vue'
-import VoiceGrid from './VoiceGrid.vue'
-import AudioPlayerSquare from './AudioPlayerSquare.vue'
-import {useLocalStorage} from '@/composables/useLocalStorage'
-import {Bars3Icon, CheckIcon, ClipboardIcon} from '@heroicons/vue/24/solid'
+import { Bars3Icon, CheckIcon, ClipboardIcon } from "@heroicons/vue/24/solid";
+import { computed, defineComponent, h, onMounted, ref, watch } from "vue";
+import { useLocalStorage } from "@/composables/useLocalStorage";
+import { useVoiceStore } from "@/stores/voiceStore";
+import type { Voice } from "@/types/voice";
+import AudioPlayerSquare from "./AudioPlayerSquare.vue";
+import CustomSelect from "./CustomSelect.vue";
+import VoiceGrid from "./VoiceGrid.vue";
 
 // --- LOCAL SUB-COMPONENTS ---
 
 const FormSection = defineComponent({
-  props: {title: {type: String, default: ''}},
-  setup(props, {slots}) {
-    return () => h('div', {}, [
-      props.title
-        ? h('label', {class: 'block text-white font-bold mb-3'}, props.title)
-        : slots.title ? h('div', {class: 'block text-white font-bold mb-3'}, slots.title()) : null,
-      slots.default ? slots.default() : null,
-    ]);
-  }
+  props: { title: { type: String, default: "" } },
+  setup(props, { slots }) {
+    return () =>
+      h("div", {}, [
+        props.title
+          ? h(
+              "label",
+              { class: "block text-white font-bold mb-3" },
+              props.title,
+            )
+          : slots.title
+            ? h(
+                "div",
+                { class: "block text-white font-bold mb-3" },
+                slots.title(),
+              )
+            : null,
+        slots.default ? slots.default() : null,
+      ]);
+  },
 });
 
 const ButtonGroup = defineComponent({
   props: {
-    modelValue: {type: [String, Number], required: true},
+    modelValue: { type: [String, Number], required: true },
     options: {
       type: Array as () => Array<{
         value: string | number;
         label: string;
         detail?: string;
-        theme: string
-      }>, required: true
+        theme: string;
+      }>,
+      required: true,
     },
   },
-  emits: ['update:modelValue'],
-  setup(props, {emit}) {
+  emits: ["update:modelValue"],
+  setup(props, { emit }) {
     const getButtonClasses = (opt: any, isSelected: boolean) => {
-      const baseClasses = 'p-3 rounded-lg border text-white font-medium transition-colors text-center';
-      const bgClasses = isSelected ? getBgClass(opt.theme) : 'bg-dark-700 hover:bg-dark-600';
+      const baseClasses =
+        "p-3 rounded-lg border text-white font-medium transition-colors text-center";
+      const bgClasses = isSelected
+        ? getBgClass(opt.theme)
+        : "bg-dark-700 hover:bg-dark-600";
       const borderClasses = getBorderClass(opt.theme);
       return `${baseClasses} ${bgClasses} ${borderClasses}`;
     };
 
     const getBgClass = (theme: string) => {
       switch (theme) {
-        case 'primary': return 'bg-primary-600';
-        case 'secondary': return 'bg-secondary-600';
-        case 'accent': return 'bg-accent-600';
-        default: return 'bg-primary-600';
+        case "primary":
+          return "bg-primary-600";
+        case "secondary":
+          return "bg-secondary-600";
+        case "accent":
+          return "bg-accent-600";
+        default:
+          return "bg-primary-600";
       }
     };
 
     const getBorderClass = (theme: string) => {
       switch (theme) {
-        case 'primary': return 'border-primary-700/40';
-        case 'secondary': return 'border-secondary-700/40';
-        case 'accent': return 'border-accent-700/40';
-        default: return 'border-primary-700/40';
+        case "primary":
+          return "border-primary-700/40";
+        case "secondary":
+          return "border-secondary-700/40";
+        case "accent":
+          return "border-accent-700/40";
+        default:
+          return "border-primary-700/40";
       }
     };
 
     const getTextClass = (theme: string) => {
       switch (theme) {
-        case 'primary': return 'text-sm text-primary-300';
-        case 'secondary': return 'text-sm text-secondary-300';
-        case 'accent': return 'text-sm text-accent-300';
-        default: return 'text-sm text-primary-300';
+        case "primary":
+          return "text-sm text-primary-300";
+        case "secondary":
+          return "text-sm text-secondary-300";
+        case "accent":
+          return "text-sm text-accent-300";
+        default:
+          return "text-sm text-primary-300";
       }
     };
 
-    return () => h('div', {class: 'grid grid-cols-3 gap-3'},
-      props.options.map(opt =>
-        h('button', {
-          onClick: () => emit('update:modelValue', opt.value),
-          class: getButtonClasses(opt, props.modelValue === opt.value),
-        }, [
-          opt.label,
-          opt.detail ? h('br') : null,
-          opt.detail ? h('span', {class: getTextClass(opt.theme)}, opt.detail) : null,
-        ])
-      )
-    );
-  }
+    return () =>
+      h(
+        "div",
+        { class: "grid grid-cols-3 gap-3" },
+        props.options.map((opt) =>
+          h(
+            "button",
+            {
+              onClick: () => emit("update:modelValue", opt.value),
+              class: getButtonClasses(opt, props.modelValue === opt.value),
+            },
+            [
+              opt.label,
+              opt.detail ? h("br") : null,
+              opt.detail
+                ? h("span", { class: getTextClass(opt.theme) }, opt.detail)
+                : null,
+            ],
+          ),
+        ),
+      );
+  },
 });
 
 // --- DATA & CONFIGURATION ---
 
 const voiceStore = useVoiceStore();
-const inputClasses = 'border-primary-700/40 hover:border-primary-500/60 focus:border-primary-500 focus:ring-2 focus:ring-primary-500/50';
+const inputClasses =
+  "border-primary-700/40 hover:border-primary-500/60 focus:border-primary-500 focus:ring-2 focus:ring-primary-500/50";
 
 const redeemOptions = [
-  {value: 'cheer', label: 'Cheer', theme: 'primary'},
-  {value: 'points', label: 'Channel Points', theme: 'secondary'},
-  {value: 'resub', label: 'Resub', theme: 'accent'},
+  { value: "cheer", label: "Cheer", theme: "primary" },
+  { value: "points", label: "Channel Points", theme: "secondary" },
+  { value: "resub", label: "Resub", theme: "accent" },
 ];
 
 const tierOptions = [
-  {value: 1, label: 'Tier 1', detail: '500 bits', theme: 'primary'},
-  {value: 2, label: 'Tier 2', detail: '1000 bits', theme: 'secondary'},
-  {value: 3, label: 'Tier 3', detail: '2500 bits', theme: 'accent'},
+  { value: 1, label: "Tier 1", detail: "500 bits", theme: "primary" },
+  { value: 2, label: "Tier 2", detail: "1000 bits", theme: "secondary" },
+  { value: 3, label: "Tier 3", detail: "2500 bits", theme: "accent" },
 ];
 
-const textEffectOptions = [{label: 'None', value: 'none'}, {
-  label: 'Glitch',
-  value: 'glitch'
-}, {label: 'Typewriter', value: 'typewriter'}, {
-  label: 'Rainbow Wave',
-  value: 'rainbow'
-}, {label: 'Karaoke', value: 'karaoke'}];
+const textEffectOptions = [
+  { label: "None", value: "none" },
+  {
+    label: "Glitch",
+    value: "glitch",
+  },
+  { label: "Typewriter", value: "typewriter" },
+  {
+    label: "Rainbow Wave",
+    value: "rainbow",
+  },
+  { label: "Karaoke", value: "karaoke" },
+];
 const modelOptions = [
-  {label: 'None', value: 'none'}, {label: 'Turbo v2', value: 'turbo'}, {
-    label: 'Turbo v2.5',
-    value: 'turbov2.5'
-  }, {label: 'Flash v2', value: 'flashv2'}, {
-    label: 'Flash v2.5',
-    value: 'flashv2.5'
-  }, {label: 'Multilingual v2', value: 'multilingual'}];
+  { label: "None", value: "none" },
+  { label: "Turbo v2", value: "turbo" },
+  {
+    label: "Turbo v2.5",
+    value: "turbov2.5",
+  },
+  { label: "Flash v2", value: "flashv2" },
+  {
+    label: "Flash v2.5",
+    value: "flashv2.5",
+  },
+  { label: "Multilingual v2", value: "multilingual" },
+];
 
 // --- ANIMATIONS ---
 
 const motions = {
   container: {
-    initial: {opacity: 0, y: 50},
-    enter: {opacity: 1, y: 0, transition: {delay: 400, duration: 400, ease: 'easeOut'}}
+    initial: { opacity: 0, y: 50 },
+    enter: {
+      opacity: 1,
+      y: 0,
+      transition: { delay: 400, duration: 400, ease: "easeOut" },
+    },
   },
   header: {
-    initial: {opacity: 0, y: 20},
-    enter: {opacity: 1, y: 0, transition: {delay: 450, duration: 300}}
+    initial: { opacity: 0, y: 20 },
+    enter: { opacity: 1, y: 0, transition: { delay: 450, duration: 300 } },
   },
   controls: {
-    initial: {opacity: 0, x: -30},
-    enter: {opacity: 1, x: 0, transition: {delay: 500, duration: 300, ease: 'easeOut'}}
+    initial: { opacity: 0, x: -30 },
+    enter: {
+      opacity: 1,
+      x: 0,
+      transition: { delay: 500, duration: 300, ease: "easeOut" },
+    },
   },
   voiceGrid: {
-    initial: {opacity: 0, x: 30},
-    enter: {opacity: 1, x: 0, transition: {delay: 550, duration: 300, ease: 'easeOut'}}
+    initial: { opacity: 0, x: 30 },
+    enter: {
+      opacity: 1,
+      x: 0,
+      transition: { delay: 550, duration: 300, ease: "easeOut" },
+    },
   },
   preview: {
-    initial: {opacity: 0, y: 30},
-    enter: {opacity: 1, y: 0, transition: {delay: 600, duration: 300, ease: 'easeOut'}}
+    initial: { opacity: 0, y: 30 },
+    enter: {
+      opacity: 1,
+      y: 0,
+      transition: { delay: 600, duration: 300, ease: "easeOut" },
+    },
   },
 };
 
@@ -256,7 +320,7 @@ const motions = {
 
 interface Settings {
   selectedVoice: string;
-  redeemMethod: 'cheer' | 'points' | 'resub';
+  redeemMethod: "cheer" | "points" | "resub";
   bitAmount: number;
   resubTier: 1 | 2 | 3;
   textEffect: string;
@@ -265,15 +329,18 @@ interface Settings {
 }
 
 const defaultSettings: Settings = {
-  selectedVoice: '',
-  redeemMethod: 'cheer',
+  selectedVoice: "",
+  redeemMethod: "cheer",
   bitAmount: 5000,
   resubTier: 1,
-  textEffect: 'none',
-  selectedModel: 'none',
-  message: ''
+  textEffect: "none",
+  selectedModel: "none",
+  message: "",
 };
-const [settings, setSettings] = useLocalStorage('voiceBuilderSettings', defaultSettings);
+const [settings, setSettings] = useLocalStorage(
+  "voiceBuilderSettings",
+  defaultSettings,
+);
 
 const selectedVoice = ref(settings.value.selectedVoice);
 const message = ref(settings.value.message);
@@ -288,18 +355,20 @@ const bitAmountUpdated = ref(false);
 // --- VOICE DATA & ELIGIBILITY ---
 
 const allVoices = computed(() => voiceStore.sortedVoices);
-const getVoiceByName = (name: string) => allVoices.value.find(v => v.name === name);
+const getVoiceByName = (name: string) =>
+  allVoices.value.find((v) => v.name === name);
 
 const bitAmountForGrid = computed(() => {
-  if (redeemMethod.value === 'resub') return {1: 500, 2: 1000, 3: 2500}[resubTier.value];
-  if (redeemMethod.value === 'points') return 999;
+  if (redeemMethod.value === "resub")
+    return { 1: 500, 2: 1000, 3: 2500 }[resubTier.value];
+  if (redeemMethod.value === "points") return 999;
   return bitAmount.value;
 });
 
 const eligibleVoices = computed<Voice[]>(() => {
   const maxCost = bitAmountForGrid.value;
   return allVoices.value
-    .filter(voice => voice.cost <= maxCost)
+    .filter((voice) => voice.cost <= maxCost)
     .sort((a, b) => b.cost - a.cost || a.name.localeCompare(b.name));
 });
 
@@ -309,24 +378,30 @@ const minBitAmount = computed(() => {
 });
 
 function checkVoiceEligibility() {
-  if (selectedVoice.value && !eligibleVoices.value.some(v => v.name === selectedVoice.value)) {
-    selectedVoice.value = '';
+  if (
+    selectedVoice.value &&
+    !eligibleVoices.value.some((v) => v.name === selectedVoice.value)
+  ) {
+    selectedVoice.value = "";
   }
 }
 
 // --- COMMAND GENERATION ---
 
-const displayMessage = computed(() => message.value.trim() || getVoiceByName(selectedVoice.value)?.text || '');
+const displayMessage = computed(
+  () => message.value.trim() || getVoiceByName(selectedVoice.value)?.text || "",
+);
 
 const generatedCommand = computed(() => {
-  if (!selectedVoice.value || !displayMessage.value) return '';
+  if (!selectedVoice.value || !displayMessage.value) return "";
 
   const voiceName = selectedVoice.value.toLowerCase();
-  const model = selectedModel.value !== 'none' ? `:${selectedModel.value}` : '';
-  const effect = textEffect.value !== 'none' ? `:${textEffect.value}` : '';
+  const model = selectedModel.value !== "none" ? `:${selectedModel.value}` : "";
+  const effect = textEffect.value !== "none" ? `:${textEffect.value}` : "";
   const voiceTag = `[${voiceName}${model}${effect}]`;
 
-  if (redeemMethod.value === 'cheer') return `Cheer${bitAmount.value} ${voiceTag} ${displayMessage.value}`;
+  if (redeemMethod.value === "cheer")
+    return `Cheer${bitAmount.value} ${voiceTag} ${displayMessage.value}`;
   return `${voiceTag} ${displayMessage.value}`;
 });
 
@@ -334,16 +409,16 @@ const commandParts = computed(() => {
   if (!generatedCommand.value) return [];
 
   const parts = [];
-  if (redeemMethod.value === 'cheer') {
-    parts.push({text: `Cheer${bitAmount.value} `, class: 'text-primary-300'});
+  if (redeemMethod.value === "cheer") {
+    parts.push({ text: `Cheer${bitAmount.value} `, class: "text-primary-300" });
   }
 
   const voiceTagMatch = generatedCommand.value.match(/(\[.*?])/);
   if (voiceTagMatch) {
-    parts.push({text: `${voiceTagMatch[1]} `, class: 'text-secondary-400'});
+    parts.push({ text: `${voiceTagMatch[1]} `, class: "text-secondary-400" });
   }
 
-  parts.push({text: displayMessage.value, class: 'text-accent-400'});
+  parts.push({ text: displayMessage.value, class: "text-accent-400" });
   return parts;
 });
 
@@ -355,12 +430,15 @@ function triggerFlash() {
 }
 
 function updateBitAmountFromGrid(isSearching: boolean = false) {
-  if (redeemMethod.value !== 'cheer' || !selectedVoice.value) return;
+  if (redeemMethod.value !== "cheer" || !selectedVoice.value) return;
 
   const voiceCost = getVoiceByName(selectedVoice.value)?.cost ?? 0;
   const targetAmount = Math.max(voiceStore.minCost, voiceCost);
 
-  if ((isSearching && bitAmount.value !== targetAmount) || (!isSearching && bitAmount.value < targetAmount)) {
+  if (
+    (isSearching && bitAmount.value !== targetAmount) ||
+    (!isSearching && bitAmount.value < targetAmount)
+  ) {
     bitAmount.value = targetAmount;
     triggerFlash();
   }
@@ -384,7 +462,7 @@ watch(bitAmount, (newAmount) => {
     if (selectedVoice.value) {
       const voiceCost = getVoiceByName(selectedVoice.value)?.cost ?? 0;
       if (currentAmount < voiceCost) {
-        selectedVoice.value = '';
+        selectedVoice.value = "";
       }
     }
 
@@ -392,21 +470,31 @@ watch(bitAmount, (newAmount) => {
       bitAmount.value = voiceStore.minCost;
       triggerFlash();
     }
-
   }, 500);
 });
 
-watch([selectedVoice, redeemMethod, bitAmount, resubTier, textEffect, selectedModel, message], () => {
-  setSettings({
-    selectedVoice: selectedVoice.value,
-    redeemMethod: redeemMethod.value,
-    bitAmount: bitAmount.value,
-    resubTier: resubTier.value,
-    textEffect: textEffect.value,
-    selectedModel: selectedModel.value,
-    message: message.value
-  });
-});
+watch(
+  [
+    selectedVoice,
+    redeemMethod,
+    bitAmount,
+    resubTier,
+    textEffect,
+    selectedModel,
+    message,
+  ],
+  () => {
+    setSettings({
+      selectedVoice: selectedVoice.value,
+      redeemMethod: redeemMethod.value,
+      bitAmount: bitAmount.value,
+      resubTier: resubTier.value,
+      textEffect: textEffect.value,
+      selectedModel: selectedModel.value,
+      message: message.value,
+    });
+  },
+);
 
 onMounted(() => {
   if (!voiceStore.voices.length) {

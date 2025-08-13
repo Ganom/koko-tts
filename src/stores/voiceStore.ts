@@ -1,9 +1,8 @@
-import {defineStore} from 'pinia';
-import {computed, ref} from 'vue';
-import type {Voice, VoiceMap} from '@/types/voice';
+import { defineStore } from "pinia";
+import { computed, ref } from "vue";
+import type { Voice, VoiceMap } from "@/types/voice";
 
-
-export const useVoiceStore = defineStore('voice', () => {
+export const useVoiceStore = defineStore("voice", () => {
   // --- STATE ---
 
   const voices = ref<Voice[]>([]);
@@ -13,12 +12,12 @@ export const useVoiceStore = defineStore('voice', () => {
   const isLoading = ref(false);
   const error = ref<string | null>(null);
 
-  const searchQuery = ref('');
+  const searchQuery = ref("");
 
   // --- GETTERS & SELECTORS ---
 
-  const voicesMap = computed(() =>
-    new Map(voices.value.map(voice => [voice.name, voice]))
+  const voicesMap = computed(
+    () => new Map(voices.value.map((voice) => [voice.name, voice])),
   );
 
   const getVoiceByName = computed(() => {
@@ -28,8 +27,12 @@ export const useVoiceStore = defineStore('voice', () => {
   const filteredVoices = computed<Voice[]>(() => {
     const query = searchQuery.value.toLowerCase().trim();
 
-    return voices.value.filter(voice => {
-      return !(query && !voice.name.toLowerCase().includes(query) && !voice.text.toLowerCase().includes(query));
+    return voices.value.filter((voice) => {
+      return !(
+        query &&
+        !voice.name.toLowerCase().includes(query) &&
+        !voice.text.toLowerCase().includes(query)
+      );
     });
   });
 
@@ -50,24 +53,28 @@ export const useVoiceStore = defineStore('voice', () => {
     error.value = null;
 
     try {
-      const response = await fetch('/voices.json');
+      const response = await fetch("/voices.json");
       if (!response.ok) {
         throw new Error(`Failed to load voices: ${response.status}`);
       }
 
       const voiceMap: VoiceMap = await response.json();
-      const loadedVoices = Object.entries(voiceMap).map(([name, data]) => ({name, ...data}));
+      const loadedVoices = Object.entries(voiceMap).map(([name, data]) => ({
+        name,
+        ...data,
+      }));
 
       voices.value = loadedVoices;
 
       if (loadedVoices.length > 0) {
-        const costs = loadedVoices.map(v => v.cost);
+        const costs = loadedVoices.map((v) => v.cost);
         minCost.value = Math.min(...costs);
         maxCost.value = Math.max(...costs);
       }
     } catch (err) {
-      error.value = err instanceof Error ? err.message : 'An unknown error occurred';
-      console.error('Failed to load voices:', err);
+      error.value =
+        err instanceof Error ? err.message : "An unknown error occurred";
+      console.error("Failed to load voices:", err);
     } finally {
       isLoading.value = false;
     }
