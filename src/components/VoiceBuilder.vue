@@ -283,6 +283,7 @@ const textEffectOptions = [
 ];
 const modelOptions = [
   { label: "None", value: "none" },
+  { label: "Eleven v3", value: "v3" },
   { label: "Turbo v2", value: "turbo" },
   {
     label: "Turbo v2.5",
