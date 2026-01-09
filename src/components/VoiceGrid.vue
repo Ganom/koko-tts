@@ -37,6 +37,13 @@
         @mousedown.prevent
         @click="selectVoice(voice.name)"
       >
+        <div
+          v-if="voice.limited"
+          class="absolute top-2 left-2 z-10 rounded-full bg-yellow-900/70 border border-yellow-500/50 px-2 py-0.5 text-[10px] font-bold uppercase tracking-wide text-yellow-200"
+          title="Limited-time voice"
+        >
+          Limited
+        </div>
         <div class="relative mb-2">
           <img
             :src="`/icons/${voice.name.toLowerCase()}.webp`"
@@ -53,7 +60,7 @@
         </div>
         <p
           class="font-semibold text-white text-sm leading-tight mb-1 min-h-[2.5rem] flex items-center justify-center truncate px-1"
-          :title="voice.name"
+          :title="voice.limited ? `${voice.name} (limited time)` : voice.name"
         >
           {{ voice.name }}
         </p>
