@@ -11,201 +11,219 @@
     "text": "this is a premium dandy voice and im expensive to use because of no reason at all other than to flex!",
     "cost": 1000
   },
-  "randy": {
-    "text": "this is the voice, randy, and koko is a shitbitch",
-    "cost": 500
-  },
   "2b": {
     "text": "this is the voice, 2b, and koko is a shitbitch",
-    "cost": 200
+    "cost": 300
   },
   "aussie": {
     "text": "this is the voice, aussie, and koko is a shitbitch",
-    "cost": 200
+    "cost": 300
   },
   "baldi": {
     "text": "this is the voice, baldi, and koko is scary",
-    "cost": 200
+    "cost": 300
   },
   "becki": {
     "text": "this is the voice, becki, and koko is fackin betch",
-    "cost": 200
+    "cost": 300
   },
   "ben": {
     "text": "this is the voice, ben, and koko is a shitbitch",
-    "cost": 200
+    "cost": 300
   },
   "bernie": {
     "text": "this is the voice, bernie, and koko is a shitbitch",
-    "cost": 200
+    "cost": 300
+  },
+  "billy": {
+    "text": "this is the voice, billy, and koko is a shitbitch",
+    "cost": 300
   },
   "bonnie": {
     "text": "this is the voice, bonnie, and koko is DISGOOSTANG",
-    "cost": 200
+    "cost": 300
   },
   "brad": {
     "text": "this is the surfer voice, brad, and koko is a rad dude",
-    "cost": 200
+    "cost": 300
   },
   "chester": {
     "text": "I'm Chester the f*cking Jester and this is jackass. I'm gonna slam my p*nis in this car door. *Screams*",
-    "cost": 200
+    "cost": 300
   },
   "chief": {
     "text": "this is the voice, chief, and koko is a shitbitch",
-    "cost": 200
+    "cost": 300
   },
   "cletus": {
     "text": "this is the voice, cletus, and koko is a shitbitch",
-    "cost": 200
+    "cost": 300
   },
   "cooler dan": {
     "text": "this is the voice, cooler dan, and koko is a shitbitch",
-    "cost": 200
+    "cost": 300
   },
   "cowboy": {
     "text": "this is the voice, cowboy, and koko's cornbread aint done in the middle",
-    "cost": 200
+    "cost": 300
   },
   "daddy": {
     "text": "this is the voice, daddy, and daddy is finished with kitten",
-    "cost": 200
+    "cost": 300
   },
   "dagoth": {
     "text": "this is the voice, dagoth, and koko is a shitbitch",
-    "cost": 200
+    "cost": 300
   },
   "dan": {
     "text": "my name is dan and i miss my kids and my ex wife",
-    "cost": 200
+    "cost": 300
   },
   "dandy": {
     "text": "this is the voice, dandy, and koko is... i don't know... i'm running out of ideas",
-    "cost": 200
+    "cost": 300
   },
   "demon": {
     "text": "this is the voice, demon, and gloria a las plagas!",
-    "cost": 200
+    "cost": 300
   },
   "doc": {
     "text": "this is the voice, doc, and koko is for sure a shitbitch",
-    "cost": 200
+    "cost": 300
   },
   "dracula": {
     "text": "this is the voice, dracula, and koko is mayhaps a shitbitch",
-    "cost": 200
+    "cost": 300
   },
   "drum": {
     "text": "this is the voice, drum, and I hope you're a girl. fuckyeah",
-    "cost": 200
+    "cost": 300
   },
   "fred": {
     "text": "this is the voice, fred, and koko is a shitbitch. haha!",
-    "cost": 200
+    "cost": 300
   },
   "ganom": {
     "text": "this is the voice, ganom, and koko held me at gunpoint until I provided this voice",
-    "cost": 200
+    "cost": 300
   },
   "giga timmy": {
     "text": "my name is giga timmy and my muscles are HUGE",
-    "cost": 200
+    "cost": 300
   },
   "goblin": {
     "text": "this is the voice, goblin, and koko is not a shitbitch",
-    "cost": 200
+    "cost": 300
   },
   "grump": {
     "text": "*sigh* this is the voice, grump, and... man what am I even doing here, i just worked a 16 hour shift and now I gotta read some shitty copypasta?",
-    "cost": 200
+    "cost": 300
   },
   "hag": {
     "text": "this is the voice hag, and im old as dirt!",
-    "cost": 200
+    "cost": 300
   },
   "herbi": {
     "text": "this is the voice, herbi, and koko is... huh? what? oh sorry, i fell asleep",
-    "cost": 200
+    "cost": 300
   },
   "it": {
     "text": "i am it and i am here to haunt your dreams...",
-    "cost": 200
+    "cost": 300
+  },
+  "johnny": {
+    "text": "this is the voice, johnny, and koko is a shitbitch",
+    "cost": 300,
+    "limited": true
   },
   "kawaii": {
     "text": "this is the voice, kawaii, and oh god this voice is so annoying",
-    "cost": 200
+    "cost": 300
   },
   "kuro": {
     "text": "this is the voice, kuro, and koko is a shitbitch",
-    "cost": 200
+    "cost": 300
   },
   "lutz": {
     "text": "this is the voice, lutz, and I laugh at things that aren't funny... like koko jokes",
-    "cost": 200
+    "cost": 300
   },
   "mats": {
     "text": "esta es la voz, kuro, y yo soy un artista increíble",
-    "cost": 200
+    "cost": 300
   },
   "messmer": {
     "text": "this is the voice, messmer, and koko is a shitbitch",
-    "cost": 200
+    "cost": 300
   },
   "mommy": {
     "text": "this is the voice for mommy, and shes very disappointed in you",
-    "cost": 200
+    "cost": 300
   },
   "nerd": {
     "text": "this is the voice, nerd, and koko doesn't know algebra",
-    "cost": 200
+    "cost": 300
   },
   "penny": {
     "text": "this is the voice, penny, and koko is a shitbitch",
-    "cost": 200
+    "cost": 300
   },
   "pirate": {
     "text": "this is the voice, pirate, and koko is a landlubber",
-    "cost": 200
+    "cost": 300
+  },
+  "randy": {
+    "text": "this is the voice, randy, and koko is a shitbitch",
+    "cost": 300
   },
   "ranni": {
     "text": "this is the voice, ranni, and koko is most likely a shitbitch",
-    "cost": 200
+    "cost": 300
   },
   "sad": {
     "text": "this is the voice, sad, and koko is a shitbitch. waaaa!",
-    "cost": 200
+    "cost": 300
   },
   "santa": {
     "text": "this is the voice, santa, and koko is getting coal this year. ho ho ho!",
-    "cost": 200
+    "cost": 300
   },
   "timmy": {
     "text": "this is the voice, timmy, and could you spare a bit o' bread for me?",
-    "cost": 200
+    "cost": 300
   },
   "todd": {
     "text": "this is the voice, todd, and it just works!",
-    "cost": 200
+    "cost": 300
   },
   "tony": {
     "text": "my name is tony... i'm walkin here",
-    "cost": 200
+    "cost": 300
+  },
+  "v": {
+    "text": "this is the voice, v, and koko is a shitbitch",
+    "cost": 300,
+    "limited": true
+  },
+  "vert": {
+    "text": "this is the voice, vert, and koko is a shitbitch",
+    "cost": 300
   },
   "villain": {
     "text": "this is the voice, villain, and holy fucking shit i'm hot... a buhhhh",
-    "cost": 200
+    "cost": 300
   },
   "weeb": {
     "text": "this is the voice, weeb, and koko is a shitbitch",
-    "cost": 200
+    "cost": 300
   },
   "wise": {
     "text": "this is the voice, wise, and koko got her armor trimmed in runescape",
-    "cost": 200
+    "cost": 300
   },
   "xbox": {
     "text": "this is the voice xbox, and i just got a triple kill",
-    "cost": 200
+    "cost": 300
   },
   "aria": {
     "text": "this is the voice, aria, and koko is a shitbitch",
