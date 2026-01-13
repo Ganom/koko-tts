@@ -4,31 +4,31 @@ import { defineConfig } from "vite";
 import vueDevTools from "vite-plugin-vue-devtools";
 
 // https://vite.dev/config/
-export default defineConfig({
-  base: process.env.NETLIFY
-    ? "/"
-    : process.env.NODE_ENV === "production"
-      ? "/koko-tts.github.io/"
-      : "/",
-  plugins: [vue(), vueDevTools()],
-  resolve: {
-    alias: {
-      "@": fileURLToPath(new URL("./src", import.meta.url)),
+export default defineConfig(({ mode }) => {
+  const isDev = mode === "development";
+
+  return {
+    base: process.env.NETLIFY ? "/" : mode === "production" ? "/koko-tts.github.io/" : "/",
+    plugins: [vue(), ...(isDev ? [vueDevTools()] : [])],
+    resolve: {
+      alias: {
+        "@": fileURLToPath(new URL("./src", import.meta.url)),
+      },
     },
-  },
-  server: {
-    fs: {
-      allow: [".."],
+    server: {
+      fs: {
+        allow: [".."],
+      },
     },
-  },
-  build: {
-    outDir: "dist",
-    rollupOptions: {
-      output: {
-        manualChunks: {
-          vendor: ["vue", "pinia"],
+    build: {
+      outDir: "dist",
+      rollupOptions: {
+        output: {
+          manualChunks: {
+            vendor: ["vue", "pinia"],
+          },
         },
       },
     },
-  },
+  };
 });

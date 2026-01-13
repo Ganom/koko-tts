@@ -13,6 +13,8 @@ import {
 export type IconNode = any[];
 export type IconComponent = FunctionalComponent<any> | IconNode;
 
+const iconNodeComponentCache = new WeakMap<IconNode, FunctionalComponent<any>>();
+
 export function createIconComponent(iconNode: IconNode): FunctionalComponent<any> {
   return (props: any) => {
     return h(Icon, {
@@ -29,7 +31,13 @@ export function normalizeIcon(icon: IconComponent): FunctionalComponent<any> {
   if (typeof icon === "function") {
     return icon;
   }
-  return createIconComponent(icon);
+
+  const cached = iconNodeComponentCache.get(icon);
+  if (cached) return cached;
+
+  const component = createIconComponent(icon);
+  iconNodeComponentCache.set(icon, component);
+  return component;
 }
 
 export const tropicalIcons = [coconut, palmtreeIslandSun, Shell, whale, Sun, glassesSun, surfboard];

@@ -48,6 +48,8 @@
           <img
             :src="`/icons/${voice.name.toLowerCase()}.webp`"
             :alt="`${voice.name} avatar`"
+            loading="lazy"
+            decoding="async"
             class="voice-avatar w-20 h-20 rounded-full object-cover mx-auto transition-transform duration-200 group-hover:scale-110"
             :class="{
               'grayscale opacity-60 group-hover:grayscale-0 group-hover:opacity-100':
