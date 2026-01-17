@@ -131,11 +131,6 @@
     "text": "i am it and i am here to haunt your dreams...",
     "cost": 300
   },
-  "johnny": {
-    "text": "this is the voice, johnny, and koko is a shitbitch",
-    "cost": 300,
-    "limited": true
-  },
   "kawaii": {
     "text": "this is the voice, kawaii, and oh god this voice is so annoying",
     "cost": 300
@@ -199,11 +194,6 @@
   "tony": {
     "text": "my name is tony... i'm walkin here",
     "cost": 300
-  },
-  "v": {
-    "text": "this is the voice, v, and koko is a shitbitch",
-    "cost": 300,
-    "limited": true
   },
   "vert": {
     "text": "this is the voice, vert, and koko is a shitbitch",
