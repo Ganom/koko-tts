@@ -9,8 +9,8 @@
 <script setup lang="ts">
 import { Pause, Play, RotateCcw, TriangleAlert } from "lucide-vue-next";
 import { computed, inject } from "vue";
-import type { UseAudioReturn } from "@/composables/useAudio";
 import { PlaybackStatus } from "@/types/audio";
+import { audioKey } from "@/injectionKeys";
 
 // --- PROPS ---
 
@@ -22,16 +22,14 @@ const props = defineProps<Props>();
 
 // --- INJECT ---
 
-const audio = inject<UseAudioReturn>("audio");
+const audio = inject(audioKey);
 if (!audio) {
   throw new Error("Audio composable not provided");
 }
 
 // --- STATE & COMPUTED ---
 
-const status = computed(
-  () => audio.playbackStatus.value.get(props.voiceName) || PlaybackStatus.IDLE,
-);
+const status = computed(() => audio.playbackStatus.get(props.voiceName) || PlaybackStatus.IDLE);
 const isCurrentlyPlaying = computed(() => audio.isPlaying(props.voiceName));
 const isLoading = computed(() => status.value === PlaybackStatus.LOADING);
 const isError = computed(() => status.value === PlaybackStatus.ERROR);

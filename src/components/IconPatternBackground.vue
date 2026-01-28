@@ -2,7 +2,7 @@
 import { computed, onMounted, onUnmounted, ref, watch } from "vue";
 import { tropicalIcons } from "@/utils/iconRegistry";
 
-import type { FunctionalComponent } from "vue";
+import type { LucideIcon } from "lucide-vue-next";
 import type { IconComponent, IconNode } from "@/utils/iconRegistry";
 
 interface Props {
@@ -59,7 +59,7 @@ const themeColorVars = [
   "--theme-gray-300",
 ];
 
-const iconNodeCache = new WeakMap<FunctionalComponent<any>, IconNode>();
+const iconNodeCache = new WeakMap<LucideIcon, IconNode>();
 const iconPathsCache = new WeakMap<IconNode, Path2D[]>();
 
 const toNumber = (value: unknown, fallback = 0) => {
@@ -86,8 +86,8 @@ const extractIconNode = (icon: IconComponent): IconNode | null => {
   const cached = iconNodeCache.get(icon);
   if (cached) return cached;
 
-  const vnode = icon({ size: 24 }, { attrs: {}, slots: {} } as any) as any;
-  const node = vnode?.props?.iconNode;
+  const vnode = icon({ size: 24 }, { attrs: {}, slots: {} } as any);
+  const node = (vnode as { props?: { iconNode?: unknown } } | null | undefined)?.props?.iconNode;
 
   if (Array.isArray(node)) {
     iconNodeCache.set(icon, node);
@@ -97,13 +97,7 @@ const extractIconNode = (icon: IconComponent): IconNode | null => {
   return null;
 };
 
-const roundedRectPath = (
-  x: number,
-  y: number,
-  width: number,
-  height: number,
-  radius: number,
-) => {
+const roundedRectPath = (x: number, y: number, width: number, height: number, radius: number) => {
   const path = new Path2D();
   const r = Math.max(0, Math.min(radius, width / 2, height / 2));
 
@@ -138,10 +132,7 @@ const buildPathsForIconNode = (iconNode: IconNode): Path2D[] => {
 
   const paths: Path2D[] = [];
 
-  for (const raw of iconNode) {
-    const [tag, attrs] = raw as [string, Record<string, unknown>];
-    if (!tag || !attrs) continue;
-
+  for (const [tag, attrs] of iconNode) {
     switch (tag) {
       case "path": {
         const d = attrs.d;
@@ -301,7 +292,7 @@ const draw = (elapsedSeconds: number) => {
         ? props.opacity * (0.5 + (opacitySeed / 100) * 0.5)
         : props.opacity;
 
-      const color = props.randomColors ? themeColors[colorSeed] ?? props.color : props.color;
+      const color = props.randomColors ? (themeColors[colorSeed] ?? props.color) : props.color;
 
       const x = logicalX * pattern - scrollOffsetX;
       const y = logicalY * pattern - scrollOffsetY;
@@ -469,7 +460,10 @@ onMounted(() => {
   }
 
   themeObserver = new MutationObserver(() => requestDraw());
-  themeObserver.observe(document.documentElement, { attributes: true, attributeFilter: ["data-theme"] });
+  themeObserver.observe(document.documentElement, {
+    attributes: true,
+    attributeFilter: ["data-theme"],
+  });
 
   if (isAnimationEnabled.value) {
     startAnimation();
@@ -511,7 +505,11 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <div ref="containerRef" class="fixed inset-0 overflow-hidden pointer-events-none" aria-hidden="true">
+  <div
+    ref="containerRef"
+    class="fixed inset-0 overflow-hidden pointer-events-none"
+    aria-hidden="true"
+  >
     <canvas ref="canvasRef" class="block w-full h-full" />
   </div>
 </template>
