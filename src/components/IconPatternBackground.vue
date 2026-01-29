@@ -1,6 +1,13 @@
 <script setup lang="ts">
 import { computed, onMounted, onUnmounted, ref, watch } from "vue";
 import { tropicalIcons } from "@/utils/iconRegistry";
+import {
+  getMaxDevicePixelRatio,
+  getScrollOffsets,
+  parsePoints,
+  toNumber,
+  type SlideDirection,
+} from "@/utils/iconPattern";
 
 import type { LucideIcon } from "lucide-vue-next";
 import type { IconComponent, IconNode } from "@/utils/iconRegistry";
@@ -16,7 +23,7 @@ interface Props {
   randomColors?: boolean;
   enableSlideAnimation?: boolean;
   slideAnimationSpeed?: number;
-  slideDirection?: "right" | "left" | "down" | "up" | "diagonal-down-right" | "diagonal-up-left";
+  slideDirection?: SlideDirection;
 }
 
 const props = withDefaults(defineProps<Props>(), {
@@ -61,15 +68,6 @@ const themeColorVars = [
 
 const iconNodeCache = new WeakMap<LucideIcon, IconNode>();
 const iconPathsCache = new WeakMap<IconNode, Path2D[]>();
-
-const toNumber = (value: unknown, fallback = 0) => {
-  if (typeof value === "number") return value;
-  if (typeof value === "string") {
-    const parsed = Number.parseFloat(value);
-    return Number.isFinite(parsed) ? parsed : fallback;
-  }
-  return fallback;
-};
 
 const getThemeColors = (): string[] => {
   if (typeof window === "undefined") return themeColorVars.map(() => props.color);
@@ -118,12 +116,6 @@ const roundedRectPath = (x: number, y: number, width: number, height: number, ra
   path.closePath();
 
   return path;
-};
-
-const parsePoints = (points: string): number[] => {
-  const matches = points.match(/-?\\d*\\.?\\d+/g);
-  if (!matches) return [];
-  return matches.map((p) => Number.parseFloat(p)).filter((n) => Number.isFinite(n));
 };
 
 const buildPathsForIconNode = (iconNode: IconNode): Path2D[] => {
@@ -208,39 +200,6 @@ const buildPathsForIconNode = (iconNode: IconNode): Path2D[] => {
   return paths;
 };
 
-const getScrollOffsets = (elapsedSeconds: number) => {
-  if (!isAnimationEnabled.value) return { x: 0, y: 0 };
-
-  const speed = props.slideAnimationSpeed * 30;
-  let deltaX = 0;
-  let deltaY = 0;
-
-  switch (props.slideDirection) {
-    case "right":
-      deltaX = -elapsedSeconds * speed;
-      break;
-    case "left":
-      deltaX = elapsedSeconds * speed;
-      break;
-    case "down":
-      deltaY = -elapsedSeconds * speed;
-      break;
-    case "up":
-      deltaY = elapsedSeconds * speed;
-      break;
-    case "diagonal-down-right":
-      deltaX = -elapsedSeconds * speed * 0.707;
-      deltaY = -elapsedSeconds * speed * 0.707;
-      break;
-    case "diagonal-up-left":
-      deltaX = elapsedSeconds * speed * 0.707;
-      deltaY = elapsedSeconds * speed * 0.707;
-      break;
-  }
-
-  return { x: deltaX, y: deltaY };
-};
-
 const draw = (elapsedSeconds: number) => {
   const canvas = canvasRef.value;
   const ctx = canvas?.getContext("2d");
@@ -258,7 +217,12 @@ const draw = (elapsedSeconds: number) => {
   if (!icons.length) return;
 
   const themeColors = props.randomColors ? getThemeColors() : [];
-  const { x: scrollOffsetX, y: scrollOffsetY } = getScrollOffsets(elapsedSeconds);
+  const { x: scrollOffsetX, y: scrollOffsetY } = getScrollOffsets({
+    elapsedSeconds,
+    enabled: isAnimationEnabled.value,
+    slideAnimationSpeed: props.slideAnimationSpeed,
+    slideDirection: props.slideDirection,
+  });
 
   const pattern = patternSize.value;
   const buffer = bufferSize.value;
@@ -315,16 +279,6 @@ const draw = (elapsedSeconds: number) => {
   }
 };
 
-const getMaxDevicePixelRatio = (width: number, height: number) => {
-  const rawDevicePixelRatio = typeof window !== "undefined" ? window.devicePixelRatio || 1 : 1;
-  const maxPixels = 16_000_000;
-
-  const targetPixels = width * height * rawDevicePixelRatio * rawDevicePixelRatio;
-  if (targetPixels <= maxPixels) return rawDevicePixelRatio;
-
-  return Math.sqrt(maxPixels / (width * height));
-};
-
 const updateCanvasSize = () => {
   const canvas = canvasRef.value;
   const container = containerRef.value;
@@ -339,7 +293,8 @@ const updateCanvasSize = () => {
   viewportWidth.value = width;
   viewportHeight.value = height;
 
-  const dpr = getMaxDevicePixelRatio(width, height);
+  const rawDevicePixelRatio = typeof window !== "undefined" ? window.devicePixelRatio || 1 : 1;
+  const dpr = getMaxDevicePixelRatio({ width, height, rawDevicePixelRatio });
   devicePixelRatio.value = dpr;
 
   canvas.width = Math.max(1, Math.floor(width * dpr));

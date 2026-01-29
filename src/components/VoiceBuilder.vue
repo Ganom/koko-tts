@@ -64,9 +64,11 @@
             ></textarea>
             <div class="flex justify-between items-center mt-2">
               <p v-if="isMessageTooLong" class="text-sm text-red-400">
-                Message exceeds 500 character limit
+                Message exceeds {{ MAX_TTS_COMMAND_LENGTH }} character limit
               </p>
-              <p class="text-sm text-gray-400 ml-auto">{{ generatedCommand.length }}/500</p>
+              <p class="text-sm text-gray-400 ml-auto">
+                {{ generatedCommand.length }}/{{ MAX_TTS_COMMAND_LENGTH }}
+              </p>
             </div>
           </FormSection>
 
@@ -143,6 +145,18 @@ import { computed, onMounted, ref, watch } from "vue";
 import { useLocalStorage } from "@/composables/useLocalStorage";
 import { useVoiceStore } from "@/stores/voiceStore";
 import type { Voice } from "@/types/voice";
+import {
+  MAX_TTS_COMMAND_LENGTH,
+  type RedeemMethod,
+  type ResubTier,
+  buildTtsCommand,
+  buildTtsPrefix,
+  getMaxMessageLengthForPrefix,
+  getMinCheerAmount,
+  getRedeemBudget,
+  getTtsCommandParts,
+  isRandomVoiceName,
+} from "@/domain/ttsCommand";
 import ButtonGroup from "@/components/ui/ButtonGroup.vue";
 import FormSection from "@/components/ui/FormSection.vue";
 import AudioPlayerSquare from "./AudioPlayerSquare.vue";
@@ -241,9 +255,9 @@ const motions = {
 
 interface Settings {
   selectedVoice: string;
-  redeemMethod: "cheer" | "points" | "resub";
+  redeemMethod: RedeemMethod;
   bitAmount: number;
-  resubTier: 1 | 2 | 3;
+  resubTier: ResubTier;
   textEffect: string;
   selectedModel: string;
   message: string;
@@ -272,7 +286,7 @@ const bitAmountUpdated = ref(false);
 
 // --- VOICE DATA & ELIGIBILITY ---
 
-const isRandomSelected = computed(() => selectedVoice.value.toLowerCase() === "random");
+const isRandomSelected = computed(() => isRandomVoiceName(selectedVoice.value));
 
 const randomVoice = computed<Voice>(() => ({
   name: "Random",
@@ -288,9 +302,11 @@ const allVoices = computed<Voice[]>(() => {
 const getVoiceByName = (name: string) => allVoices.value.find((v) => v.name === name);
 
 const bitAmountForGrid = computed(() => {
-  if (redeemMethod.value === "resub") return { 1: 500, 2: 1000, 3: 2500 }[resubTier.value];
-  if (redeemMethod.value === "points") return 999;
-  return bitAmount.value;
+  return getRedeemBudget({
+    redeemMethod: redeemMethod.value,
+    bitAmount: bitAmount.value,
+    resubTier: resubTier.value,
+  });
 });
 
 const eligibleVoices = computed<Voice[]>(() => {
@@ -302,10 +318,10 @@ const eligibleVoices = computed<Voice[]>(() => {
 
 const minBitAmount = computed(() => {
   const voiceCost = getVoiceByName(selectedVoice.value)?.cost ?? 0;
-  return Math.max(voiceStore.minCost, voiceCost);
+  return getMinCheerAmount({ storeMinCost: voiceStore.minCost, selectedVoiceCost: voiceCost });
 });
 
-const isMessageTooLong = computed(() => generatedCommand.value.length > 500);
+const isMessageTooLong = computed(() => generatedCommand.value.length > MAX_TTS_COMMAND_LENGTH);
 
 function checkVoiceEligibility() {
   if (selectedVoice.value && !eligibleVoices.value.some((v) => v.name === selectedVoice.value)) {
@@ -321,33 +337,33 @@ const displayMessage = computed(() => {
 });
 
 const generatedCommand = computed(() => {
-  if (!selectedVoice.value || !displayMessage.value) return "";
-
-  const voiceName = selectedVoice.value.toLowerCase();
-  const model = selectedModel.value !== "none" ? `:${selectedModel.value}` : "";
-  const effect = textEffect.value !== "none" ? `:${textEffect.value}` : "";
-  const voiceTag = `[${voiceName}${model}${effect}]`;
-
-  if (redeemMethod.value === "cheer")
-    return `Cheer${bitAmount.value} ${voiceTag} ${displayMessage.value}`;
-  return `${voiceTag} ${displayMessage.value}`;
+  return buildTtsCommand({
+    redeemMethod: redeemMethod.value,
+    bitAmount: bitAmount.value,
+    voiceName: selectedVoice.value,
+    model: selectedModel.value,
+    effect: textEffect.value,
+    message: displayMessage.value,
+  });
 });
 
 const commandParts = computed(() => {
-  if (!generatedCommand.value) return [];
-
-  const parts = [];
-  if (redeemMethod.value === "cheer") {
-    parts.push({ text: `Cheer${bitAmount.value} `, class: "text-primary-300" });
-  }
-
-  const voiceTagMatch = generatedCommand.value.match(/(\[.*?])/);
-  if (voiceTagMatch) {
-    parts.push({ text: `${voiceTagMatch[1]} `, class: "text-secondary-400" });
-  }
-
-  parts.push({ text: displayMessage.value, class: "text-accent-400" });
-  return parts;
+  return getTtsCommandParts({
+    redeemMethod: redeemMethod.value,
+    bitAmount: bitAmount.value,
+    voiceName: selectedVoice.value,
+    model: selectedModel.value,
+    effect: textEffect.value,
+    message: displayMessage.value,
+  }).map((part) => ({
+    text: part.text,
+    class:
+      part.type === "cheer"
+        ? "text-primary-300"
+        : part.type === "voiceTag"
+          ? "text-secondary-400"
+          : "text-accent-400",
+  }));
 });
 
 // --- METHODS & ACTIONS ---
@@ -361,17 +377,15 @@ function handleMessageInput(event: Event) {
     return;
   }
 
-  const voiceName = selectedVoice.value.toLowerCase();
-  const model = selectedModel.value !== "none" ? `:${selectedModel.value}` : "";
-  const effect = textEffect.value !== "none" ? `:${textEffect.value}` : "";
-  const voiceTag = `[${voiceName}${model}${effect}] `;
+  const prefix = buildTtsPrefix({
+    redeemMethod: redeemMethod.value,
+    bitAmount: bitAmount.value,
+    voiceName: selectedVoice.value,
+    model: selectedModel.value,
+    effect: textEffect.value,
+  });
 
-  let prefixLength = voiceTag.length;
-  if (redeemMethod.value === "cheer") {
-    prefixLength += `Cheer${bitAmount.value} `.length;
-  }
-
-  const maxMessageLength = 500 - prefixLength;
+  const maxMessageLength = getMaxMessageLengthForPrefix(prefix);
 
   if (newMessage.length > maxMessageLength) {
     message.value = newMessage.substring(0, maxMessageLength);
