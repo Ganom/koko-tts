@@ -1,9 +1,19 @@
 <template>
   <div class="max-w-6xl mx-auto mb-16">
     <div
-      class="anime-card rounded-4xl p-8 mb-8 border-2 border-primary-500/30"
+      class="anime-card relative rounded-4xl p-8 mb-8 border-2 border-primary-500/30"
       v-motion="containerMotion"
     >
+      <button
+        type="button"
+        class="absolute top-4 right-4 flex items-center gap-2 px-3 py-1.5 bg-dark-900/50 hover:bg-dark-900/70 text-white text-xs font-medium rounded transition-colors border-2 border-primary-500/20"
+        aria-label="Hide instructions"
+        @click="emit('dismiss')"
+      >
+        <X class="w-4 h-4" />
+        Hide instructions
+      </button>
+
       <div class="text-center mb-8" v-motion="headerMotion">
         <h2 class="text-gradient-violet-pink text-3xl font-bold mb-3">Make Your Message Heard</h2>
         <p class="text-gray-300 text-lg">
@@ -96,6 +106,10 @@
 
 <script setup lang="ts">
 import { Gift, Heart, Plus, RotateCcw, X } from "lucide-vue-next";
+
+const emit = defineEmits<{
+  (e: "dismiss"): void;
+}>();
 
 // --- ANIMATIONS ---
 
