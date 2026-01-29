@@ -38,25 +38,30 @@
         @click="selectVoice(voice.name)"
       >
         <div
-          v-if="voice.limited"
-          class="absolute top-2 left-2 z-10 rounded-full bg-yellow-900/70 border border-yellow-500/50 px-2 py-0.5 text-[10px] font-bold uppercase tracking-wide text-yellow-200"
-          title="Limited-time voice"
+          v-if="voice.limited || voice.kind === 'random' || voice.priority"
+          class="absolute top-2 left-2 z-10 flex flex-col gap-1 items-start"
         >
-          Limited
-        </div>
-        <div
-          v-else-if="voice.kind === 'random'"
-          class="absolute top-2 left-2 z-10 rounded-full bg-secondary-900/70 border border-secondary-500/50 px-2 py-0.5 text-[10px] font-bold uppercase tracking-wide text-secondary-200"
-          title="Pseudo voice (selects a random eligible voice)"
-        >
-          Pseudo
-        </div>
-        <div
-          v-if="voice.priority"
-          class="absolute top-2 right-2 z-10 rounded-full bg-accent-900/70 border border-accent-500/50 px-2 py-0.5 text-[10px] font-bold uppercase tracking-wide text-accent-200"
-          title="Priority voice (skips the queue on livestream integration)"
-        >
-          Priority
+          <div
+            v-if="voice.limited"
+            class="rounded-full bg-yellow-900/70 border border-yellow-500/50 px-2 py-0.5 text-[10px] font-bold uppercase tracking-wide text-yellow-200"
+            title="Limited-time voice"
+          >
+            Limited
+          </div>
+          <div
+            v-else-if="voice.kind === 'random'"
+            class="rounded-full bg-secondary-900/70 border border-secondary-500/50 px-2 py-0.5 text-[10px] font-bold uppercase tracking-wide text-secondary-200"
+            title="Pseudo voice (selects a random eligible voice)"
+          >
+            Pseudo
+          </div>
+          <div
+            v-if="voice.priority"
+            class="rounded-full bg-accent-900/70 border border-accent-500/50 px-2 py-0.5 text-[10px] font-bold uppercase tracking-wide text-accent-200"
+            title="Priority voice (skips the queue on livestream integration)"
+          >
+            Priority
+          </div>
         </div>
         <div class="relative mb-2">
           <div
@@ -203,7 +208,7 @@ const getVoiceTitle = (voice: Voice) => {
 
   const suffixes: string[] = [];
   if (voice.limited) suffixes.push("limited time");
-  if (voice.priority) suffixes.push("priority (skips queue on livestream integration)");
+  if (voice.priority) suffixes.push("priority (skips the queue on livestream integration)");
 
   if (!suffixes.length) return voice.name;
   return `${voice.name} (${suffixes.join(", ")})`;
