@@ -1,10 +1,10 @@
-import type { ComputedRef, Ref } from "vue";
-import { computed, ref } from "vue";
+import type { ComputedRef } from "vue";
+import { computed, reactive, ref } from "vue";
 import { PlaybackStatus } from "@/types/audio";
 
 export interface UseAudioReturn {
   currentlyPlaying: ComputedRef<HTMLAudioElement | null>;
-  playbackStatus: Ref<Map<string, PlaybackStatus>>;
+  playbackStatus: Map<string, PlaybackStatus>;
   play: (voiceName: string) => Promise<void>;
   pause: (voiceName: string) => void;
   stop: () => void;
@@ -15,7 +15,7 @@ export function useAudio(): UseAudioReturn {
   // --- STATE ---
 
   const currentlyPlayingVoiceName = ref<string | null>(null);
-  const playbackStatus = ref(new Map<string, PlaybackStatus>());
+  const playbackStatus = reactive(new Map<string, PlaybackStatus>());
   const audioCache = new Map<string, HTMLAudioElement>();
 
   // --- GETTERS (COMPUTED) ---
@@ -28,7 +28,7 @@ export function useAudio(): UseAudioReturn {
   // --- HELPERS ---
 
   const setStatus = (voiceName: string, status: PlaybackStatus) => {
-    playbackStatus.value.set(voiceName, status);
+    playbackStatus.set(voiceName, status);
   };
 
   const _setupAudioEvents = (audio: HTMLAudioElement, voiceName: string) => {
@@ -102,7 +102,7 @@ export function useAudio(): UseAudioReturn {
   };
 
   const isPlaying = (voiceName: string): boolean => {
-    return playbackStatus.value.get(voiceName) === PlaybackStatus.PLAYING;
+    return playbackStatus.get(voiceName) === PlaybackStatus.PLAYING;
   };
 
   return {

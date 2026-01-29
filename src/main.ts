@@ -1,5 +1,3 @@
-import "./assets/main.css";
-
 import { MotionPlugin } from "@vueuse/motion";
 import { createPinia } from "pinia";
 import { createApp } from "vue";

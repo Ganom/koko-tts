@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" data-theme="pink-gold">
   <head>
     <meta charset="UTF-8" />
     <link rel="icon" href="/favicon.ico" />
@@ -18,6 +18,36 @@
     <meta property="og:url" content="https://kokosnutshack.com/" />
     <meta property="og:type" content="website" />
     <meta name="theme-color" content="#fda9c1" />
+
+    <style>
+      html {
+        background-color: #080808;
+        color-scheme: dark;
+      }
+      body {
+        background-color: #080808;
+      }
+    </style>
+    <script>
+      (() => {
+        const THEME_KEY = "koko-tts-theme";
+
+        try {
+          const stored = localStorage.getItem(THEME_KEY);
+          const theme =
+            stored === "violet-pink" || stored === "pink-gold"
+              ? stored
+              : "pink-gold";
+          document.documentElement.setAttribute("data-theme", theme);
+        } catch {
+          document.documentElement.setAttribute("data-theme", "pink-gold");
+        }
+      })();
+    </script>
+
+    <link rel="preconnect" href="https://fonts.cdnfonts.com" crossorigin />
+    <link rel="stylesheet" href="https://fonts.cdnfonts.com/css/expressway" />
+    <link rel="stylesheet" href="/src/assets/main.css" />
   </head>
   <body>
     <div id="app"></div>

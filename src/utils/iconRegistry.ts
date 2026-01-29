@@ -1,5 +1,14 @@
-import { type FunctionalComponent, h } from "vue";
-import { Banana, Bot, Icon, Shell, Sun } from "lucide-vue-next";
+import { h } from "vue";
+import {
+  Banana,
+  Bot,
+  Icon,
+  Shell,
+  Sun,
+  type IconNode,
+  type LucideIcon,
+  type LucideProps,
+} from "lucide-vue-next";
 import {
   coconut,
   crab,
@@ -10,24 +19,22 @@ import {
   whale,
 } from "@lucide/lab";
 
-export type IconNode = any[];
-export type IconComponent = FunctionalComponent<any> | IconNode;
+export type { IconNode };
+export type IconComponent = LucideIcon | IconNode;
 
-const iconNodeComponentCache = new WeakMap<IconNode, FunctionalComponent<any>>();
+const iconNodeComponentCache = new WeakMap<IconNode, LucideIcon>();
 
-export function createIconComponent(iconNode: IconNode): FunctionalComponent<any> {
-  return (props: any) => {
+export function createIconComponent(iconNode: IconNode): LucideIcon {
+  return (props: LucideProps) => {
     return h(Icon, {
+      name: "",
       iconNode,
-      size: props.size,
-      width: props.width,
-      height: props.height,
       ...props,
     });
   };
 }
 
-export function normalizeIcon(icon: IconComponent): FunctionalComponent<any> {
+export function normalizeIcon(icon: IconComponent): LucideIcon {
   if (typeof icon === "function") {
     return icon;
   }

@@ -13,7 +13,9 @@
     "build-only": "vite build",
     "type-check": "vue-tsc --build",
     "format": "prettier --write .",
-    "format:check": "prettier --check ."
+    "format:check": "prettier --check .",
+    "test:e2e": "playwright test",
+    "test:e2e:dev": "playwright test -c playwright.config.dev.ts"
   },
   "dependencies": {
     "@lucide/lab": "^0.1.2",
@@ -23,6 +25,7 @@
     "vue": "^3.5.18"
   },
   "devDependencies": {
+    "@playwright/test": "^1.58.0",
     "@tailwindcss/postcss": "^4.1.11",
     "@tailwindcss/typography": "^0.5.16",
     "@tsconfig/node22": "^22.0.2",

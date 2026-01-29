@@ -84,7 +84,7 @@
             <template #title>
               <div class="flex items-center justify-between w-full">
                 <span>Select a Voice</span>
-                <div v-if="selectedVoice" class="flex items-center gap-3">
+                <div v-if="selectedVoice && !isRandomSelected" class="flex items-center gap-3">
                   <span class="">Preview:</span>
                   <AudioPlayerSquare :voice-name="selectedVoice" />
                 </div>
@@ -139,116 +139,15 @@
 
 <script setup lang="ts">
 import { Check, Clipboard, Menu } from "lucide-vue-next";
-import { computed, defineComponent, h, onMounted, ref, watch } from "vue";
+import { computed, onMounted, ref, watch } from "vue";
 import { useLocalStorage } from "@/composables/useLocalStorage";
 import { useVoiceStore } from "@/stores/voiceStore";
 import type { Voice } from "@/types/voice";
+import ButtonGroup from "@/components/ui/ButtonGroup.vue";
+import FormSection from "@/components/ui/FormSection.vue";
 import AudioPlayerSquare from "./AudioPlayerSquare.vue";
 import CustomSelect from "./CustomSelect.vue";
 import VoiceGrid from "./VoiceGrid.vue";
-
-// --- LOCAL SUB-COMPONENTS ---
-
-const FormSection = defineComponent({
-  props: { title: { type: String, default: "" } },
-  setup(props, { slots }) {
-    return () =>
-      h("div", {}, [
-        props.title
-          ? h("label", { class: "block text-white font-bold mb-3" }, props.title)
-          : slots.title
-            ? h("div", { class: "block text-white font-bold mb-3" }, slots.title())
-            : null,
-        slots.default ? slots.default() : null,
-      ]);
-  },
-});
-
-interface ButtonOption {
-  value: string | number;
-  label: string;
-  detail?: string;
-  theme: string;
-}
-
-const ButtonGroup = defineComponent({
-  props: {
-    modelValue: { type: [String, Number], required: true },
-    options: {
-      type: Array as () => Array<ButtonOption>,
-      required: true,
-    },
-  },
-  emits: ["update:modelValue"],
-  setup(props, { emit }) {
-    const getButtonClasses = (opt: ButtonOption, isSelected: boolean) => {
-      const baseClasses =
-        "p-3 rounded-lg border-2 text-white font-medium transition-colors text-center";
-      const bgClasses = isSelected ? getBgClass(opt.theme) : "bg-dark-700 hover:bg-dark-600";
-      const borderClasses = getBorderClass(opt.theme);
-      return `${baseClasses} ${bgClasses} ${borderClasses}`;
-    };
-
-    const getBgClass = (theme: string) => {
-      switch (theme) {
-        case "primary":
-          return "bg-primary-600";
-        case "secondary":
-          return "bg-secondary-600";
-        case "accent":
-          return "bg-accent-500";
-        default:
-          return "bg-primary-600";
-      }
-    };
-
-    const getBorderClass = (theme: string) => {
-      switch (theme) {
-        case "primary":
-          return "border-primary-500/40";
-        case "secondary":
-          return "border-secondary-500/40";
-        case "accent":
-          return "border-accent-500/40";
-        default:
-          return "border-primary-500/40";
-      }
-    };
-
-    const getTextClass = (theme: string) => {
-      switch (theme) {
-        case "primary":
-          return "text-sm text-primary-300";
-        case "secondary":
-          return "text-sm text-secondary-300";
-        case "accent":
-          return "text-sm text-accent-300";
-        default:
-          return "text-sm text-primary-300";
-      }
-    };
-
-    return () =>
-      h(
-        "div",
-        { class: "grid grid-cols-3 gap-3" },
-        props.options.map((opt) =>
-          h(
-            "button",
-            {
-              onClick: () => emit("update:modelValue", opt.value),
-              class: getButtonClasses(opt, props.modelValue === opt.value),
-            },
-            [
-              opt.label,
-              opt.detail ? h("br") : null,
-              opt.detail ? h("span", { class: getTextClass(opt.theme) }, opt.detail) : null,
-            ],
-          ),
-        ),
-      );
-  },
-});
 
 // --- DATA & CONFIGURATION ---
 
@@ -373,7 +272,19 @@ const bitAmountUpdated = ref(false);
 
 // --- VOICE DATA & ELIGIBILITY ---
 
-const allVoices = computed(() => voiceStore.sortedVoices);
+const isRandomSelected = computed(() => selectedVoice.value.toLowerCase() === "random");
+
+const randomVoice = computed<Voice>(() => ({
+  name: "Random",
+  text: "",
+  cost: voiceStore.minCost,
+  kind: "random",
+}));
+
+const allVoices = computed<Voice[]>(() => {
+  if (!voiceStore.voices.length) return [];
+  return [randomVoice.value, ...voiceStore.sortedVoices];
+});
 const getVoiceByName = (name: string) => allVoices.value.find((v) => v.name === name);
 
 const bitAmountForGrid = computed(() => {
@@ -404,9 +315,10 @@ function checkVoiceEligibility() {
 
 // --- COMMAND GENERATION ---
 
-const displayMessage = computed(
-  () => message.value || getVoiceByName(selectedVoice.value)?.text || "",
-);
+const displayMessage = computed(() => {
+  if (isRandomSelected.value) return message.value || "";
+  return message.value || getVoiceByName(selectedVoice.value)?.text || "";
+});
 
 const generatedCommand = computed(() => {
   if (!selectedVoice.value || !displayMessage.value) return "";
@@ -509,16 +421,20 @@ watch(bitAmount, (newAmount) => {
   debounceTimeout = setTimeout(() => {
     const currentAmount = newAmount || 0;
 
-    if (selectedVoice.value) {
-      const voiceCost = getVoiceByName(selectedVoice.value)?.cost ?? 0;
-      if (currentAmount < voiceCost) {
-        selectedVoice.value = "";
+    let effectiveAmount = currentAmount;
+    if (effectiveAmount > 0 && effectiveAmount < voiceStore.minCost) {
+      effectiveAmount = voiceStore.minCost;
+      if (bitAmount.value !== voiceStore.minCost) {
+        bitAmount.value = voiceStore.minCost;
+        triggerFlash();
       }
     }
 
-    if (currentAmount > 0 && currentAmount < voiceStore.minCost) {
-      bitAmount.value = voiceStore.minCost;
-      triggerFlash();
+    if (selectedVoice.value) {
+      const voiceCost = getVoiceByName(selectedVoice.value)?.cost ?? 0;
+      if (effectiveAmount < voiceCost) {
+        selectedVoice.value = "";
+      }
     }
   }, 500);
 });

@@ -1,23 +1,34 @@
-import { type Ref, ref, watch } from "vue";
+import { type Ref, ref } from "vue";
 
 export function useLocalStorage<T>(key: string, defaultValue: T): [Ref<T>, (value: T) => void] {
-  const storedValue = localStorage.getItem(key);
-  const initialValue = storedValue ? JSON.parse(storedValue) : defaultValue;
+  const readStoredValue = (): T => {
+    if (typeof window === "undefined") return defaultValue;
 
-  const state = ref(initialValue) as Ref<T>;
+    try {
+      const storedValue = window.localStorage.getItem(key);
+      if (storedValue === null) return defaultValue;
+      return JSON.parse(storedValue) as T;
+    } catch {
+      try {
+        window.localStorage.removeItem(key);
+      } catch {
+        // ignore
+      }
+      return defaultValue;
+    }
+  };
+
+  const state = ref(readStoredValue()) as Ref<T>;
 
   const setValue = (value: T) => {
     state.value = value;
-    localStorage.setItem(key, JSON.stringify(value));
+    if (typeof window === "undefined") return;
+    try {
+      window.localStorage.setItem(key, JSON.stringify(value));
+    } catch {
+      // ignore
+    }
   };
-
-  watch(
-    state,
-    (newValue) => {
-      localStorage.setItem(key, JSON.stringify(newValue));
-    },
-    { deep: true },
-  );
 
   return [state, setValue];
 }

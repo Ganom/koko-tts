@@ -1,4 +1,4 @@
-import { ref, watch } from "vue";
+import { ref } from "vue";
 
 export type Theme = "violet-pink" | "pink-gold";
 
@@ -22,8 +22,14 @@ export const themes: Record<
 };
 
 const getStoredTheme = (): Theme => {
-  const stored = localStorage.getItem(THEME_KEY);
-  return stored && stored in themes ? (stored as Theme) : "pink-gold";
+  if (typeof window === "undefined") return "pink-gold";
+
+  try {
+    const stored = window.localStorage.getItem(THEME_KEY);
+    return stored && stored in themes ? (stored as Theme) : "pink-gold";
+  } catch {
+    return "pink-gold";
+  }
 };
 
 const currentTheme = ref<Theme>(getStoredTheme());
@@ -31,20 +37,21 @@ const currentTheme = ref<Theme>(getStoredTheme());
 export function useTheme() {
   const setTheme = (theme: Theme) => {
     currentTheme.value = theme;
-    document.documentElement.setAttribute("data-theme", theme);
-    localStorage.setItem(THEME_KEY, theme);
+    if (typeof document !== "undefined") {
+      document.documentElement.setAttribute("data-theme", theme);
+    }
+    if (typeof window !== "undefined") {
+      try {
+        window.localStorage.setItem(THEME_KEY, theme);
+      } catch {
+        // ignore
+      }
+    }
   };
 
   const initTheme = () => {
-    const theme = getStoredTheme();
-    document.documentElement.setAttribute("data-theme", theme);
-    currentTheme.value = theme;
+    setTheme(getStoredTheme());
   };
-
-  watch(currentTheme, (newTheme) => {
-    document.documentElement.setAttribute("data-theme", newTheme);
-    localStorage.setItem(THEME_KEY, newTheme);
-  });
 
   return {
     currentTheme,
