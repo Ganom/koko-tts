@@ -59,6 +59,15 @@
         <h3 class="text-white text-2xl font-semibold mb-6 text-center md:text-left">
           Voice Customization
         </h3>
+        <p class="text-gray-300 text-sm mb-4 text-center md:text-left">
+          Look for the
+          <span
+            class="inline-flex items-center rounded-full bg-accent-900/40 border border-accent-500/50 px-2 py-0.5 text-[10px] font-bold uppercase tracking-wide text-accent-200 align-middle"
+          >
+            Priority
+          </span>
+          badge — Priority voices skip the queue on livestream integration.
+        </p>
         <div
           class="glass rounded-2xl p-6 border-2 border-primary-500/30"
           v-motion="customizationContainerMotion"

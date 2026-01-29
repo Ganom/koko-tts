@@ -1,15 +1,18 @@
 {
   "ultrasuperpremiumdandy": {
     "text": "this is a premium dandy voice and im expensive to use because of no reason at all other than to flex!",
-    "cost": 5000
+    "cost": 5000,
+    "priority": true
   },
   "superpremiumdandy": {
     "text": "this is a premium dandy voice and im expensive to use because of no reason at all other than to flex!",
-    "cost": 2500
+    "cost": 2500,
+    "priority": true
   },
   "premiumdandy": {
     "text": "this is a premium dandy voice and im expensive to use because of no reason at all other than to flex!",
-    "cost": 1000
+    "cost": 1000,
+    "priority": true
   },
   "2b": {
     "text": "this is the voice, 2b, and koko is a shitbitch",

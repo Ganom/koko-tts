@@ -51,6 +51,13 @@
         >
           Pseudo
         </div>
+        <div
+          v-if="voice.priority"
+          class="absolute top-2 right-2 z-10 rounded-full bg-accent-900/70 border border-accent-500/50 px-2 py-0.5 text-[10px] font-bold uppercase tracking-wide text-accent-200"
+          title="Priority voice (skips the queue on livestream integration)"
+        >
+          Priority
+        </div>
         <div class="relative mb-2">
           <div
             v-if="voice.kind === 'random'"
@@ -193,8 +200,13 @@ const getCostLabel = (voice: Voice) =>
 
 const getVoiceTitle = (voice: Voice) => {
   if (voice.kind === "random") return "Random (chooses an eligible voice)";
-  if (voice.limited) return `${voice.name} (limited time)`;
-  return voice.name;
+
+  const suffixes: string[] = [];
+  if (voice.limited) suffixes.push("limited time");
+  if (voice.priority) suffixes.push("priority (skips queue on livestream integration)");
+
+  if (!suffixes.length) return voice.name;
+  return `${voice.name} (${suffixes.join(", ")})`;
 };
 
 const searchBarMotion = {
