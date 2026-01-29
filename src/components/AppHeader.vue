@@ -1,6 +1,14 @@
 <template>
   <header class="text-center mb-16 relative">
-    <div class="absolute top-0 right-0 z-10 hidden md:block" v-motion="themeSelectorMotion">
+    <div class="absolute top-0 right-0 z-10 hidden md:flex items-center gap-3" v-motion="themeSelectorMotion">
+      <button
+        @click="emit('toggle-info')"
+        class="flex items-center justify-center p-2 bg-dark-800 border-2 rounded-lg transition-colors"
+        :class="isInfoHidden ? 'border-primary-600/20 opacity-50 hover:opacity-100 hover:border-primary-500' : 'border-primary-600/40 hover:border-primary-500'"
+        :aria-label="isInfoHidden ? 'Show instructions' : 'Hide instructions'"
+      >
+        <Info class="w-4 h-4 text-white" />
+      </button>
       <ThemeSelector />
     </div>
 
@@ -22,7 +30,18 @@
 // --- IMPORTS ---
 
 import { computed } from "vue";
+import { Info } from "lucide-vue-next";
 import ThemeSelector from "./ThemeSelector.vue";
+
+// --- PROPS & EMITS ---
+
+defineProps<{
+  isInfoHidden: boolean;
+}>();
+
+const emit = defineEmits<{
+  (e: "toggle-info"): void;
+}>();
 
 // --- COMPUTED MOTION CONFIGURATIONS ---
 

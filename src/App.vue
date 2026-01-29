@@ -49,17 +49,8 @@ onMounted(() => {
     <div class="relative z-10">
       <div class="min-h-screen">
         <div class="container mx-auto px-6 py-8 max-w-7xl">
-          <AppHeader />
-          <InfoBox v-if="!isInfoBoxHidden" @dismiss="setIsInfoBoxHidden(true)" />
-          <div v-else class="max-w-6xl mx-auto mb-16 flex justify-center">
-            <button
-              type="button"
-              class="flex items-center gap-2 px-4 py-2 bg-primary-600 hover:bg-primary-700 text-white text-sm font-medium rounded transition-colors whitespace-nowrap"
-              @click="setIsInfoBoxHidden(false)"
-            >
-              Show instructions
-            </button>
-          </div>
+          <AppHeader :is-info-hidden="isInfoBoxHidden" @toggle-info="setIsInfoBoxHidden(!isInfoBoxHidden)" />
+          <InfoBox v-if="!isInfoBoxHidden" />
           <VoiceBuilder />
 
           <div v-if="voiceStore.isLoading" class="text-center">
