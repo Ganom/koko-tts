@@ -50,7 +50,7 @@ onMounted(() => {
       <div class="min-h-screen">
         <div class="container mx-auto px-6 py-8 max-w-7xl">
           <AppHeader :is-info-hidden="isInfoBoxHidden" @toggle-info="setIsInfoBoxHidden(!isInfoBoxHidden)" />
-          <InfoBox v-if="!isInfoBoxHidden" />
+          <InfoBox v-if="!isInfoBoxHidden" @hide="setIsInfoBoxHidden(true)" />
           <VoiceBuilder />
 
           <div v-if="voiceStore.isLoading" class="text-center">

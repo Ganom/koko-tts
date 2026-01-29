@@ -4,6 +4,13 @@
       class="anime-card relative rounded-4xl p-8 mb-8 border-2 border-primary-500/30"
       v-motion="containerMotion"
     >
+      <button
+        @click="emit('hide')"
+        class="absolute top-4 right-4 p-2 bg-dark-800 border-2 border-primary-600/20 rounded-lg transition-colors hover:border-primary-500 text-gray-400 hover:text-white"
+        aria-label="Hide instructions"
+      >
+        <X class="w-4 h-4" />
+      </button>
       <div class="text-center mb-8" v-motion="headerMotion">
         <h2 class="text-gradient-violet-pink text-3xl font-bold mb-3">Make Your Message Heard</h2>
         <p class="text-gray-300 text-lg">
@@ -105,6 +112,10 @@
 
 <script setup lang="ts">
 import { Gift, Heart, Plus, RotateCcw, X } from "lucide-vue-next";
+
+const emit = defineEmits<{
+  hide: [];
+}>();
 
 // --- ANIMATIONS ---
 
