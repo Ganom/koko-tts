@@ -14,7 +14,8 @@
     "type-check": "vue-tsc --build",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
-    "test:e2e": "playwright test"
+    "test:e2e": "playwright test",
+    "test:e2e:dev": "playwright test -c playwright.config.dev.ts"
   },
   "dependencies": {
     "@lucide/lab": "^0.1.2",
