@@ -3,6 +3,7 @@ export interface Voice {
   text: string;
   cost: number;
   limited?: boolean;
+  kind?: "real" | "random";
 }
 
 export interface VoiceMap {

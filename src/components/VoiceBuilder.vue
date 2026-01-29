@@ -84,7 +84,7 @@
             <template #title>
               <div class="flex items-center justify-between w-full">
                 <span>Select a Voice</span>
-                <div v-if="selectedVoice" class="flex items-center gap-3">
+                <div v-if="selectedVoice && !isRandomSelected" class="flex items-center gap-3">
                   <span class="">Preview:</span>
                   <AudioPlayerSquare :voice-name="selectedVoice" />
                 </div>
@@ -272,7 +272,19 @@ const bitAmountUpdated = ref(false);
 
 // --- VOICE DATA & ELIGIBILITY ---
 
-const allVoices = computed(() => voiceStore.sortedVoices);
+const isRandomSelected = computed(() => selectedVoice.value.toLowerCase() === "random");
+
+const randomVoice = computed<Voice>(() => ({
+  name: "Random",
+  text: "",
+  cost: voiceStore.minCost,
+  kind: "random",
+}));
+
+const allVoices = computed<Voice[]>(() => {
+  if (!voiceStore.voices.length) return [];
+  return [randomVoice.value, ...voiceStore.sortedVoices];
+});
 const getVoiceByName = (name: string) => allVoices.value.find((v) => v.name === name);
 
 const bitAmountForGrid = computed(() => {
@@ -303,9 +315,10 @@ function checkVoiceEligibility() {
 
 // --- COMMAND GENERATION ---
 
-const displayMessage = computed(
-  () => message.value || getVoiceByName(selectedVoice.value)?.text || "",
-);
+const displayMessage = computed(() => {
+  if (isRandomSelected.value) return message.value || "";
+  return message.value || getVoiceByName(selectedVoice.value)?.text || "";
+});
 
 const generatedCommand = computed(() => {
   if (!selectedVoice.value || !displayMessage.value) return "";
@@ -408,16 +421,20 @@ watch(bitAmount, (newAmount) => {
   debounceTimeout = setTimeout(() => {
     const currentAmount = newAmount || 0;
 
-    if (selectedVoice.value) {
-      const voiceCost = getVoiceByName(selectedVoice.value)?.cost ?? 0;
-      if (currentAmount < voiceCost) {
-        selectedVoice.value = "";
+    let effectiveAmount = currentAmount;
+    if (effectiveAmount > 0 && effectiveAmount < voiceStore.minCost) {
+      effectiveAmount = voiceStore.minCost;
+      if (bitAmount.value !== voiceStore.minCost) {
+        bitAmount.value = voiceStore.minCost;
+        triggerFlash();
       }
     }
 
-    if (currentAmount > 0 && currentAmount < voiceStore.minCost) {
-      bitAmount.value = voiceStore.minCost;
-      triggerFlash();
+    if (selectedVoice.value) {
+      const voiceCost = getVoiceByName(selectedVoice.value)?.cost ?? 0;
+      if (effectiveAmount < voiceCost) {
+        selectedVoice.value = "";
+      }
     }
   }, 500);
 });

@@ -44,8 +44,23 @@
         >
           Limited
         </div>
+        <div
+          v-else-if="voice.kind === 'random'"
+          class="absolute top-2 left-2 z-10 rounded-full bg-secondary-900/70 border border-secondary-500/50 px-2 py-0.5 text-[10px] font-bold uppercase tracking-wide text-secondary-200"
+          title="Pseudo voice (selects a random eligible voice)"
+        >
+          Pseudo
+        </div>
         <div class="relative mb-2">
+          <div
+            v-if="voice.kind === 'random'"
+            class="voice-avatar w-20 h-20 rounded-full mx-auto flex items-center justify-center bg-dark-900/50 border border-secondary-500/40 transition-transform duration-200 group-hover:scale-110"
+            aria-hidden="true"
+          >
+            <Dices class="w-8 h-8 text-secondary-200" />
+          </div>
           <img
+            v-else
             :src="`/icons/${voice.name.toLowerCase()}.webp`"
             :alt="`${voice.name} avatar`"
             loading="lazy"
@@ -62,18 +77,18 @@
         </div>
         <p
           class="font-semibold text-white text-sm leading-tight mb-1 min-h-[2.5rem] flex items-center justify-center truncate px-1"
-          :title="voice.limited ? `${voice.name} (limited time)` : voice.name"
+          :title="getVoiceTitle(voice)"
         >
           {{ voice.name }}
         </p>
-        <p :class="getCostTextClasses(voice)">{{ voice.cost }} bits</p>
+        <p :class="getCostTextClasses(voice)">{{ getCostLabel(voice) }}</p>
       </div>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { CheckCircle, Search } from "lucide-vue-next";
+import { CheckCircle, Dices, Search } from "lucide-vue-next";
 import { computed, ref } from "vue";
 import type { Voice } from "@/types/voice";
 
@@ -159,6 +174,12 @@ const getVoiceCardClasses = (voice: Voice) => {
       "border-yellow-600/50 bg-yellow-900/20 hover:border-yellow-500/70 hover:bg-yellow-800/30",
     ];
   }
+  if (voice.kind === "random") {
+    return [
+      base,
+      "border-secondary-600/60 bg-secondary-900/10 hover:border-secondary-500/80 hover:bg-secondary-800/20",
+    ];
+  }
   return [base, "border-dark-700 bg-dark-800/60 hover:border-primary-600/70 hover:bg-dark-700"];
 };
 
@@ -166,6 +187,15 @@ const getCostTextClasses = (voice: Voice) => [
   "text-xs",
   isUnaffordable(voice) ? "text-yellow-300 font-semibold" : "text-primary-300",
 ];
+
+const getCostLabel = (voice: Voice) =>
+  voice.kind === "random" ? `${voice.cost}+ bits` : `${voice.cost} bits`;
+
+const getVoiceTitle = (voice: Voice) => {
+  if (voice.kind === "random") return "Random (chooses an eligible voice)";
+  if (voice.limited) return `${voice.name} (limited time)`;
+  return voice.name;
+};
 
 const searchBarMotion = {
   initial: { opacity: 0, y: -20 },
