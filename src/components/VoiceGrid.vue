@@ -54,7 +54,7 @@
         <div class="relative mb-2">
           <div
             v-if="voice.kind === 'random'"
-            class="voice-avatar w-20 h-20 rounded-full mx-auto flex items-center justify-center bg-dark-900/50 border border-secondary-500/40 transition-transform duration-200 group-hover:scale-110"
+            class="w-20 h-20 rounded-full mx-auto flex items-center justify-center bg-dark-900/50 border border-secondary-500/40 transition-transform duration-200 group-hover:scale-110"
             aria-hidden="true"
           >
             <Dices class="w-8 h-8 text-secondary-200" />
