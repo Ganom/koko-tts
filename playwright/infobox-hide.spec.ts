@@ -2,6 +2,10 @@ import { expect, test } from "@playwright/test";
 
 test("infobox can be hidden and persists", async ({ page }) => {
   await page.addInitScript(() => {
+    // `addInitScript` runs on every navigation, including `page.reload()`.
+    // Use a session-scoped guard so we only reset localStorage once at the start of the test.
+    if (sessionStorage.getItem("koko-tts-test-init") === "1") return;
+    sessionStorage.setItem("koko-tts-test-init", "1");
     localStorage.removeItem("koko-tts-hide-infobox");
   });
 
@@ -21,4 +25,3 @@ test("infobox can be hidden and persists", async ({ page }) => {
   await page.getByRole("button", { name: "Show instructions" }).click();
   await expect(heading).toBeVisible();
 });
-

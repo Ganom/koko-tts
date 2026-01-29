@@ -95,7 +95,7 @@
 </template>
 
 <script setup lang="ts">
-import { Gift, Heart, Plus, RotateCcw } from "lucide-vue-next";
+import { Gift, Heart, Plus, RotateCcw, X } from "lucide-vue-next";
 
 // --- ANIMATIONS ---
 
