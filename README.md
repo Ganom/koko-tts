@@ -1,11 +1,11 @@
 # Koko TTS Streamer Voice Page
 
-Small Vue 3 + Vite site that acts as a **voice list + TTS message builder** for streamers using our TTS app.
+Small Vue 3 + Vite site that acts as a **voice list + TTS message builder** for streamers using the VoicePuppet app.
 
 It’s meant to be deployed as a static site (Netlify / GitHub Pages / any static host) and shared with viewers so they can:
 - Browse available voices (with costs)
 - Preview voice audio samples
-- Build the exact chat/redeem message format your TTS bot expects
+- Build the exact chat/redeem message format the VoicePuppet bot expects
 
 Requires Node.js 20+ (see `package.json` → `engines`).
 
@@ -63,13 +63,13 @@ Notes:
 - `limited: true` adds a “Limited” badge and sorts limited voices first.
 - Make sure you add the matching `.mp3` + `.webp` files for every voice to avoid broken previews/avatars.
 
-### 4) Make sure the command format matches your TTS app
+### 4) Make sure the command format matches the VoicePuppet app
 
 The builder currently generates:
 - **Cheer**: `Cheer<amount> [voice:model:effect] message`
 - **Points / Resub**: `[voice:model:effect] message`
 
-If your TTS app uses different syntax (different brackets, separators, models/effects, length limits, etc.), update:
+If your VoicePuppet setup uses different syntax (different brackets, separators, models/effects, length limits, etc.), update:
 - Command generation + options: `src/components/VoiceBuilder.vue` (`generatedCommand`, `modelOptions`, `textEffectOptions`)
 - Eligibility cutoffs (bits/points/resub tiers): `src/components/VoiceBuilder.vue` (`bitAmountForGrid`, `tierOptions`)
 - Any explanatory copy: `src/components/InfoBox.vue`
