@@ -5,12 +5,17 @@ import InfoBox from "@/components/InfoBox.vue";
 import VoiceBuilder from "@/components/VoiceBuilder.vue";
 import IconPatternBackground from "@/components/IconPatternBackground.vue";
 import { useAudio } from "@/composables/useAudio";
+import { useLocalStorage } from "@/composables/useLocalStorage";
 import { useVoiceStore } from "@/stores/voiceStore";
 import { monkeyIcons } from "@/utils/iconRegistry";
 import { audioKey } from "@/injectionKeys";
 
 const voiceStore = useVoiceStore();
 const audio = useAudio();
+const [isInfoBoxHidden, setIsInfoBoxHidden] = useLocalStorage<boolean>(
+  "koko-tts-hide-infobox",
+  false,
+);
 
 provide(audioKey, audio);
 
@@ -44,8 +49,8 @@ onMounted(() => {
     <div class="relative z-10">
       <div class="min-h-screen">
         <div class="container mx-auto px-6 py-8 max-w-7xl">
-          <AppHeader />
-          <InfoBox />
+          <AppHeader :is-info-hidden="isInfoBoxHidden" @toggle-info="setIsInfoBoxHidden(!isInfoBoxHidden)" />
+          <InfoBox v-if="!isInfoBoxHidden" />
           <VoiceBuilder />
 
           <div v-if="voiceStore.isLoading" class="text-center">
