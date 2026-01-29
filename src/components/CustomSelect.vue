@@ -16,8 +16,6 @@
         ref="contentRef"
         :style="dropdownStyle"
         class="bg-dark-800 border-2 border-secondary-500/40 rounded-lg shadow-xl max-h-64 overflow-y-auto"
-        @mouseenter="isDropdownHovered = true"
-        @mouseleave="isDropdownHovered = false"
         @wheel="handleDropdownWheel"
         @touchstart="handleDropdownTouch"
         @touchmove="handleDropdownTouch"
@@ -38,7 +36,8 @@
 
 <script setup lang="ts">
 import { ChevronDown } from "lucide-vue-next";
-import { computed, type CSSProperties, nextTick, onMounted, onUnmounted, ref } from "vue";
+import { computed, nextTick, onMounted, onUnmounted, ref } from "vue";
+import { useFloatingDropdown } from "@/composables/useFloatingDropdown";
 
 // --- TYPES ---
 interface SelectOption {
@@ -68,14 +67,24 @@ const emit = defineEmits<Emits>();
 
 const triggerRef = ref<HTMLElement | null>(null);
 const contentRef = ref<HTMLElement | null>(null);
-const isOpen = ref(false);
-const dropdownPosition = ref<{
-  top: number;
-  left: number;
-  width: number;
-} | null>(null);
 const highlightedIndex = ref(-1);
-const isDropdownHovered = ref(false);
+
+const { isOpen, dropdownPosition, dropdownStyle, close, toggle } = useFloatingDropdown(
+  triggerRef,
+  contentRef,
+  {
+    onOpen: () => {
+      nextTick(() => {
+        const currentIndex = props.options.findIndex((option) => option.value === props.modelValue);
+        highlightedIndex.value = currentIndex > -1 ? currentIndex : 0;
+        scrollToOption(highlightedIndex.value);
+      });
+    },
+    onClose: () => {
+      highlightedIndex.value = -1;
+    },
+  },
+);
 
 // --- COMPUTED ---
 
@@ -89,47 +98,6 @@ const triggerClasses = computed(() => [
   "hover:border-secondary-500/60 transition-colors cursor-pointer text-left",
   "flex items-center justify-between",
 ]);
-
-const dropdownStyle = computed<CSSProperties>(() => ({
-  position: "fixed",
-  top: `${dropdownPosition.value?.top ?? 0}px`,
-  left: `${dropdownPosition.value?.left ?? 0}px`,
-  width: `${dropdownPosition.value?.width ?? 0}px`,
-  zIndex: 999999,
-}));
-
-// --- CORE LOGIC ---
-
-const updateDropdownPosition = () => {
-  const rect = triggerRef.value?.getBoundingClientRect();
-  if (rect) {
-    dropdownPosition.value = {
-      top: rect.bottom + 4,
-      left: rect.left,
-      width: rect.width,
-    };
-  }
-};
-
-const open = () => {
-  isOpen.value = true;
-  updateDropdownPosition();
-
-  nextTick(() => {
-    const currentIndex = props.options.findIndex((option) => option.value === props.modelValue);
-    highlightedIndex.value = currentIndex > -1 ? currentIndex : 0;
-    scrollToOption(highlightedIndex.value);
-  });
-};
-
-const close = () => {
-  isOpen.value = false;
-  highlightedIndex.value = -1;
-};
-
-const toggle = () => {
-  isOpen.value ? close() : open();
-};
 
 const selectOption = (option: SelectOption): void => {
   emit("update:modelValue", option.value);
@@ -225,33 +193,11 @@ const getOptionClasses = (option: SelectOption, index: number) => {
 
 // --- GLOBAL EVENT LISTENERS ---
 
-const handleClickOutside = (event: MouseEvent) => {
-  if (
-    triggerRef.value &&
-    !triggerRef.value.contains(event.target as Node) &&
-    !contentRef.value?.contains(event.target as Node)
-  ) {
-    close();
-  }
-};
-
-const handlePageScroll = () => {
-  if (isOpen.value) {
-    updateDropdownPosition();
-  }
-};
-
 onMounted(() => {
   document.addEventListener("keydown", handleKeydown);
-  document.addEventListener("click", handleClickOutside, true);
-  document.addEventListener("wheel", handlePageScroll, true);
-  document.addEventListener("scroll", handlePageScroll, true);
 });
 
 onUnmounted(() => {
   document.removeEventListener("keydown", handleKeydown);
-  document.removeEventListener("click", handleClickOutside, true);
-  document.removeEventListener("wheel", handlePageScroll, true);
-  document.removeEventListener("scroll", handlePageScroll, true);
 });
 </script>

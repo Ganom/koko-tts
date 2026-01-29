@@ -15,6 +15,7 @@
     <Teleport to="body">
       <div
         v-if="isOpen"
+        ref="contentRef"
         :style="dropdownStyle"
         class="bg-dark-800 border-2 border-primary-600/40 rounded-lg shadow-xl overflow-hidden"
       >
@@ -36,8 +37,9 @@
 
 <script setup lang="ts">
 import { Check, ChevronDown } from "lucide-vue-next";
-import type { CSSProperties, PropType, Ref } from "vue";
-import { computed, defineComponent, h, onMounted, onUnmounted, ref } from "vue";
+import type { PropType } from "vue";
+import { computed, defineComponent, h, ref } from "vue";
+import { useFloatingDropdown } from "@/composables/useFloatingDropdown";
 import { type Theme, useTheme } from "@/composables/useTheme";
 
 // --- THEME LOGIC ---
@@ -46,23 +48,14 @@ const { currentTheme, themes, setTheme } = useTheme();
 
 // --- DROPDOWN LOGIC ---
 
-const triggerRef = ref<HTMLElement>();
-const { isOpen, dropdownPosition, toggle, close } = useDropdown(triggerRef);
+const triggerRef = ref<HTMLElement | null>(null);
+const contentRef = ref<HTMLElement | null>(null);
+const { isOpen, toggle, close, dropdownStyle } = useFloatingDropdown(triggerRef, contentRef);
 
 const selectTheme = (theme: Theme) => {
   setTheme(theme);
   close();
 };
-
-// --- COMPUTED STYLES ---
-
-const dropdownStyle = computed<CSSProperties>(() => ({
-  position: "fixed",
-  top: `${dropdownPosition.value?.top ?? 0}px`,
-  left: `${dropdownPosition.value?.left ?? 0}px`,
-  width: `${dropdownPosition.value?.width ?? 0}px`,
-  zIndex: 999999,
-}));
 
 // --- LOCAL SUB-COMPONENTS ---
 
@@ -92,50 +85,4 @@ const ThemePalette = defineComponent({
       ]);
   },
 });
-
-// --- REUSABLE COMPOSABLES ---
-
-function useDropdown(triggerRef: Ref<HTMLElement | undefined>) {
-  const isOpen = ref(false);
-  const dropdownPosition = ref<{
-    top: number;
-    left: number;
-    width: number;
-  } | null>(null);
-
-  const updatePosition = () => {
-    if (triggerRef.value) {
-      const rect = triggerRef.value.getBoundingClientRect();
-      dropdownPosition.value = {
-        top: rect.bottom + 4,
-        left: rect.left,
-        width: rect.width,
-      };
-    }
-  };
-
-  const open = () => {
-    isOpen.value = true;
-    updatePosition();
-  };
-
-  const close = () => {
-    isOpen.value = false;
-  };
-
-  const toggle = () => {
-    isOpen.value ? close() : open();
-  };
-
-  const handleClickOutside = (event: MouseEvent) => {
-    if (triggerRef.value && !triggerRef.value.contains(event.target as Node)) {
-      close();
-    }
-  };
-
-  onMounted(() => document.addEventListener("click", handleClickOutside));
-  onUnmounted(() => document.removeEventListener("click", handleClickOutside));
-
-  return { isOpen, dropdownPosition, toggle, close };
-}
 </script>
