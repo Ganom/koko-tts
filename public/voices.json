@@ -1,4 +1,9 @@
 {
+  "kingdandy": {
+    "text": "This is kingdandy. Welcome to the stream!",
+    "cost": 10000,
+    "priority": true
+  },
   "ultrasuperpremiumdandy": {
     "text": "This is ultrasuperpremiumdandy. Welcome to the stream!",
     "cost": 5000,
