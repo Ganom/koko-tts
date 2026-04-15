@@ -1,4 +1,9 @@
 {
+  "superdandy": {
+    "text": "This is superdandy. Welcome to the stream!",
+    "cost": 100000,
+    "priority": true
+  },
   "kingdandy": {
     "text": "This is kingdandy. Welcome to the stream!",
     "cost": 10000,
@@ -105,6 +110,10 @@
   },
   "drum": {
     "text": "This is drum. Welcome to the stream!",
+    "cost": 300
+  },
+  "eddie": {
+    "text": "This is eddie. Welcome to the stream!",
     "cost": 300
   },
   "fred": {
