@@ -133,7 +133,7 @@
                 ]"
               >
                 <code
-                  class="flex min-h-14 items-center px-4 py-3 font-mono text-base font-bold text-white md:text-lg"
+                  class="flex min-h-14 min-w-0 items-center whitespace-nowrap px-3 py-3 font-mono text-sm font-bold text-white md:text-sm"
                 >
                   {{ command.text }}
                 </code>
@@ -141,7 +141,7 @@
                   type="button"
                   :aria-label="`Copy ${command.label.toLowerCase()}`"
                   :class="[
-                    'inline-flex min-w-24 items-center justify-center gap-2 border-l px-3 text-sm font-bold transition-colors',
+                    'inline-flex w-[5.25rem] items-center justify-center gap-1.5 border-l px-2 text-sm font-bold transition-colors',
                     themeClasses[section.theme].copyButton,
                   ]"
                   @click="copyCommand(command)"

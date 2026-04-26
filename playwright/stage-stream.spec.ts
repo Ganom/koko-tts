@@ -1,4 +1,4 @@
-import { expect, test } from "@playwright/test";
+import { expect, test, type Page } from "@playwright/test";
 
 test("stage stream route presents the command-first stage guide", async ({ page }) => {
   await page.addInitScript(() => {
@@ -12,6 +12,7 @@ test("stage stream route presents the command-first stage guide", async ({ page 
     });
   });
 
+  await page.setViewportSize({ width: 1132, height: 760 });
   await page.goto("/stage-stream");
 
   await expect(page.getByRole("heading", { name: "Stage How-To" })).toBeVisible();
@@ -54,6 +55,8 @@ test("stage stream route presents the command-first stage guide", async ({ page 
   await expect(page.getByText("Cheer500 filthy fleepos")).toBeVisible();
   await expect(page.getByRole("button", { name: "Copy standard heckle" })).toBeVisible();
   await expect(page.getByRole("button", { name: "Copy VIP dandy heckle" })).toBeVisible();
+  await expectNoWrappedCommand(page, "Cheer100 wrap it up");
+  await expectNoWrappedCommand(page, "Cheer500 filthy fleepos");
 
   await expect(page.getByRole("heading", { name: "Vote", exact: true })).toBeVisible();
   await expect(page.getByRole("heading", { name: "Vote on the Performer" })).toHaveCount(0);
@@ -125,3 +128,23 @@ test("stage stream route presents the command-first stage guide", async ({ page 
 
   await expect(page.getByRole("link", { name: "Koko TTS Voices" })).toHaveAttribute("href", "/");
 });
+
+async function expectNoWrappedCommand(page: Page, command: string) {
+  const commandLineCount = await page
+    .locator("code")
+    .filter({ hasText: command })
+    .evaluate((code) => {
+      const range = document.createRange();
+      range.selectNodeContents(code);
+
+      const lineTops = new Set(
+        [...range.getClientRects()]
+          .filter((rect) => rect.width > 1 && rect.height > 1)
+          .map((rect) => Math.round(rect.top)),
+      );
+
+      return lineTops.size;
+    });
+
+  expect(commandLineCount).toBe(1);
+}
