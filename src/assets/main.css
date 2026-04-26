@@ -76,6 +76,21 @@
   color: transparent;
 }
 
+.animate-float {
+  animation: float 3s ease-in-out infinite;
+}
+
+@keyframes float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-6px);
+  }
+}
+
 .anime-card {
   background: color-mix(in srgb, var(--theme-dark-900) 30%, transparent);
   backdrop-filter: blur(8px);

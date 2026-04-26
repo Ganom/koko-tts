@@ -1,6 +1,10 @@
 <template>
   <main class="max-w-7xl mx-auto pb-16">
-    <nav class="mb-10 flex items-center justify-between gap-4" aria-label="Stage guide navigation">
+    <nav
+      class="mb-10 flex items-center justify-between gap-4"
+      aria-label="Stage guide navigation"
+      v-motion="motions.nav"
+    >
       <a
         :href="homeHref"
         class="inline-flex items-center gap-2 rounded-lg border-2 border-primary-500/30 bg-dark-900/45 px-4 py-2 text-sm font-bold text-white shadow-lg backdrop-blur transition-colors hover:border-primary-400 hover:bg-primary-900/30"
@@ -18,12 +22,27 @@
       </div>
     </nav>
 
-    <header class="mb-8 text-center" v-motion="motions.hero">
-      <h1 class="text-gradient-violet-pink mb-5 text-4xl font-bold md:text-6xl">Stage How-To</h1>
-      <p class="mx-auto max-w-3xl text-lg text-gray-300 md:text-xl">
+    <header class="mb-8 text-center">
+      <h1
+        class="text-gradient-violet-pink animate-float mb-5 text-4xl font-bold md:text-6xl"
+        v-motion="motions.title"
+      >
+        Stage How-To
+      </h1>
+      <p class="mx-auto max-w-3xl text-lg text-gray-300 md:text-xl" v-motion="motions.subtitle">
         Grab the exact stream commands for joining stage, landing a heckle, or voting on the current
         performer.
       </p>
+      <div
+        class="mt-8 flex justify-center space-x-3"
+        data-testid="stage-decorative-dots"
+        aria-hidden="true"
+        v-motion="motions.decorativeContainer"
+      >
+        <span class="h-3 w-3 rounded-full bg-primary-500" v-motion="motions.decorativeDot1" />
+        <span class="h-3 w-3 rounded-full bg-secondary-500" v-motion="motions.decorativeDot2" />
+        <span class="h-3 w-3 rounded-full bg-accent-500" v-motion="motions.decorativeDot3" />
+      </div>
     </header>
 
     <section
@@ -56,14 +75,14 @@
 
     <section class="grid gap-6 lg:grid-cols-3">
       <article
-        v-for="section in sections"
+        v-for="(section, index) in sections"
         :key="section.title"
         :class="[
           'stage-guide-card flex h-full flex-col overflow-hidden rounded-lg border-2',
           themeClasses[section.theme].border,
         ]"
         :aria-labelledby="`${section.id}-title`"
-        v-motion="motions.card"
+        v-motion="getCardMotion(index)"
       >
         <div
           :class="[
@@ -421,20 +440,55 @@ const themeClasses: Record<
 };
 
 const motions = {
-  hero: {
-    initial: { opacity: 0, y: 24 },
-    enter: { opacity: 1, y: 0, transition: { duration: 350, ease: "easeOut" } },
+  nav: {
+    initial: { opacity: 0, y: -16 },
+    enter: { opacity: 1, y: 0, transition: { delay: 100, duration: 300, ease: "easeOut" } },
+  },
+  title: {
+    initial: { opacity: 0, y: -30 },
+    enter: { opacity: 1, y: 0, transition: { duration: 400, ease: "easeOut" } },
+  },
+  subtitle: {
+    initial: { opacity: 0, y: 16 },
+    enter: { opacity: 1, y: 0, transition: { delay: 80, duration: 300, ease: "easeOut" } },
+  },
+  decorativeContainer: {
+    initial: { opacity: 0, scale: 0.8 },
+    enter: {
+      opacity: 1,
+      scale: 1,
+      transition: { delay: 120, duration: 300, ease: "easeOut" },
+    },
+  },
+  decorativeDot1: {
+    initial: { scale: 0 },
+    enter: { scale: 1, transition: { delay: 220, duration: 200, ease: "backOut" } },
+  },
+  decorativeDot2: {
+    initial: { scale: 0 },
+    enter: { scale: 1, transition: { delay: 270, duration: 200, ease: "backOut" } },
+  },
+  decorativeDot3: {
+    initial: { scale: 0 },
+    enter: { scale: 1, transition: { delay: 320, duration: 200, ease: "backOut" } },
   },
   banner: {
     initial: { opacity: 0, y: 16 },
-    enter: { opacity: 1, y: 0, transition: { delay: 120, duration: 250, ease: "easeOut" } },
-  },
-  card: {
-    initial: { opacity: 0, y: 28 },
-    enter: { opacity: 1, y: 0, transition: { delay: 180, duration: 300, ease: "easeOut" } },
-    hover: { y: -4, transition: { duration: 180 } },
+    enter: { opacity: 1, y: 0, transition: { delay: 360, duration: 300, ease: "easeOut" } },
   },
 };
+
+const getCardMotion = (index: number) => ({
+  key: `stage-card-${sections[index].id}`,
+  initial: { opacity: 0, y: 28, scale: 0.96 },
+  enter: {
+    opacity: 1,
+    y: 0,
+    scale: 1,
+    transition: { delay: 460 + index * 80, duration: 300, ease: "easeOut" },
+  },
+  hover: { y: -4, scale: 1.01, transition: { duration: 180 } },
+});
 </script>
 
 <style scoped>

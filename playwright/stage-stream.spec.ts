@@ -15,7 +15,14 @@ test("stage stream route presents the command-first stage guide", async ({ page 
   await page.setViewportSize({ width: 1132, height: 760 });
   await page.goto("/stage-stream");
 
-  await expect(page.getByRole("heading", { name: "Stage How-To" })).toBeVisible();
+  const stageTitle = page.getByRole("heading", { name: "Stage How-To" });
+  await expect(stageTitle).toBeVisible();
+  await expect(stageTitle).toHaveClass(/animate-float/);
+  await expect
+    .poll(() => stageTitle.evaluate((element) => getComputedStyle(element).animationName))
+    .not.toBe("none");
+  await expect(page.getByTestId("stage-decorative-dots")).toBeVisible();
+  await expect(page.getByTestId("stage-decorative-dots").locator("span")).toHaveCount(3);
   await expect(page.getByText("Stage stream participation guide", { exact: true })).toHaveCount(0);
   await expect(page.getByLabel("Stage mode thresholds")).toHaveCount(0);
   await expect(
