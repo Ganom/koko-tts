@@ -1,53 +1,57 @@
 <template>
   <main class="max-w-7xl mx-auto pb-16">
-    <nav class="mb-10 flex items-center justify-between gap-4">
+    <nav class="mb-10 flex items-center justify-between gap-4" aria-label="Stage guide navigation">
       <a
         :href="homeHref"
-        class="inline-flex items-center gap-2 rounded-lg border-2 border-primary-500/30 bg-dark-900/40 px-4 py-2 text-sm font-bold text-white shadow-lg backdrop-blur transition-colors hover:border-primary-400 hover:bg-primary-900/30"
+        class="inline-flex items-center gap-2 rounded-lg border-2 border-primary-500/30 bg-dark-900/45 px-4 py-2 text-sm font-bold text-white shadow-lg backdrop-blur transition-colors hover:border-primary-400 hover:bg-primary-900/30"
       >
         <ArrowLeft class="h-4 w-4 text-primary-300" />
         <span>Koko TTS Voices</span>
       </a>
 
       <div
-        class="hidden items-center gap-2 rounded-lg border border-accent-500/30 bg-dark-900/40 px-3 py-2 text-xs font-bold uppercase tracking-wider text-accent-200 backdrop-blur sm:flex"
+        class="hidden items-center gap-2 rounded-lg border border-gray-500/25 bg-dark-900/30 px-3 py-2 text-xs font-bold uppercase tracking-wider text-gray-300 backdrop-blur sm:flex"
+        aria-current="page"
       >
-        <Radio class="h-4 w-4" />
-        <span>Stage mode</span>
+        <Radio class="h-4 w-4 text-accent-300" />
+        <span>Current: Stage Stream</span>
       </div>
     </nav>
 
-    <header class="mb-12 text-center" v-motion="motions.hero">
-      <div class="mb-6 flex justify-center gap-3" aria-hidden="true">
-        <span
-          v-for="emote in heroEmotes"
-          :key="emote.alt"
-          class="flex h-16 w-16 items-center justify-center rounded-lg border-2 border-primary-500/25 bg-dark-900/50 shadow-lg backdrop-blur"
-        >
-          <img :src="emote.src" alt="" class="h-11 w-11 object-contain" />
-        </span>
-      </div>
-
-      <p class="mb-3 text-sm font-bold uppercase tracking-wider text-accent-300">
-        Stage stream participation guide
-      </p>
+    <header class="mb-8 text-center" v-motion="motions.hero">
       <h1 class="text-gradient-violet-pink mb-5 text-4xl font-bold md:text-6xl">Stage How-To</h1>
       <p class="mx-auto max-w-3xl text-lg text-gray-300 md:text-xl">
-        Join the stage queue, land a heckle, and vote on the current performer with the exact stream
-        commands Koko expects.
+        Grab the exact stream commands for joining stage, landing a heckle, or voting on the current
+        performer.
       </p>
     </header>
 
-    <section class="mb-8 grid gap-4 md:grid-cols-3" aria-label="Stage mode thresholds">
-      <div
-        v-for="stat in stats"
-        :key="stat.label"
-        class="glass rounded-lg border-2 border-primary-500/25 p-5"
-        v-motion="motions.stat"
-      >
-        <p class="text-sm font-bold uppercase tracking-wider text-gray-400">{{ stat.label }}</p>
-        <p class="mt-2 text-3xl font-bold text-white">{{ stat.value }}</p>
-        <p class="mt-1 text-sm text-gray-300">{{ stat.detail }}</p>
+    <section
+      class="stage-help-panel mb-8 rounded-lg border-2 border-accent-500/45 p-5"
+      aria-label="First time stage help"
+      v-motion="motions.banner"
+    >
+      <div class="grid gap-4 md:grid-cols-[auto_1fr_auto] md:items-center">
+        <div
+          class="flex h-11 w-11 items-center justify-center rounded-lg bg-accent-500 text-dark-950"
+          aria-hidden="true"
+        >
+          <Info class="h-6 w-6" />
+        </div>
+        <div>
+          <p class="font-bold text-white">New to Koko TTS voices?</p>
+          <p class="mt-1 text-sm text-gray-300">
+            Visit the main page first if you need voice names, defaults, or examples. For stage
+            messages, keep the line short so it lands in sync.
+          </p>
+        </div>
+        <a
+          :href="homeHref"
+          class="inline-flex items-center justify-center gap-2 rounded-lg border border-accent-400/45 bg-accent-500/10 px-4 py-2 text-sm font-bold text-accent-100 transition-colors hover:border-accent-300 hover:bg-accent-500/20"
+        >
+          <span>Visit the main voices page</span>
+          <ExternalLink class="h-4 w-4" />
+        </a>
       </div>
     </section>
 
@@ -55,103 +59,139 @@
       <article
         v-for="section in sections"
         :key="section.title"
-        :class="['glass rounded-lg border-2 p-6 shadow-xl', themeClasses[section.theme].border]"
+        :class="[
+          'stage-guide-card flex h-full flex-col overflow-hidden rounded-lg border-2',
+          themeClasses[section.theme].border,
+        ]"
+        :aria-labelledby="`${section.id}-title`"
         v-motion="motions.card"
       >
-        <div class="mb-5 flex items-start justify-between gap-4">
-          <div>
-            <div
-              :class="[
-                'mb-4 flex h-12 w-12 items-center justify-center rounded-lg text-white',
-                themeClasses[section.theme].icon,
-              ]"
-            >
-              <component :is="section.icon" class="h-6 w-6" />
-            </div>
-            <h2 class="text-2xl font-bold text-white">{{ section.title }}</h2>
-          </div>
-
-          <div class="flex shrink-0 gap-2">
-            <img
-              v-for="emote in section.emotes"
-              :key="emote.alt"
-              :src="emote.src"
-              :alt="emote.alt"
-              class="h-12 w-12 object-contain drop-shadow-lg"
-            />
-          </div>
-        </div>
-
-        <p class="text-gray-300">{{ section.summary }}</p>
-
-        <div class="mt-5 space-y-3">
-          <div v-for="command in section.commands" :key="command.text">
-            <p class="mb-1 text-xs font-bold uppercase tracking-wider text-gray-400">
-              {{ command.label }}
-            </p>
-            <code
-              :class="[
-                'block rounded-lg border bg-dark-950/55 px-4 py-3 font-mono text-sm font-bold text-white',
-                themeClasses[section.theme].command,
-              ]"
-            >
-              {{ command.text }}
-            </code>
-          </div>
-        </div>
-
-        <ul class="mt-5 space-y-3">
-          <li
-            v-for="detail in section.details"
-            :key="detail"
-            class="flex gap-3 text-sm text-gray-300"
-          >
-            <CheckCircle2 :class="['mt-0.5 h-4 w-4 shrink-0', themeClasses[section.theme].text]" />
-            <span>{{ detail }}</span>
-          </li>
-        </ul>
-
         <div
-          v-if="section.note"
-          :class="['mt-6 rounded-lg border px-4 py-3 text-sm', themeClasses[section.theme].note]"
+          :class="[
+            'border-b px-5 py-5',
+            themeClasses[section.theme].divider,
+            themeClasses[section.theme].header,
+          ]"
         >
-          <p class="font-bold text-white">{{ section.note.title }}</p>
-          <p class="mt-1 text-gray-300">{{ section.note.text }}</p>
+          <div class="flex min-h-20 items-start justify-between gap-4">
+            <div class="flex items-start gap-4">
+              <div
+                :class="[
+                  'flex h-12 w-12 shrink-0 items-center justify-center rounded-lg text-white',
+                  themeClasses[section.theme].icon,
+                ]"
+              >
+                <component :is="section.icon" class="h-6 w-6" />
+              </div>
+              <div>
+                <p
+                  :class="[
+                    'mb-2 inline-flex rounded-lg border px-2.5 py-1 text-xs font-bold uppercase tracking-wider',
+                    themeClasses[section.theme].badge,
+                  ]"
+                >
+                  {{ section.threshold }}
+                </p>
+                <h2 :id="`${section.id}-title`" class="text-2xl font-bold text-white">
+                  {{ section.title }}
+                </h2>
+              </div>
+            </div>
+
+            <div class="flex h-12 shrink-0 items-center gap-2">
+              <img
+                v-for="emote in section.emotes"
+                :key="emote.alt"
+                :src="emote.src"
+                :alt="emote.alt"
+                class="h-11 w-11 object-contain drop-shadow-lg"
+              />
+            </div>
+          </div>
+        </div>
+
+        <div class="flex flex-1 flex-col p-5">
+          <div class="space-y-3">
+            <div v-for="command in section.commands" :key="command.id">
+              <div class="mb-2 flex items-center justify-between gap-3">
+                <p class="text-xs font-bold uppercase tracking-wider text-gray-400">
+                  {{ command.label }}
+                </p>
+                <p
+                  v-if="command.threshold"
+                  :class="[
+                    'rounded-lg border px-2 py-0.5 text-xs font-bold',
+                    themeClasses[section.theme].badge,
+                  ]"
+                >
+                  {{ command.threshold }}
+                </p>
+              </div>
+              <div
+                :class="[
+                  'grid grid-cols-[1fr_auto] items-stretch overflow-hidden rounded-lg border-2 bg-dark-950/75 shadow-lg',
+                  themeClasses[section.theme].command,
+                ]"
+              >
+                <code
+                  class="flex min-h-14 items-center px-4 py-3 font-mono text-base font-bold text-white md:text-lg"
+                >
+                  {{ command.text }}
+                </code>
+                <button
+                  type="button"
+                  :aria-label="`Copy ${command.label.toLowerCase()}`"
+                  :class="[
+                    'inline-flex min-w-24 items-center justify-center gap-2 border-l px-3 text-sm font-bold transition-colors',
+                    themeClasses[section.theme].copyButton,
+                  ]"
+                  @click="copyCommand(command)"
+                >
+                  <Check v-if="copiedCommandId === command.id" class="h-4 w-4" />
+                  <Copy v-else class="h-4 w-4" />
+                  <span>{{ copiedCommandId === command.id ? "Copied" : "Copy" }}</span>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <ul class="mt-5 space-y-3">
+            <li
+              v-for="detail in section.details"
+              :key="detail"
+              class="grid grid-cols-[auto_1fr] gap-3 text-sm font-medium text-gray-200"
+            >
+              <CheckCircle2
+                :class="['mt-0.5 h-5 w-5 shrink-0', themeClasses[section.theme].text]"
+              />
+              <span>{{ detail }}</span>
+            </li>
+          </ul>
+
+          <div
+            :class="['mt-8 rounded-lg border px-4 py-3 text-sm', themeClasses[section.theme].note]"
+          >
+            <p class="font-bold text-white">{{ section.note.title }}</p>
+            <p class="mt-1 text-gray-300">{{ section.note.text }}</p>
+          </div>
         </div>
       </article>
-    </section>
-
-    <section
-      class="anime-card mt-8 rounded-lg border-2 border-primary-500/30 p-6"
-      v-motion="motions.footer"
-    >
-      <div class="grid gap-6 md:grid-cols-[auto,1fr] md:items-center">
-        <div
-          class="flex h-14 w-14 items-center justify-center rounded-lg bg-accent-500 text-dark-950"
-          aria-hidden="true"
-        >
-          <Sparkles class="h-7 w-7" />
-        </div>
-        <div>
-          <h2 class="text-2xl font-bold text-white">Keep the set tight</h2>
-          <p class="mt-2 text-gray-300">
-            Short messages land best on stream. Long heckles get trimmed, and slow voice models can
-            make stage messages fall out of sync with the performance.
-          </p>
-        </div>
-      </div>
     </section>
   </main>
 </template>
 
 <script setup lang="ts">
+import { ref } from "vue";
 import {
   ArrowLeft,
+  Check,
   CheckCircle2,
+  Copy,
+  ExternalLink,
+  Info,
   MessageSquareText,
   Mic2,
   Radio,
-  Sparkles,
   ThumbsUp,
 } from "lucide-vue-next";
 
@@ -162,18 +202,24 @@ interface Emote {
   alt: string;
 }
 
+interface GuideCommand {
+  id: string;
+  label: string;
+  text: string;
+  threshold?: string;
+  copyText?: string;
+}
+
 interface GuideSection {
+  id: string;
   title: string;
+  threshold: string;
   theme: ThemeName;
   icon: typeof Mic2;
   emotes: Emote[];
-  summary: string;
-  commands: Array<{
-    label: string;
-    text: string;
-  }>;
+  commands: GuideCommand[];
   details: string[];
-  note?: {
+  note: {
     title: string;
     text: string;
   };
@@ -182,6 +228,50 @@ interface GuideSection {
 const baseUrl = import.meta.env.BASE_URL.replace(/\/$/, "");
 const homeHref = import.meta.env.BASE_URL;
 const emotePath = (filename: string) => `${baseUrl}/stage-emotes/${filename}`;
+
+const copiedCommandId = ref<string | null>(null);
+let resetCopiedTimer: number | undefined;
+
+const fallbackCopy = (text: string) => {
+  const textarea = document.createElement("textarea");
+  textarea.value = text;
+  textarea.setAttribute("readonly", "");
+  textarea.style.position = "fixed";
+  textarea.style.left = "-9999px";
+  document.body.appendChild(textarea);
+  textarea.select();
+
+  const didCopy = document.execCommand("copy");
+  document.body.removeChild(textarea);
+
+  if (!didCopy) {
+    throw new Error("Copy command failed");
+  }
+};
+
+const writeClipboard = async (text: string) => {
+  if (navigator.clipboard?.writeText) {
+    await navigator.clipboard.writeText(text);
+    return;
+  }
+
+  fallbackCopy(text);
+};
+
+const copyCommand = async (command: GuideCommand) => {
+  await writeClipboard(command.copyText ?? command.text);
+  copiedCommandId.value = command.id;
+
+  if (resetCopiedTimer) {
+    window.clearTimeout(resetCopiedTimer);
+  }
+
+  resetCopiedTimer = window.setTimeout(() => {
+    if (copiedCommandId.value === command.id) {
+      copiedCommandId.value = null;
+    }
+  }, 1600);
+};
 
 const emotes = {
   scooting: {
@@ -202,53 +292,51 @@ const emotes = {
   },
 } satisfies Record<string, Emote>;
 
-const heroEmotes = [emotes.scooting, emotes.aaaa, emotes.yay, emotes.boo];
-
-const stats = [
-  {
-    label: "Join stage",
-    value: "300+ bits",
-    detail: "Cheer with !join in the same chat message.",
-  },
-  {
-    label: "Heckle",
-    value: "100+ bits",
-    detail: "Cheer with a short message or use the TTS redeem.",
-  },
-  {
-    label: "VIP Dandy",
-    value: "500+ bits",
-    detail: "Heckle as the VIP dandy voice.",
-  },
-];
-
 const sections: GuideSection[] = [
   {
+    id: "join-stage",
     title: "Get On Stage",
+    threshold: "300+ bits",
     theme: "primary",
     icon: Mic2,
     emotes: [emotes.scooting],
-    summary: "Cheer 300+ bits with !join in the same message to enter the stage queue.",
-    commands: [{ label: "Queue command", text: "Cheer300 !join" }],
+    commands: [
+      {
+        id: "join",
+        label: "Queue command",
+        text: "Cheer300 !join",
+      },
+    ],
     details: [
       "Koko pulls performers from the queue one at a time and posts in chat before your turn.",
       "Your chat messages are voiced by the puppet until your 3 min set ends or Koko boots you.",
-      "You can use any voice that is not a priority voice. Without a voice, Koko uses your default.",
+      "Use any voice that is not a priority voice. Without a voice, Koko uses your default.",
     ],
     note: {
-      title: "Tip",
-      text: "Avoid v3 unless the message is short or it genuinely improves the bit. V3 can take a long time and drift out of sync.",
+      title: "Keep the set tight",
+      text: "Short stage lines land best. Avoid v3 unless the message is short or it genuinely improves the bit.",
     },
   },
   {
+    id: "send-heckle",
     title: "Send a Heckle",
+    threshold: "100+ or 500+ bits",
     theme: "secondary",
     icon: MessageSquareText,
     emotes: [emotes.aaaa],
-    summary: "Drop a short message into the show without joining the stage queue.",
     commands: [
-      { label: "Standard heckle", text: "Cheer100 wrap it up" },
-      { label: "VIP dandy heckle", text: "Cheer500 filthy fleepos" },
+      {
+        id: "standard-heckle",
+        label: "Standard heckle",
+        text: "Cheer100 wrap it up",
+        threshold: "100+ bits",
+      },
+      {
+        id: "vip-heckle",
+        label: "VIP dandy heckle",
+        text: "Cheer500 filthy fleepos",
+        threshold: "500+ bits",
+      },
     ],
     details: [
       "Cheer 100+ bits with your message, or use the TTS redeem.",
@@ -261,47 +349,72 @@ const sections: GuideSection[] = [
     },
   },
   {
-    title: "Vote on the Performer",
+    id: "vote-performer",
+    title: "Vote",
+    threshold: "Chat vote",
     theme: "accent",
     icon: ThumbsUp,
     emotes: [emotes.yay, emotes.boo],
-    summary: "While someone is on stage, vote with one exact chat word.",
-    commands: [{ label: "Vote command", text: "Yay or Boo" }],
+    commands: [
+      { id: "vote-yay", label: "Yay vote", text: "Yay" },
+      { id: "vote-boo", label: "Boo vote", text: "Boo" },
+    ],
     details: [
       "Type exactly Yay or Boo while a performer is on stage.",
       "Each person gets one active vote.",
       "Send the other word before the set ends to change your vote.",
     ],
+    note: {
+      title: "Exact words only",
+      text: "Extra words or punctuation can miss the vote parser. Send Yay or Boo by itself.",
+    },
   },
 ];
 
 const themeClasses: Record<
   ThemeName,
   {
+    badge: string;
     border: string;
     command: string;
+    copyButton: string;
+    divider: string;
+    header: string;
     icon: string;
     note: string;
     text: string;
   }
 > = {
   primary: {
+    badge: "border-primary-400/40 bg-primary-500/15 text-primary-100",
     border: "border-primary-500/30 hover:border-primary-400/60",
-    command: "border-primary-500/25 text-primary-100",
+    command: "border-primary-400/55 shadow-primary-950/50",
+    copyButton: "border-primary-400/30 bg-primary-500/15 text-primary-100 hover:bg-primary-500/25",
+    divider: "border-primary-500/20",
+    header: "bg-primary-950/20",
     icon: "bg-primary-600",
     note: "border-primary-500/25 bg-primary-950/35",
     text: "text-primary-300",
   },
   secondary: {
+    badge: "border-secondary-400/40 bg-secondary-500/15 text-secondary-100",
     border: "border-secondary-500/30 hover:border-secondary-400/60",
-    command: "border-secondary-500/25 text-secondary-100",
+    command: "border-secondary-400/55 shadow-secondary-950/50",
+    copyButton:
+      "border-secondary-400/30 bg-secondary-500/15 text-secondary-100 hover:bg-secondary-500/25",
+    divider: "border-secondary-500/20",
+    header: "bg-secondary-950/20",
     icon: "bg-secondary-600",
     note: "border-secondary-500/25 bg-secondary-950/35",
     text: "text-secondary-300",
   },
   accent: {
+    badge: "border-accent-400/45 bg-accent-500/15 text-accent-100",
     border: "border-accent-500/30 hover:border-accent-400/60",
-    command: "border-accent-500/25 text-accent-100",
+    command: "border-accent-400/60 shadow-accent-950/50",
+    copyButton: "border-accent-400/35 bg-accent-500/15 text-accent-100 hover:bg-accent-500/25",
+    divider: "border-accent-500/20",
+    header: "bg-accent-950/20",
     icon: "bg-accent-500 text-dark-950",
     note: "border-accent-500/25 bg-accent-950/35",
     text: "text-accent-300",
@@ -313,7 +426,7 @@ const motions = {
     initial: { opacity: 0, y: 24 },
     enter: { opacity: 1, y: 0, transition: { duration: 350, ease: "easeOut" } },
   },
-  stat: {
+  banner: {
     initial: { opacity: 0, y: 16 },
     enter: { opacity: 1, y: 0, transition: { delay: 120, duration: 250, ease: "easeOut" } },
   },
@@ -322,9 +435,16 @@ const motions = {
     enter: { opacity: 1, y: 0, transition: { delay: 180, duration: 300, ease: "easeOut" } },
     hover: { y: -4, transition: { duration: 180 } },
   },
-  footer: {
-    initial: { opacity: 0, y: 20 },
-    enter: { opacity: 1, y: 0, transition: { delay: 260, duration: 300, ease: "easeOut" } },
-  },
 };
 </script>
+
+<style scoped>
+.stage-help-panel,
+.stage-guide-card {
+  background: color-mix(in srgb, var(--theme-gray-900) 88%, var(--theme-dark-950));
+  backdrop-filter: blur(10px);
+  box-shadow:
+    0 22px 30px color-mix(in srgb, var(--theme-dark-950) 55%, transparent),
+    inset 0 1px 0 color-mix(in srgb, var(--theme-gray-100) 8%, transparent);
+}
+</style>
