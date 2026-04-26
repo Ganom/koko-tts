@@ -14,7 +14,7 @@ test("infobox can be hidden and persists", async ({ page }) => {
   const heading = page.getByRole("heading", { name: "Make Your Message Heard" });
   await expect(heading).toBeVisible();
 
-  await page.getByRole("button", { name: "Hide instructions" }).click();
+  await page.getByRole("banner").getByRole("button", { name: "Hide instructions" }).click();
   await expect(heading).toHaveCount(0);
 
   await page.reload();
