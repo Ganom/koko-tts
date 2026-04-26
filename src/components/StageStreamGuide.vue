@@ -41,8 +41,7 @@
         <div>
           <p class="font-bold text-white">New to Koko TTS voices?</p>
           <p class="mt-1 text-sm text-gray-300">
-            Visit the main page first if you need voice names, defaults, or examples. For stage
-            messages, keep the line short so it lands in sync.
+            Visit the main page first if you need voice names, defaults, or examples.
           </p>
         </div>
         <a
@@ -68,12 +67,12 @@
       >
         <div
           :class="[
-            'border-b px-5 py-5',
+            'border-b px-5 py-3',
             themeClasses[section.theme].divider,
             themeClasses[section.theme].header,
           ]"
         >
-          <div class="flex min-h-20 items-start justify-between gap-4">
+          <div class="flex min-h-14 items-start justify-between gap-4">
             <div class="flex items-start gap-4">
               <div
                 :class="[
@@ -168,11 +167,11 @@
             </li>
           </ul>
 
-          <div
-            :class="['mt-8 rounded-lg border px-4 py-3 text-sm', themeClasses[section.theme].note]"
-          >
-            <p class="font-bold text-white">{{ section.note.title }}</p>
-            <p class="mt-1 text-gray-300">{{ section.note.text }}</p>
+          <div class="mt-auto pt-8">
+            <div :class="['rounded-lg border px-4 py-3 text-sm', themeClasses[section.theme].note]">
+              <p class="font-bold text-white">{{ section.note.title }}</p>
+              <p class="mt-1 text-gray-300">{{ section.note.text }}</p>
+            </div>
           </div>
         </div>
       </article>
@@ -310,11 +309,11 @@ const sections: GuideSection[] = [
     details: [
       "Koko pulls performers from the queue one at a time and posts in chat before your turn.",
       "Your chat messages are voiced by the puppet until your 3 min set ends or Koko boots you.",
-      "Use any voice that is not a priority voice. Without a voice, Koko uses your default.",
+      "Use any voice that is not a priority voice. Without a voice, it uses your default.",
     ],
     note: {
       title: "Keep the set tight",
-      text: "Short stage lines land best. Avoid v3 unless the message is short or it genuinely improves the bit.",
+      text: "Avoid v3 unless the message is short or it genuinely improves the bit.",
     },
   },
   {

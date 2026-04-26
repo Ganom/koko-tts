@@ -85,6 +85,39 @@ test("stage stream route presents the command-first stage guide", async ({ page 
     importantCalloutBox!.y - (lastHeckleRuleBox!.y + lastHeckleRuleBox!.height),
   ).toBeGreaterThanOrEqual(24);
 
+  const getOnStageCard = page
+    .locator("article")
+    .filter({ has: page.getByRole("heading", { name: "Get On Stage" }) });
+  const commandOffset = await getOnStageCard.evaluate((article) => {
+    const commandLabel = [...article.querySelectorAll("p")].find(
+      (element) => element.textContent?.trim() === "Queue command",
+    );
+
+    if (!commandLabel) {
+      throw new Error("Queue command label not found");
+    }
+
+    return commandLabel.getBoundingClientRect().top - article.getBoundingClientRect().top;
+  });
+  expect(commandOffset).toBeLessThanOrEqual(120);
+
+  const calloutBottoms = await page.locator("article").evaluateAll((articles) =>
+    articles.map((article) => {
+      const calloutTitle = [...article.querySelectorAll("p")].find((element) =>
+        ["Keep the set tight", "Important", "Exact words only"].includes(
+          element.textContent?.trim() ?? "",
+        ),
+      );
+
+      if (!calloutTitle?.parentElement) {
+        throw new Error("Card callout not found");
+      }
+
+      return calloutTitle.parentElement.getBoundingClientRect().bottom;
+    }),
+  );
+  expect(Math.max(...calloutBottoms) - Math.min(...calloutBottoms)).toBeLessThanOrEqual(2);
+
   await expect(page.getByRole("img", { name: "Scooting emote" })).toBeVisible();
   await expect(page.getByRole("img", { name: "AAAA emote" })).toBeVisible();
   await expect(page.getByRole("img", { name: "Yay emote" })).toBeVisible();
