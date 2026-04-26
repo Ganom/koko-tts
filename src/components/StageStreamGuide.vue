@@ -1,7 +1,7 @@
 <template>
   <main class="max-w-7xl mx-auto pb-16">
     <nav
-      class="mb-10 flex items-center justify-between gap-4"
+      class="mb-10 flex items-center gap-4"
       aria-label="Stage guide navigation"
       v-motion="motions.nav"
     >
@@ -12,14 +12,6 @@
         <ArrowLeft class="h-4 w-4 text-primary-300" />
         <span>Koko TTS Voices</span>
       </a>
-
-      <div
-        class="hidden items-center gap-2 rounded-lg border border-gray-500/25 bg-dark-900/30 px-3 py-2 text-xs font-bold uppercase tracking-wider text-gray-300 backdrop-blur sm:flex"
-        aria-current="page"
-      >
-        <Radio class="h-4 w-4 text-accent-300" />
-        <span>Current: Stage Stream</span>
-      </div>
     </nav>
 
     <header class="mb-8 text-center">
@@ -209,7 +201,6 @@ import {
   Info,
   MessageSquareText,
   Mic2,
-  Radio,
   ThumbsUp,
 } from "lucide-vue-next";
 

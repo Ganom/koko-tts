@@ -15,6 +15,8 @@ test("stage stream route presents the command-first stage guide", async ({ page 
   await page.setViewportSize({ width: 1132, height: 760 });
   await page.goto("/stage-stream");
 
+  await expect(page.getByText("Current: Stage Stream", { exact: true })).toHaveCount(0);
+
   const stageTitle = page.getByRole("heading", { name: "Stage How-To" });
   await expect(stageTitle).toBeVisible();
   await expect(stageTitle).toHaveClass(/animate-float/);
