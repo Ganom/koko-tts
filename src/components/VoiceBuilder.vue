@@ -140,7 +140,7 @@
 </template>
 
 <script setup lang="ts">
-import { Check, Clipboard, Menu } from "lucide-vue-next";
+import { Check, Clipboard, Menu } from "@lucide/vue";
 import { computed, onMounted, ref, watch } from "vue";
 import { useLocalStorage } from "@/composables/useLocalStorage";
 import { useVoiceStore } from "@/stores/voiceStore";

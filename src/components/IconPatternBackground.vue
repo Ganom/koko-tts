@@ -9,7 +9,7 @@ import {
   type SlideDirection,
 } from "@/utils/iconPattern";
 
-import type { LucideIcon } from "lucide-vue-next";
+import type { LucideIcon } from "@lucide/vue";
 import type { IconComponent, IconNode } from "@/utils/iconRegistry";
 
 interface Props {

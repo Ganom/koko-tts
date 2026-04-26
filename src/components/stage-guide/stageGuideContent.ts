@@ -1,4 +1,4 @@
-import { MessageSquareText, Mic2, ThumbsUp } from "lucide-vue-next";
+import { MessageSquareText, Mic2, ThumbsUp } from "@lucide/vue";
 import type { StageGuideEmote, StageGuideSection } from "./types";
 
 const baseUrl = import.meta.env.BASE_URL.replace(/\/$/, "");

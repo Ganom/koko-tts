@@ -22,10 +22,16 @@ export default defineConfig(({ mode }) => {
     },
     build: {
       outDir: "dist",
-      rollupOptions: {
+      rolldownOptions: {
         output: {
-          manualChunks: {
-            vendor: ["vue", "pinia"],
+          codeSplitting: {
+            groups: [
+              {
+                name: "vendor",
+                test: /node_modules[\\/](?:@vue[\\/]|vue[\\/]|pinia[\\/])/,
+                priority: 10,
+              },
+            ],
           },
         },
       },

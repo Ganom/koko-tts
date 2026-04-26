@@ -111,7 +111,7 @@
 </template>
 
 <script setup lang="ts">
-import { Gift, Heart, Plus, RotateCcw, X } from "lucide-vue-next";
+import { Gift, Heart, Plus, RotateCcw, X } from "@lucide/vue";
 
 const emit = defineEmits<{
   hide: [];

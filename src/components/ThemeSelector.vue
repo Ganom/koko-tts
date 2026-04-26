@@ -36,7 +36,7 @@
 </template>
 
 <script setup lang="ts">
-import { Check, ChevronDown } from "lucide-vue-next";
+import { Check, ChevronDown } from "@lucide/vue";
 import type { PropType } from "vue";
 import { computed, defineComponent, h, ref } from "vue";
 import { useFloatingDropdown } from "@/composables/useFloatingDropdown";

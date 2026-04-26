@@ -7,7 +7,7 @@
 </template>
 
 <script setup lang="ts">
-import { Pause, Play, RotateCcw, TriangleAlert } from "lucide-vue-next";
+import { Pause, Play, RotateCcw, TriangleAlert } from "@lucide/vue";
 import { computed, inject } from "vue";
 import { PlaybackStatus } from "@/types/audio";
 import { audioKey } from "@/injectionKeys";

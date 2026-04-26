@@ -40,7 +40,7 @@
 </template>
 
 <script setup lang="ts">
-import { Check, Copy } from "lucide-vue-next";
+import { Check, Copy } from "@lucide/vue";
 import { stageGuideThemeClasses as themeClasses } from "./stageGuideTheme";
 import type { StageGuideCommand, StageGuideThemeName } from "./types";
 

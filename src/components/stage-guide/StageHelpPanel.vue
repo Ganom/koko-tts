@@ -29,7 +29,7 @@
 </template>
 
 <script setup lang="ts">
-import { ExternalLink, Info } from "lucide-vue-next";
+import { ExternalLink, Info } from "@lucide/vue";
 import { stageGuideBannerMotion } from "./stageGuideMotions";
 
 defineProps<{

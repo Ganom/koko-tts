@@ -86,7 +86,7 @@
 
 <script setup lang="ts">
 import { computed } from "vue";
-import { CheckCircle2 } from "lucide-vue-next";
+import { CheckCircle2 } from "@lucide/vue";
 import StageCommandBlock from "./StageCommandBlock.vue";
 import { getStageGuideCardMotion } from "./stageGuideMotions";
 import { stageGuideThemeClasses as themeClasses } from "./stageGuideTheme";

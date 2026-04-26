@@ -30,7 +30,7 @@
 // --- IMPORTS ---
 
 import { computed } from "vue";
-import { Info } from "lucide-vue-next";
+import { Info } from "@lucide/vue";
 import ThemeSelector from "./ThemeSelector.vue";
 
 // --- PROPS & EMITS ---

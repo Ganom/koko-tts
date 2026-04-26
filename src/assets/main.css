@@ -98,7 +98,7 @@
     0 20px 20px color-mix(in srgb, var(--theme-dark-950) 60%, transparent),
     inset 0 1px 0 color-mix(in srgb, var(--theme-gray-100) 5%, transparent),
     inset 0 -1px 0 color-mix(in srgb, var(--theme-dark-950) 20%, transparent);
-  border: 2px solid var(--theme-primary-700/30) !important;
+  border: 2px solid color-mix(in srgb, var(--theme-primary-700) 30%, transparent) !important;
 }
 
 .glass {

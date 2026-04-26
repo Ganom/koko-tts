@@ -8,7 +8,7 @@ import {
   type IconNode,
   type LucideIcon,
   type LucideProps,
-} from "lucide-vue-next";
+} from "@lucide/vue";
 import {
   coconut,
   crab,

@@ -100,7 +100,7 @@
 </template>
 
 <script setup lang="ts">
-import { CheckCircle, Dices, Search } from "lucide-vue-next";
+import { CheckCircle, Dices, Search } from "@lucide/vue";
 import { computed, ref } from "vue";
 import type { Voice } from "@/types/voice";
 
