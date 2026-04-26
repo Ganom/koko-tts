@@ -305,7 +305,7 @@ const sections: GuideSection[] = [
   {
     id: "join-stage",
     title: "Get On Stage",
-    threshold: "300+ bits",
+    threshold: "300 bits",
     theme: "primary",
     icon: Mic2,
     emotes: [emotes.scooting],
@@ -318,7 +318,7 @@ const sections: GuideSection[] = [
     ],
     details: [
       "Koko pulls performers from the queue one at a time and posts in chat before your turn.",
-      "Your chat messages are voiced by the puppet until your 3 min set ends or Koko boots you.",
+      "Your chat messages are voiced by the puppet until your 2.5 min set ends or Koko boots you.",
       "Use any voice that is not a priority voice. Without a voice, it uses your default.",
     ],
     note: {
@@ -329,7 +329,7 @@ const sections: GuideSection[] = [
   {
     id: "send-heckle",
     title: "Send a Heckle",
-    threshold: "100+ or 500+ bits",
+    threshold: "100+ or 1000 bits",
     theme: "secondary",
     icon: MessageSquareText,
     emotes: [emotes.aaaa],
@@ -343,14 +343,14 @@ const sections: GuideSection[] = [
       {
         id: "vip-heckle",
         label: "VIP dandy heckle",
-        text: "Cheer500 filthy fleepos",
-        threshold: "500+ bits",
+        text: "Cheer1000 filthy fleepos",
+        threshold: "1000 bits",
       },
     ],
     details: [
       "Cheer 100+ bits with your message, or use the TTS redeem.",
-      "Cheer 500+ bits to speak as the VIP dandy.",
-      "Keep it short because long heckles get trimmed.",
+      "Cheer 1000 bits to speak as the VIP dandy.",
+      "Keep heckles to 100 characters because longer heckles get trimmed.",
     ],
     note: {
       title: "Important",

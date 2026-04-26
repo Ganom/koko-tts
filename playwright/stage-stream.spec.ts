@@ -48,8 +48,21 @@ test("stage stream route presents the command-first stage guide", async ({ page 
   );
 
   await expect(page.getByRole("heading", { name: "Get On Stage" })).toBeVisible();
-  await expect(page.getByText("300+ bits", { exact: true })).toBeVisible();
+  await expect(page.getByText("300 bits", { exact: true })).toBeVisible();
+  await expect(page.getByText("300+ bits", { exact: true })).toHaveCount(0);
   await expect(page.getByText("Cheer300 !join")).toBeVisible();
+  await expect(
+    page.getByText(
+      "Your chat messages are voiced by the puppet until your 2.5 min set ends or Koko boots you.",
+      { exact: true },
+    ),
+  ).toBeVisible();
+  await expect(
+    page.getByText(
+      "Your chat messages are voiced by the puppet until your 3 min set ends or Koko boots you.",
+      { exact: true },
+    ),
+  ).toHaveCount(0);
   const copyQueueCommand = page.getByRole("button", { name: "Copy queue command" });
   await expect(copyQueueCommand).toBeVisible();
   await copyQueueCommand.click();
@@ -60,12 +73,21 @@ test("stage stream route presents the command-first stage guide", async ({ page 
 
   await expect(page.getByRole("heading", { name: "Send a Heckle" })).toBeVisible();
   await expect(page.getByText("100+ bits", { exact: true })).toBeVisible();
-  await expect(page.getByText("500+ bits", { exact: true })).toBeVisible();
-  await expect(page.getByText("Cheer500 filthy fleepos")).toBeVisible();
+  await expect(page.getByText("1000 bits", { exact: true })).toBeVisible();
+  await expect(page.getByText("500+ bits", { exact: true })).toHaveCount(0);
+  await expect(page.getByText("Cheer1000 filthy fleepos")).toBeVisible();
   await expect(page.getByRole("button", { name: "Copy standard heckle" })).toBeVisible();
   await expect(page.getByRole("button", { name: "Copy VIP dandy heckle" })).toBeVisible();
   await expectNoWrappedCommand(page, "Cheer100 wrap it up");
-  await expectNoWrappedCommand(page, "Cheer500 filthy fleepos");
+  await expectNoWrappedCommand(page, "Cheer1000 filthy fleepos");
+  await expect(
+    page.getByText("Keep heckles to 100 characters because longer heckles get trimmed.", {
+      exact: true,
+    }),
+  ).toBeVisible();
+  await expect(
+    page.getByText("Keep it short because long heckles get trimmed.", { exact: true }),
+  ).toHaveCount(0);
 
   await expect(page.getByRole("heading", { name: "Vote", exact: true })).toBeVisible();
   await expect(page.getByRole("heading", { name: "Vote on the Performer" })).toHaveCount(0);
@@ -88,7 +110,9 @@ test("stage stream route presents the command-first stage guide", async ({ page 
     .toBe("Boo");
 
   const lastHeckleRuleBox = await page
-    .getByText("Keep it short because long heckles get trimmed.", { exact: true })
+    .getByText("Keep heckles to 100 characters because longer heckles get trimmed.", {
+      exact: true,
+    })
     .boundingBox();
   const importantCalloutBox = await page.getByText("Important", { exact: true }).boundingBox();
   expect(lastHeckleRuleBox).not.toBeNull();
@@ -112,6 +136,8 @@ test("stage stream route presents the command-first stage guide", async ({ page 
     return commandLabel.getBoundingClientRect().top - article.getBoundingClientRect().top;
   });
   expect(commandOffset).toBeLessThanOrEqual(120);
+
+  await waitForStageCardsToSettle(page);
 
   const calloutBottoms = await page.locator("article").evaluateAll((articles) =>
     articles.map((article) => {
@@ -156,4 +182,28 @@ async function expectNoWrappedCommand(page: Page, command: string) {
     });
 
   expect(commandLineCount).toBe(1);
+}
+
+async function waitForStageCardsToSettle(page: Page) {
+  await page.mouse.move(0, 0);
+  await expect
+    .poll(() =>
+      page.locator("article").evaluateAll((articles) =>
+        articles.every((article) => {
+          const style = getComputedStyle(article);
+          const transform = new DOMMatrixReadOnly(
+            style.transform === "none" ? undefined : style.transform,
+          );
+
+          return (
+            Number.parseFloat(style.opacity) > 0.999 &&
+            Math.abs(transform.a - 1) < 0.001 &&
+            Math.abs(transform.d - 1) < 0.001 &&
+            Math.abs(transform.m41) < 0.25 &&
+            Math.abs(transform.m42) < 0.25
+          );
+        }),
+      ),
+    )
+    .toBe(true);
 }
