@@ -305,7 +305,7 @@ const sections: GuideSection[] = [
   {
     id: "join-stage",
     title: "Get On Stage",
-    threshold: "300 bits",
+    threshold: "500 bits",
     theme: "primary",
     icon: Mic2,
     emotes: [emotes.scooting],
@@ -313,7 +313,7 @@ const sections: GuideSection[] = [
       {
         id: "join",
         label: "Queue command",
-        text: "Cheer300 !join",
+        text: "Cheer500 !join",
       },
     ],
     details: [
@@ -329,7 +329,7 @@ const sections: GuideSection[] = [
   {
     id: "send-heckle",
     title: "Send a Heckle",
-    threshold: "100+ or 1000 bits",
+    threshold: "100+ or 1000+ bits",
     theme: "secondary",
     icon: MessageSquareText,
     emotes: [emotes.aaaa],
@@ -344,12 +344,12 @@ const sections: GuideSection[] = [
         id: "vip-heckle",
         label: "VIP dandy heckle",
         text: "Cheer1000 filthy fleepos",
-        threshold: "1000 bits",
+        threshold: "1000+ bits",
       },
     ],
     details: [
       "Cheer 100+ bits with your message, or use the TTS redeem.",
-      "Cheer 1000 bits to speak as the VIP dandy.",
+      "Cheer 1000+ bits to speak as the VIP dandy.",
       "Keep heckles to 100 characters because longer heckles get trimmed.",
     ],
     note: {

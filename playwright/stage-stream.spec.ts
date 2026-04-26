@@ -48,9 +48,11 @@ test("stage stream route presents the command-first stage guide", async ({ page 
   );
 
   await expect(page.getByRole("heading", { name: "Get On Stage" })).toBeVisible();
-  await expect(page.getByText("300 bits", { exact: true })).toBeVisible();
+  await expect(page.getByText("500 bits", { exact: true })).toBeVisible();
+  await expect(page.getByText("300 bits", { exact: true })).toHaveCount(0);
   await expect(page.getByText("300+ bits", { exact: true })).toHaveCount(0);
-  await expect(page.getByText("Cheer300 !join")).toBeVisible();
+  await expect(page.getByText("Cheer500 !join")).toBeVisible();
+  await expect(page.getByText("Cheer300 !join")).toHaveCount(0);
   await expect(
     page.getByText(
       "Your chat messages are voiced by the puppet until your 2.5 min set ends or Koko boots you.",
@@ -69,11 +71,12 @@ test("stage stream route presents the command-first stage guide", async ({ page 
   await expect(copyQueueCommand).toContainText("Copied");
   await expect
     .poll(() => page.evaluate(() => (window as Window & { __copiedText?: string }).__copiedText))
-    .toBe("Cheer300 !join");
+    .toBe("Cheer500 !join");
 
   await expect(page.getByRole("heading", { name: "Send a Heckle" })).toBeVisible();
   await expect(page.getByText("100+ bits", { exact: true })).toBeVisible();
-  await expect(page.getByText("1000 bits", { exact: true })).toBeVisible();
+  await expect(page.getByText("1000+ bits", { exact: true })).toBeVisible();
+  await expect(page.getByText("1000 bits", { exact: true })).toHaveCount(0);
   await expect(page.getByText("500+ bits", { exact: true })).toHaveCount(0);
   await expect(page.getByText("Cheer1000 filthy fleepos")).toBeVisible();
   await expect(page.getByRole("button", { name: "Copy standard heckle" })).toBeVisible();
