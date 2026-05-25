@@ -100,6 +100,10 @@
     "text": "This is demon. Welcome to the stream!",
     "cost": 300
   },
+  "djinn": {
+    "text": "This is djinn. Welcome to the stream!",
+    "cost": 300
+  },
   "doc": {
     "text": "This is doc. Welcome to the stream!",
     "cost": 300
@@ -198,6 +202,10 @@
   },
   "santa": {
     "text": "This is santa. Welcome to the stream!",
+    "cost": 300
+  },
+  "teddy": {
+    "text": "This is teddy. Welcome to the stream!",
     "cost": 300
   },
   "timmy": {
