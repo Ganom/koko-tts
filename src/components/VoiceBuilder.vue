@@ -69,6 +69,7 @@
             :budget="bitAmountForGrid"
             :redeem-method="redeemMethod"
             :can-remove="segments.length > 1"
+            :default-model="DEFAULT_MODEL"
             @select-voice="(name: string) => onSelectVoice(segment.id, name)"
             @update="(patch) => updateSegment(segment.id, patch)"
             @remove="removeSegment(segment.id)"

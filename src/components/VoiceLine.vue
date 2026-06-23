@@ -26,6 +26,7 @@ const props = defineProps<{
   budget: number;
   redeemMethod: RedeemMethod;
   canRemove: boolean;
+  defaultModel: string;
 }>();
 
 const emit = defineEmits<{
@@ -69,7 +70,7 @@ const sizeOptions = computed(() => [
 const optionsSummary = computed(() => {
   const parts: string[] = [];
   const { model, effect, size } = props.segment;
-  if (model && model !== "none") {
+  if (model && model !== "none" && model !== props.defaultModel) {
     parts.push(configStore.models.find((m) => m.tag === model)?.label ?? model);
   }
   if (effect && effect !== "none") parts.push(effectLabel(effect));
