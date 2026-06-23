@@ -39,9 +39,15 @@
             :title="getVoiceTitle(voice)"
           >
             <div
-              v-if="voice.kind === 'random' || voice.priority"
+              v-if="voice.kind === 'random' || voice.priority || isNew(voice)"
               class="absolute top-1.5 left-1.5 z-10 flex flex-col items-start gap-1"
             >
+              <span
+                v-if="isNew(voice)"
+                class="flex items-center gap-0.5 rounded-full bg-emerald-900/70 border border-emerald-400/50 px-2 py-0.5 text-[9px] font-bold uppercase tracking-wide text-emerald-200"
+              >
+                <Sparkles class="h-2.5 w-2.5" />New
+              </span>
               <span
                 v-if="voice.kind === 'random'"
                 class="rounded-full bg-secondary-900/70 border border-secondary-500/50 px-2 py-0.5 text-[9px] font-bold uppercase tracking-wide text-secondary-200"
@@ -111,8 +117,9 @@
 </template>
 
 <script setup lang="ts">
-import { CheckCircle, ChevronLeft, ChevronRight, Dices, Search } from "@lucide/vue";
+import { CheckCircle, ChevronLeft, ChevronRight, Dices, Search, Sparkles } from "@lucide/vue";
 import { computed, nextTick, onMounted, ref } from "vue";
+import { isNewVoice } from "@/domain/voiceBadges";
 import type { Voice } from "@/types/voice";
 import AudioPlayerSquare from "./AudioPlayerSquare.vue";
 
@@ -130,6 +137,10 @@ interface Emits {
 const props = defineProps<Props>();
 const emit = defineEmits<Emits>();
 
+// Evaluated once per mount; newness auto-expires on the next page load.
+const now = new Date();
+const isNew = (voice: Voice) => isNewVoice(voice.addedAt, now);
+
 const trackRef = ref<HTMLElement | null>(null);
 const searchQuery = ref("");
 const searchFocused = ref(false);
@@ -144,7 +155,7 @@ const filteredVoices = computed<Voice[]>(() => {
   }
   if (!isSearching.value && props.currentBitAmount !== undefined) {
     const budget = props.currentBitAmount;
-    return props.voices.filter((voice) => voice.cost <= budget);
+    return props.voices.filter((voice) => voice.cost <= budget || isNew(voice));
   }
   return [...props.voices];
 });
