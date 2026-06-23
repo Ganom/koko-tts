@@ -8,11 +8,11 @@ Share it with viewers so they can:
 - Preview voice audio samples
 - Build the exact chat / redeem message format your VoicePuppet bot expects
 
-This repo is not the VoicePuppet app itself — it’s the companion “voice menu + builder” page.
+This repo is not the VoicePuppet app itself; it's the companion "voice menu + builder" page.
 
 ## Requirements
 
-- Node.js `>=20.19.0` (or `>=22.12.0`) — see `package.json` → `engines`
+- Node.js `>=20.19.0` (or `>=22.12.0`), see `package.json` → `engines`
 
 ## Quick start (local dev)
 
@@ -28,7 +28,7 @@ npm run dev
 Common touch points:
 
 - Page title / headline: `src/components/AppHeader.vue`
-- “How to use TTS” instructions (bits/points/sub messaging): `src/components/InfoBox.vue`
+- "How to use TTS" instructions (bits/points/sub messaging): `src/components/InfoBox.vue`
 - Background icon theme: `src/App.vue` (see `backgroundConfig`) + `src/utils/iconRegistry.ts`
 - Favicons / public assets: `public/`
 
@@ -62,9 +62,9 @@ So your filenames must match the **lowercased** voice name exactly (including sp
 Notes:
 
 - The JSON key (e.g. `"gandalf"`) is the voice name shown in the UI and the token used in the builder.
-- `text` is the default sample message when the viewer hasn’t typed one yet.
+- `text` is the default sample message when the viewer hasn't typed one yet.
 - `cost` controls sorting and which voices are eligible at a given bit amount.
-- `priority: true` adds a “Priority” badge (these voices get a higher spot in the redeem queue).
+- `priority: true` adds a "Priority" badge (these voices get a higher spot in the redeem queue).
 - Add the matching `.mp3` + `.webp` for every voice to avoid broken previews/avatars.
 
 ### 3) Drop in your exported `config.json` (the source of truth)
@@ -72,17 +72,17 @@ Notes:
 Models, effects (and their lane policy), size tokens, bit/redeem/resub values, the
 multi-voice cap, stage thresholds, and which chat-command families are enabled all
 come from `public/config.json`. Export it from the VoicePuppet app (it ships next to
-`voices.json`) and drop it in `public/` — the site reads it via `configStore` and
+`voices.json`) and drop it in `public/`; the site reads it via `configStore` and
 falls back to a built-in snapshot if it's missing, so nothing breaks without it.
 
 You should not need to hand-edit component code for those values anymore. The builder
 outputs the app's real grammar:
 
-- **Cheer**: `Cheer<amount> [voice:model:effect:size] message [voice…] message`
-- **Points / Resub**: `[voice:model:effect:size] message [voice…] message`
+- **Cheer**: `Cheer<amount> [voice:model:effect:size] message [voice...] message`
+- **Points / Resub**: `[voice:model:effect:size] message [voice...] message`
 
 Only touch code if your bot's tag grammar itself differs (different brackets or
-separators) — see `src/domain/ttsCommand.ts` (tag/command building) and
+separators), see `src/domain/ttsCommand.ts` (tag/command building) and
 `src/components/InfoBox.vue` (explanatory copy).
 
 ## Deploying
@@ -97,7 +97,7 @@ This repo is set up as a SPA with Netlify out of the box:
 
 ### GitHub Pages / other static hosts
 
-If you deploy somewhere else, you may need to adjust Vite’s base path:
+If you deploy somewhere else, you may need to adjust Vite's base path:
 
 - `vite.config.ts` uses `/` on Netlify, and defaults to a GitHub Pages-style subpath for production builds.
 - For GitHub Pages forks, set the production base path to `/<YOUR_REPO_NAME>/`.

@@ -186,4 +186,3 @@ export function getMaxMessageLengthForPrefix(
 ): number {
   return Math.max(0, maxCommandLength - prefix.length);
 }
-

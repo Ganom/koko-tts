@@ -4,7 +4,7 @@ import { computed, ref } from "vue";
 // The companion site reads the streamer's *actual* runtime values from a
 // `config.json` exported by the VoicePuppet app (mirrors how `voiceStore`
 // reads `voices.json`). Everything here has a hardcoded fallback so a fork
-// without an export — or a momentary fetch failure — still renders sane,
+// without an export (or a momentary fetch failure) still renders sane,
 // real-world values instead of breaking. These fallbacks are a snapshot of a
 // live export, so a degraded load shows correct values rather than guesses.
 
@@ -15,7 +15,7 @@ export interface ModelOption {
   tag: string;
   /** Human label shown in the builder, e.g. "Eleven v3". */
   label: string;
-  /** Internal provider model id — never shown to viewers. */
+  /** Internal provider model id (never shown to viewers). */
   id?: string;
   /** Minimum bit value required, or the model is silently downgraded. */
   minBits: number;
@@ -69,7 +69,7 @@ export interface AppConfig {
   };
 }
 
-/** A deep-partial of the exported file — every level may be absent in a fork. */
+/** A deep-partial of the exported file; every level may be absent in a fork. */
 export interface PartialAppConfig {
   command?: Partial<AppConfig["command"]>;
   activation?: Partial<Omit<AppConfig["activation"], "resubTierBits">> & {
@@ -136,7 +136,7 @@ export const FALLBACK_CONFIG: AppConfig = {
  * Merge a (possibly partial) exported config over the fallbacks. Nested objects
  * are merged a level deep so a fork that only overrides, say, `stage.joinBits`
  * keeps every other fallback value. Arrays (models, requestable effects) replace
- * wholesale — a streamer's exported list is authoritative when present.
+ * wholesale; a streamer's exported list is authoritative when present.
  */
 export function mergeConfig(base: AppConfig, override?: PartialAppConfig | null): AppConfig {
   if (!override) return base;
@@ -201,7 +201,7 @@ export const useConfigStore = defineStore("config", () => {
       const exported: PartialAppConfig = await response.json();
       config.value = mergeConfig(FALLBACK_CONFIG, exported);
     } catch (err) {
-      // Never surface this to viewers — fall back silently to the snapshot.
+      // Never surface this to viewers. Fall back silently to the snapshot.
       console.error("Failed to load config, using fallbacks:", err);
       config.value = FALLBACK_CONFIG;
     } finally {

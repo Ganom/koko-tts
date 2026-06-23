@@ -1,5 +1,10 @@
 import { describe, expect, it } from "vitest";
-import { getMaxDevicePixelRatio, getScrollOffsets, parsePoints, toNumber } from "@/utils/iconPattern";
+import {
+  getMaxDevicePixelRatio,
+  getScrollOffsets,
+  parsePoints,
+  toNumber,
+} from "@/utils/iconPattern";
 
 describe("iconPattern helpers", () => {
   it("parses svg points strings into numbers", () => {
@@ -68,4 +73,3 @@ describe("iconPattern helpers", () => {
     expect(capped).toBeCloseTo(1);
   });
 });
-

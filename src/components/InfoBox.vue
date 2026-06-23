@@ -73,8 +73,8 @@
           >
             Priority
           </span>
-          badge — it marks <strong class="text-accent-200">redeem-priority</strong> voices that take a
-          higher spot in the redeem queue when the streamer runs one.
+          badge. It marks <strong class="text-accent-200">redeem-priority</strong> voices that take
+          a higher spot in the redeem queue when the streamer runs one.
         </p>
         <div
           class="glass rounded-2xl p-6 border-2 border-primary-500/30"
@@ -114,7 +114,7 @@
           Chat Commands &amp; Voting
         </h3>
         <p class="text-gray-300 text-sm mb-6 text-center md:text-left">
-          Type these in chat any time — they pause while a stage performance is running.
+          Type these in chat any time. They pause while a stage performance is running.
         </p>
         <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
           <div
@@ -122,26 +122,40 @@
             :key="group.title"
             v-motion="getCardMotion()"
             :class="getCardClasses(group.colorTheme)"
+            class="flex h-full flex-col"
           >
-            <div class="flex items-center mb-4">
+            <div class="flex items-start mb-5">
               <div
                 :class="getIconWrapperClasses(group.colorTheme)"
                 class="w-12 h-12 rounded-full flex items-center justify-center mr-4 flex-shrink-0"
               >
                 <component :is="group.icon" class="w-6 h-6 text-white" />
               </div>
-              <h3 class="text-white font-bold text-xl">{{ group.title }}</h3>
+              <div>
+                <h3 class="text-white font-bold text-xl leading-tight">{{ group.title }}</h3>
+                <p class="text-gray-400 text-sm mt-1">{{ group.description }}</p>
+              </div>
             </div>
-            <ul class="space-y-2">
+            <ul class="grid gap-2.5">
               <li
                 v-for="item in group.items"
                 :key="item.cmd"
-                class="flex items-baseline gap-3 text-sm"
+                class="grid grid-cols-[max-content_1fr] items-center gap-3 text-sm"
               >
                 <code
-                  class="font-mono font-bold text-white bg-dark-900/60 rounded px-2 py-0.5 whitespace-nowrap"
+                  v-if="group.variant === 'commands'"
+                  class="justify-self-start rounded-md border bg-dark-950/70 px-2.5 py-1 font-mono font-bold text-white"
+                  :class="getCommandPillClasses(group.colorTheme)"
                   >{{ item.cmd }}</code
                 >
+                <span
+                  v-else
+                  class="inline-flex items-center gap-1 justify-self-start rounded-md border px-2.5 py-1 font-mono font-bold"
+                  :class="getVoteChipClasses(item.tone)"
+                >
+                  <component :is="item.tone === 'up' ? ChevronUp : ChevronDown" class="h-4 w-4" />
+                  {{ item.cmd }}
+                </span>
                 <span class="text-gray-300">{{ item.desc }}</span>
               </li>
             </ul>
@@ -150,7 +164,9 @@
       </div>
 
       <div>
-        <h3 class="text-white text-2xl font-semibold mb-6 text-center md:text-left">Good to Know</h3>
+        <h3 class="text-white text-2xl font-semibold mb-6 text-center md:text-left">
+          Good to Know
+        </h3>
         <div class="grid md:grid-cols-2 gap-6">
           <div
             v-for="note in goodToKnow"
@@ -178,8 +194,20 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from "vue";
-import { Gift, Heart, Plus, RotateCcw, ShieldAlert, SkipForward, Sparkles, Trophy, X } from "@lucide/vue";
+import { computed, type Component } from "vue";
+import {
+  ChevronDown,
+  ChevronUp,
+  Gift,
+  Heart,
+  Plus,
+  RotateCcw,
+  ShieldAlert,
+  SkipForward,
+  Sparkles,
+  Trophy,
+  X,
+} from "@lucide/vue";
 import { useConfigStore } from "@/stores/configStore";
 import { useVoiceStore } from "@/stores/voiceStore";
 
@@ -225,14 +253,14 @@ const customizationContainerMotion = {
   },
 };
 
-// Bits have no universal floor — the real gate is the chosen voice's own cost
+// Bits have no universal floor; the real gate is the chosen voice's own cost
 // (as low as the cheapest voice). The redeem value only auto-grants a budget for
 // channel-point/sub activations, so the bits card is framed around per-voice cost.
 const activationMethods = computed(() => [
   {
     title: "With Bits",
     icon: Heart,
-    description: `Cheer at least your chosen voice's cost — some voices are as low as ${voiceStore.minCost} bits.`,
+    description: `Cheer at least your chosen voice's cost; some voices are as low as ${voiceStore.minCost} bits.`,
     colorTheme: "primary",
     command: [
       { text: "Cheer<cost> ", class: "text-primary-300" },
@@ -243,7 +271,7 @@ const activationMethods = computed(() => [
   {
     title: "With Channel Points",
     icon: Gift,
-    description: 'Redeem the "TTS Message" reward — no bits required.',
+    description: 'Redeem the "TTS Message" reward, no bits required.',
     colorTheme: "secondary",
     command: [
       { text: "[voicename] ", class: "text-secondary-400" },
@@ -289,7 +317,7 @@ const customizationCommands = [
       { text: "voicename", class: "text-secondary-400" },
       { text: ":model", class: "text-gray-500" },
     ],
-    hint: "Model is optional — e.g. !setvoice wise:v3",
+    hint: "Model is optional, e.g. !setvoice wise:v3",
   },
   {
     title: "Reset Your Voice",
@@ -301,20 +329,28 @@ const customizationCommands = [
 ];
 
 // Score/leaderboard/vote families only appear when the streamer has them enabled
-// (each is independently config-gated and off during Stage Mode).
+// (each is independently config-gated and off during Stage Mode). "commands" cards
+// list things you type; "votes" cards render paired up/down choices.
+type ChatCommandItem = { cmd: string; desc: string; tone?: "up" | "down" };
+type ChatCommandGroup = {
+  title: string;
+  description: string;
+  icon: Component;
+  colorTheme: "primary" | "secondary" | "accent";
+  variant: "commands" | "votes";
+  items: ChatCommandItem[];
+};
+
 const chatCommandGroups = computed(() => {
-  const groups: {
-    title: string;
-    icon: typeof Trophy;
-    colorTheme: string;
-    items: { cmd: string; desc: string }[];
-  }[] = [];
+  const groups: ChatCommandGroup[] = [];
 
   if (configStore.commands.scoreLookup) {
     groups.push({
       title: "Check Scores",
+      description: "Look up your rank and the leaderboard.",
       icon: Trophy,
       colorTheme: "primary",
+      variant: "commands",
       items: [
         { cmd: "!ttsscore", desc: "your score (also !myscore, !score)" },
         { cmd: "!leaderboard", desc: "top players (also !ttstop)" },
@@ -326,11 +362,13 @@ const chatCommandGroups = computed(() => {
   if (configStore.commands.scoreVotes) {
     groups.push({
       title: "Rate a Message",
+      description: "Swing the score on whatever's playing.",
       icon: Heart,
       colorTheme: "secondary",
+      variant: "votes",
       items: [
-        { cmd: "+2", desc: "upvote the message playing now" },
-        { cmd: "-2", desc: "downvote the message playing now" },
+        { cmd: "+2", desc: "upvote what's playing now", tone: "up" },
+        { cmd: "-2", desc: "downvote what's playing now", tone: "down" },
       ],
     });
   }
@@ -338,9 +376,14 @@ const chatCommandGroups = computed(() => {
   if (configStore.commands.skipVotes) {
     groups.push({
       title: "Skip Votes",
+      description: "Hate the current message? Skip. Love it? Stay.",
       icon: SkipForward,
       colorTheme: "accent",
-      items: [{ cmd: "Skip / stay", desc: "vote to drop or keep the current TTS when a vote is called" }],
+      variant: "votes",
+      items: [
+        { cmd: "Stay", desc: "keep it playing", tone: "up" },
+        { cmd: "Skip", desc: "enough Skips cut what's playing", tone: "down" },
+      ],
     });
   }
 
@@ -354,13 +397,13 @@ const goodToKnow = [
     title: "Animated messages read free",
     icon: Sparkles,
     colorTheme: "secondary",
-    text: "Paid animated chat messages (Twitch Message Effects) get read aloud automatically — even with no bits.",
+    text: "Paid animated chat messages (Twitch Message Effects) get read aloud automatically, even with no bits.",
   },
   {
     title: "Some words are always filtered",
     icon: ShieldAlert,
     colorTheme: "accent",
-    text: "A built-in filter always replaces blocked words with “Filtered xdx”, no matter the channel's other settings.",
+    text: 'A built-in filter always replaces blocked words with "Filtered xdx", no matter the channel\'s other settings.',
   },
 ];
 
@@ -405,4 +448,24 @@ const getCommandClasses = (theme: string) => {
       return `${baseClasses} border-2 border-primary-500/20`;
   }
 };
+
+// Theme-tinted border for the mono pills in "commands" cards.
+const getCommandPillClasses = (theme: string) => {
+  switch (theme) {
+    case "secondary":
+      return "border-secondary-500/30";
+    case "accent":
+      return "border-accent-500/30";
+    default:
+      return "border-primary-500/30";
+  }
+};
+
+// Up = positive (emerald), down = negative (rose). Items are ordered positive-first
+// in every votes card, so green always sits on top and red below — the color never
+// flips meaning between cards.
+const getVoteChipClasses = (tone?: "up" | "down") =>
+  tone === "down"
+    ? "border-rose-500/30 bg-rose-500/10 text-rose-300"
+    : "border-emerald-500/30 bg-emerald-500/10 text-emerald-300";
 </script>

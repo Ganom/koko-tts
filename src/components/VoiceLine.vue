@@ -35,7 +35,7 @@ const emit = defineEmits<{
 const configStore = useConfigStore();
 const optionsOpen = ref(false);
 
-const textPlaceholder = computed(() => `What ${props.segment.voiceName || "this voice"} says…`);
+const textPlaceholder = computed(() => `What ${props.segment.voiceName || "this voice"} says...`);
 
 // config-driven options
 const customVoicesAllowed = computed(() => configStore.allowCustomVoices);
@@ -79,7 +79,7 @@ const modelWarning = computed(() => {
   if (!tag || tag === "none") return "";
   const model = configStore.models.find((m) => m.tag === tag);
   if (model && model.minBits > 0 && props.budget < model.minBits) {
-    return `${model.label} needs ${model.minBits}+ bits — below that it falls back to the base voice.`;
+    return `${model.label} needs ${model.minBits}+ bits; below that it falls back to the base voice.`;
   }
   return "";
 });
@@ -89,8 +89,9 @@ const effectWarning = computed(() => {
   if (!tag || tag === "none") return "";
   const policy = configStore.effects.policy[tag];
   const label = effectLabel(tag);
-  if (policy === "Disabled") return `${label} is turned off on this channel — it won't show.`;
-  if (policy === "RedeemOnly") return `${label} only shows via the Channel Points redeem, not cheers.`;
+  if (policy === "Disabled") return `${label} is turned off on this channel; it won't show.`;
+  if (policy === "RedeemOnly")
+    return `${label} only shows via the Channel Points redeem, not cheers.`;
   return "";
 });
 

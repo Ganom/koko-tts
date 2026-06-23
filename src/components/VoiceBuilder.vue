@@ -1,9 +1,14 @@
 <template>
   <div class="max-w-6xl mx-auto mb-16">
-    <div class="anime-card rounded-4xl p-6 sm:p-8 border-2 border-primary-500/30" v-motion="motions.container">
+    <div
+      class="anime-card rounded-4xl p-6 sm:p-8 border-2 border-primary-500/30"
+      v-motion="motions.container"
+    >
       <div class="text-center mb-8" v-motion="motions.header">
         <h2 class="text-gradient-violet-pink text-3xl font-bold mb-3">TTS Message Builder</h2>
-        <p class="text-gray-300 text-lg">Write one voice or a whole dialogue — then copy &amp; paste</p>
+        <p class="text-gray-300 text-lg">
+          Write one voice or a whole dialogue, then copy &amp; paste
+        </p>
       </div>
 
       <!-- How it's sent -->
@@ -49,7 +54,9 @@
       <div v-motion="motions.lines">
         <div class="flex items-center justify-between mb-3">
           <h3 class="text-white text-xl font-bold">Your message</h3>
-          <span class="text-xs text-gray-400">{{ segments.length }} / {{ maxSegments }} voices</span>
+          <span class="text-xs text-gray-400"
+            >{{ segments.length }} / {{ maxSegments }} voices</span
+          >
         </div>
 
         <div class="space-y-3">
@@ -86,14 +93,20 @@
       ></div>
 
       <!-- Preview -->
-      <div class="anime-card rounded-2xl p-6 border-2 border-primary-500/30" v-motion="motions.preview">
+      <div
+        class="anime-card rounded-2xl p-6 border-2 border-primary-500/30"
+        v-motion="motions.preview"
+      >
         <div class="flex items-center justify-between mb-4">
           <h4 class="text-white font-bold flex items-center">
             <Menu class="w-5 h-5 mr-2 text-primary-400" />
             TTS Preview
           </h4>
           <div class="flex items-center gap-4">
-            <span class="text-sm font-mono" :class="isMessageTooLong ? 'text-red-400' : 'text-gray-400'">
+            <span
+              class="text-sm font-mono"
+              :class="isMessageTooLong ? 'text-red-400' : 'text-gray-400'"
+            >
               {{ generatedCommand.length }}/{{ maxCommandLength }}
             </span>
             <button
@@ -117,7 +130,7 @@
           </div>
         </div>
         <p v-if="isMessageTooLong" class="text-sm text-red-400 mt-2">
-          Message exceeds the {{ maxCommandLength }} character limit — trim it before sending.
+          Message exceeds the {{ maxCommandLength }} character limit. Trim it before sending.
         </p>
       </div>
     </div>
@@ -186,7 +199,7 @@ interface PersistedSettings {
   redeemMethod?: RedeemMethod;
   bitAmount?: number;
   resubTier?: ResubTier;
-  // Legacy single-voice shape (pre multi-voice) — migrated on load.
+  // Legacy single-voice shape (pre multi-voice), migrated on load.
   selectedVoice?: string;
   selectedModel?: string;
   characterEffect?: string;
@@ -251,7 +264,12 @@ const bitAmountUpdated = ref(false);
 
 const tierOptions = computed(() => [
   { value: 1, label: "Tier 1", detail: `${configStore.resubTierBits["1"]} bits`, theme: "primary" },
-  { value: 2, label: "Tier 2", detail: `${configStore.resubTierBits["2"]} bits`, theme: "secondary" },
+  {
+    value: 2,
+    label: "Tier 2",
+    detail: `${configStore.resubTierBits["2"]} bits`,
+    theme: "secondary",
+  },
   { value: 3, label: "Tier 3", detail: `${configStore.resubTierBits["3"]} bits`, theme: "accent" },
 ]);
 

@@ -39,10 +39,12 @@ describe("ttsCommand", () => {
 
   it("appends size tokens to voice tags in any combination", () => {
     expect(buildVoiceTag({ voiceName: "Brian", size: "beeg" })).toBe("[brian:beeg]");
-    expect(buildVoiceTag({ voiceName: "Brian", model: "v3", size: "beeg" })).toBe("[brian:v3:beeg]");
-    expect(
-      buildVoiceTag({ voiceName: "Brian", model: "v3", effect: "glitch", size: "smol" }),
-    ).toBe("[brian:v3:glitch:smol]");
+    expect(buildVoiceTag({ voiceName: "Brian", model: "v3", size: "beeg" })).toBe(
+      "[brian:v3:beeg]",
+    );
+    expect(buildVoiceTag({ voiceName: "Brian", model: "v3", effect: "glitch", size: "smol" })).toBe(
+      "[brian:v3:glitch:smol]",
+    );
     expect(buildVoiceTag({ voiceName: "Brian", size: "none" })).toBe("[brian]");
   });
 
@@ -248,4 +250,3 @@ describe("ttsCommand", () => {
     expect(getMaxMessageLengthForPrefix("x".repeat(MAX_TTS_COMMAND_LENGTH + 1))).toBe(0);
   });
 });
-

@@ -16,4 +16,3 @@ test("random voice uses [random] and disables preview", async ({ page }) => {
   await expect(page.getByText(/\[random\]/)).toBeVisible();
   await expect(page.getByText("hello")).toBeVisible();
 });
-

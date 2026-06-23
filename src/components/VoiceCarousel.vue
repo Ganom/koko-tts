@@ -94,7 +94,7 @@
           v-if="!filteredVoices.length"
           class="flex h-32 w-full items-center justify-center text-sm text-gray-500"
         >
-          No voices match “{{ searchQuery }}”.
+          No voices match "{{ searchQuery }}".
         </div>
       </div>
 
@@ -227,7 +227,7 @@ const getCostLabel = (voice: Voice) =>
 
 const getVoiceTitle = (voice: Voice) => {
   if (voice.kind === "random") return "Random (chooses an eligible voice)";
-  if (voice.priority) return `${voice.name} (redeem priority — higher spot in the redeem queue)`;
+  if (voice.priority) return `${voice.name} (redeem priority: higher spot in the redeem queue)`;
   return voice.name;
 };
 

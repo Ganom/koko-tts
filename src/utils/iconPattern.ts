@@ -80,4 +80,3 @@ export function getMaxDevicePixelRatio({
 
   return Math.sqrt(maxPixels / (width * height));
 }
-

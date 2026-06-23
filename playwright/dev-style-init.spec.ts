@@ -73,4 +73,3 @@ test("dev: no unstyled flash on first render", async ({ page }) => {
   const badSamples = h1Samples.slice(0, 10).filter((s) => (s.bodyMarginTop ?? 0) > 0);
   expect(badSamples).toEqual([]);
 });
-

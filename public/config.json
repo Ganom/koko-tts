@@ -60,12 +60,7 @@
     }
   ],
   "effects": {
-    "requestable": [
-      "float",
-      "glitch",
-      "crt",
-      "fire"
-    ],
+    "requestable": ["float", "glitch", "crt", "fire"],
     "policy": {
       "float": "AllLanes",
       "glitch": "AllLanes",
