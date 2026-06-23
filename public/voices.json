@@ -3,345 +3,413 @@
     "text": "This is superdandy. Welcome to the stream!",
     "cost": 100000,
     "provider": "elevenlabs",
+    "addedAt": "2026-04-15T00:56:25+00:00",
     "priority": true
   },
   "kingdandy": {
     "text": "This is kingdandy. Welcome to the stream!",
     "cost": 10000,
     "provider": "elevenlabs",
+    "addedAt": "2026-02-17T02:11:29+00:00",
     "priority": true
   },
   "ultrasuperpremiumdandy": {
     "text": "This is ultrasuperpremiumdandy. Welcome to the stream!",
     "cost": 5000,
     "provider": "elevenlabs",
+    "addedAt": "2025-03-05T04:06:28+00:00",
     "priority": true
   },
   "superpremiumdandy": {
     "text": "This is superpremiumdandy. Welcome to the stream!",
     "cost": 2500,
     "provider": "elevenlabs",
+    "addedAt": "2025-03-05T04:06:28+00:00",
     "priority": true
   },
   "premiumdandy": {
     "text": "This is premiumdandy. Welcome to the stream!",
     "cost": 1000,
     "provider": "elevenlabs",
+    "addedAt": "2025-03-05T01:57:10+00:00",
     "priority": true
   },
   "2b": {
     "text": "This is 2b. Welcome to the stream!",
     "cost": 300,
-    "provider": "elevenlabs"
+    "provider": "elevenlabs",
+    "addedAt": "2024-08-27T21:04:58+00:00"
   },
   "aussie": {
     "text": "This is aussie. Welcome to the stream!",
     "cost": 300,
-    "provider": "elevenlabs"
+    "provider": "elevenlabs",
+    "addedAt": "2024-08-27T21:04:58+00:00"
   },
   "baldi": {
     "text": "This is baldi. Welcome to the stream!",
     "cost": 300,
-    "provider": "elevenlabs"
+    "provider": "elevenlabs",
+    "addedAt": "2025-02-17T13:58:02+00:00"
   },
   "becki": {
     "text": "This is becki. Welcome to the stream!",
     "cost": 300,
-    "provider": "elevenlabs"
+    "provider": "elevenlabs",
+    "addedAt": "2025-03-05T01:57:10+00:00"
   },
   "ben": {
     "text": "This is ben. Welcome to the stream!",
     "cost": 300,
-    "provider": "elevenlabs"
+    "provider": "elevenlabs",
+    "addedAt": "2024-08-27T21:04:58+00:00"
   },
   "bernie": {
     "text": "This is bernie. Welcome to the stream!",
     "cost": 300,
-    "provider": "elevenlabs"
+    "provider": "elevenlabs",
+    "addedAt": "2025-09-10T04:51:54+00:00"
   },
   "billy": {
     "text": "This is billy. Welcome to the stream!",
     "cost": 300,
-    "provider": "elevenlabs"
+    "provider": "elevenlabs",
+    "addedAt": "2026-01-09T01:08:00+00:00"
   },
   "bonnie": {
     "text": "This is bonnie. Welcome to the stream!",
     "cost": 300,
-    "provider": "elevenlabs"
+    "provider": "elevenlabs",
+    "addedAt": "2025-02-17T13:58:02+00:00"
   },
   "brad": {
     "text": "This is brad. Welcome to the stream!",
     "cost": 300,
-    "provider": "elevenlabs"
+    "provider": "elevenlabs",
+    "addedAt": "2025-02-17T13:58:02+00:00"
   },
   "chester": {
     "text": "This is chester. Welcome to the stream!",
     "cost": 300,
-    "provider": "elevenlabs"
+    "provider": "elevenlabs",
+    "addedAt": "2025-02-17T13:58:02+00:00"
   },
   "chief": {
     "text": "This is chief. Welcome to the stream!",
     "cost": 300,
-    "provider": "elevenlabs"
+    "provider": "elevenlabs",
+    "addedAt": "2024-08-27T21:04:58+00:00"
   },
   "cletus": {
     "text": "This is cletus. Welcome to the stream!",
     "cost": 300,
-    "provider": "elevenlabs"
+    "provider": "elevenlabs",
+    "addedAt": "2025-09-10T04:51:54+00:00"
   },
   "cooler dan": {
     "text": "This is cooler dan. Welcome to the stream!",
     "cost": 300,
-    "provider": "elevenlabs"
+    "provider": "elevenlabs",
+    "addedAt": "2025-11-14T06:12:32+00:00"
   },
   "cowboy": {
     "text": "This is cowboy. Welcome to the stream!",
     "cost": 300,
-    "provider": "elevenlabs"
+    "provider": "elevenlabs",
+    "addedAt": "2024-08-27T21:04:58+00:00"
   },
   "daddy": {
     "text": "This is daddy. Welcome to the stream!",
     "cost": 300,
-    "provider": "elevenlabs"
+    "provider": "elevenlabs",
+    "addedAt": "2025-02-17T13:58:02+00:00"
   },
   "dagoth": {
     "text": "This is dagoth. Welcome to the stream!",
     "cost": 300,
-    "provider": "elevenlabs"
+    "provider": "elevenlabs",
+    "addedAt": "2024-08-27T21:04:58+00:00"
   },
   "dan": {
     "text": "This is dan. Welcome to the stream!",
     "cost": 300,
-    "provider": "elevenlabs"
+    "provider": "elevenlabs",
+    "addedAt": "2025-08-12T23:47:24+00:00"
   },
   "dandy": {
     "text": "This is dandy. Welcome to the stream!",
     "cost": 300,
-    "provider": "elevenlabs"
+    "provider": "elevenlabs",
+    "addedAt": "2024-08-27T21:04:58+00:00"
   },
   "demon": {
     "text": "This is demon. Welcome to the stream!",
     "cost": 300,
-    "provider": "elevenlabs"
+    "provider": "elevenlabs",
+    "addedAt": "2024-08-27T21:04:58+00:00"
   },
   "djinn": {
     "text": "This is djinn. Welcome to the stream!",
     "cost": 300,
-    "provider": "elevenlabs"
+    "provider": "elevenlabs",
+    "addedAt": "2026-05-25T05:04:10+00:00"
   },
   "doc": {
     "text": "This is doc. Welcome to the stream!",
     "cost": 300,
-    "provider": "elevenlabs"
+    "provider": "elevenlabs",
+    "addedAt": "2024-08-27T21:04:58+00:00"
   },
   "dracula": {
     "text": "This is dracula. Welcome to the stream!",
     "cost": 300,
-    "provider": "elevenlabs"
+    "provider": "elevenlabs",
+    "addedAt": "2024-08-27T21:04:58+00:00"
   },
   "drum": {
     "text": "This is drum. Welcome to the stream!",
     "cost": 300,
-    "provider": "elevenlabs"
+    "provider": "elevenlabs",
+    "addedAt": "2025-02-17T13:58:02+00:00"
   },
   "eddie": {
     "text": "This is eddie. Welcome to the stream!",
     "cost": 300,
-    "provider": "elevenlabs"
+    "provider": "elevenlabs",
+    "addedAt": "2026-04-15T00:56:25+00:00"
   },
   "fred": {
     "text": "This is fred. Welcome to the stream!",
     "cost": 300,
-    "provider": "elevenlabs"
+    "provider": "elevenlabs",
+    "addedAt": "2024-08-27T21:04:58+00:00"
   },
   "ganom": {
     "text": "This is ganom. Welcome to the stream!",
     "cost": 300,
-    "provider": "elevenlabs"
+    "provider": "elevenlabs",
+    "addedAt": "2024-08-27T21:04:58+00:00"
   },
   "giga timmy": {
     "text": "This is giga timmy. Welcome to the stream!",
     "cost": 300,
-    "provider": "elevenlabs"
+    "provider": "elevenlabs",
+    "addedAt": "2025-08-12T23:47:24+00:00"
   },
   "goblin": {
     "text": "This is goblin. Welcome to the stream!",
     "cost": 300,
-    "provider": "elevenlabs"
+    "provider": "elevenlabs",
+    "addedAt": "2024-08-27T21:04:58+00:00"
   },
   "grump": {
     "text": "This is grump. Welcome to the stream!",
     "cost": 300,
-    "provider": "elevenlabs"
+    "provider": "elevenlabs",
+    "addedAt": "2024-08-27T21:04:58+00:00"
   },
   "hag": {
     "text": "This is hag. Welcome to the stream!",
     "cost": 300,
-    "provider": "elevenlabs"
+    "provider": "elevenlabs",
+    "addedAt": "2025-02-17T13:58:02+00:00"
   },
   "herbi": {
     "text": "This is herbi. Welcome to the stream!",
     "cost": 300,
-    "provider": "elevenlabs"
+    "provider": "elevenlabs",
+    "addedAt": "2024-08-27T21:04:58+00:00"
   },
   "it": {
     "text": "This is it. Welcome to the stream!",
     "cost": 300,
-    "provider": "elevenlabs"
+    "provider": "elevenlabs",
+    "addedAt": "2025-08-12T23:47:24+00:00"
   },
   "kawaii": {
     "text": "This is kawaii. Welcome to the stream!",
     "cost": 300,
-    "provider": "elevenlabs"
+    "provider": "elevenlabs",
+    "addedAt": "2024-08-27T21:04:58+00:00"
   },
   "kuro": {
     "text": "This is kuro. Welcome to the stream!",
     "cost": 300,
-    "provider": "elevenlabs"
+    "provider": "elevenlabs",
+    "addedAt": "2025-08-12T23:47:24+00:00"
   },
   "lutz": {
     "text": "This is lutz. Welcome to the stream!",
     "cost": 300,
-    "provider": "elevenlabs"
+    "provider": "elevenlabs",
+    "addedAt": "2024-08-27T21:04:58+00:00"
   },
   "mandy": {
     "text": "This is mandy. Welcome to the stream!",
     "cost": 300,
-    "provider": "elevenlabs"
+    "provider": "elevenlabs",
+    "addedAt": "2026-06-23T17:12:51+00:00"
   },
   "mats": {
     "text": "This is mats. Welcome to the stream!",
     "cost": 300,
-    "provider": "elevenlabs"
+    "provider": "elevenlabs",
+    "addedAt": "2024-09-23T03:58:20+00:00"
   },
   "messmer": {
     "text": "This is messmer. Welcome to the stream!",
     "cost": 300,
-    "provider": "elevenlabs"
+    "provider": "elevenlabs",
+    "addedAt": "2024-08-27T21:04:58+00:00"
   },
   "mommy": {
     "text": "This is mommy. Welcome to the stream!",
     "cost": 300,
-    "provider": "elevenlabs"
+    "provider": "elevenlabs",
+    "addedAt": "2025-02-17T13:58:02+00:00"
   },
   "nerd": {
     "text": "This is nerd. Welcome to the stream!",
     "cost": 300,
-    "provider": "elevenlabs"
+    "provider": "elevenlabs",
+    "addedAt": "2025-02-17T13:58:02+00:00"
   },
   "penny": {
     "text": "This is penny. Welcome to the stream!",
     "cost": 300,
-    "provider": "elevenlabs"
+    "provider": "elevenlabs",
+    "addedAt": "2025-11-14T06:12:32+00:00"
   },
   "pirate": {
     "text": "This is pirate. Welcome to the stream!",
     "cost": 300,
-    "provider": "elevenlabs"
+    "provider": "elevenlabs",
+    "addedAt": "2025-02-17T13:58:02+00:00"
   },
   "randy": {
     "text": "This is randy. Welcome to the stream!",
     "cost": 300,
-    "provider": "elevenlabs"
+    "provider": "elevenlabs",
+    "addedAt": "2025-10-06T02:11:10+00:00"
   },
   "ranni": {
     "text": "This is ranni. Welcome to the stream!",
     "cost": 300,
-    "provider": "elevenlabs"
+    "provider": "elevenlabs",
+    "addedAt": "2024-08-27T21:04:58+00:00"
   },
   "sad": {
     "text": "This is sad. Welcome to the stream!",
     "cost": 300,
-    "provider": "elevenlabs"
+    "provider": "elevenlabs",
+    "addedAt": "2024-08-27T21:04:58+00:00"
   },
   "santa": {
     "text": "This is santa. Welcome to the stream!",
     "cost": 300,
-    "provider": "elevenlabs"
+    "provider": "elevenlabs",
+    "addedAt": "2025-03-14T04:25:32+00:00"
   },
   "teddy": {
     "text": "This is teddy. Welcome to the stream!",
     "cost": 300,
-    "provider": "elevenlabs"
+    "provider": "elevenlabs",
+    "addedAt": "2026-05-25T05:04:10+00:00"
   },
   "timmy": {
     "text": "This is timmy. Welcome to the stream!",
     "cost": 300,
-    "provider": "elevenlabs"
+    "provider": "elevenlabs",
+    "addedAt": "2025-03-08T22:54:05+00:00"
   },
   "todd": {
     "text": "This is todd. Welcome to the stream!",
     "cost": 300,
-    "provider": "elevenlabs"
+    "provider": "elevenlabs",
+    "addedAt": "2025-02-17T13:58:02+00:00"
   },
   "tony": {
     "text": "This is tony. Welcome to the stream!",
     "cost": 300,
-    "provider": "elevenlabs"
+    "provider": "elevenlabs",
+    "addedAt": "2025-02-17T13:58:02+00:00"
   },
   "vert": {
     "text": "This is vert. Welcome to the stream!",
     "cost": 300,
-    "provider": "elevenlabs"
+    "provider": "elevenlabs",
+    "addedAt": "2026-01-09T01:08:00+00:00"
   },
   "villain": {
     "text": "This is villain. Welcome to the stream!",
     "cost": 300,
-    "provider": "elevenlabs"
+    "provider": "elevenlabs",
+    "addedAt": "2024-08-27T21:04:58+00:00"
   },
   "weeb": {
     "text": "This is weeb. Welcome to the stream!",
     "cost": 300,
-    "provider": "elevenlabs"
+    "provider": "elevenlabs",
+    "addedAt": "2025-09-10T04:51:54+00:00"
   },
   "wise": {
     "text": "This is wise. Welcome to the stream!",
     "cost": 300,
-    "provider": "elevenlabs"
+    "provider": "elevenlabs",
+    "addedAt": "2025-03-14T04:25:32+00:00"
   },
   "xbox": {
     "text": "This is xbox. Welcome to the stream!",
     "cost": 300,
-    "provider": "elevenlabs"
+    "provider": "elevenlabs",
+    "addedAt": "2025-02-17T13:58:02+00:00"
   },
   "aria": {
     "text": "This is aria. Welcome to the stream!",
     "cost": 100,
-    "provider": "azure"
+    "provider": "azure",
+    "addedAt": "2025-02-17T13:58:02+00:00"
   },
   "davis": {
     "text": "This is davis. Welcome to the stream!",
     "cost": 100,
-    "provider": "azure"
+    "provider": "azure",
+    "addedAt": "2025-02-17T13:58:02+00:00"
   },
   "guy": {
     "text": "This is guy. Welcome to the stream!",
     "cost": 100,
-    "provider": "azure"
+    "provider": "azure",
+    "addedAt": "2025-02-17T13:58:02+00:00"
   },
   "jane": {
     "text": "This is jane. Welcome to the stream!",
     "cost": 100,
-    "provider": "azure"
+    "provider": "azure",
+    "addedAt": "2025-02-17T13:58:02+00:00"
   },
   "jason": {
     "text": "This is jason. Welcome to the stream!",
     "cost": 100,
-    "provider": "azure"
+    "provider": "azure",
+    "addedAt": "2025-02-17T13:58:02+00:00"
   },
   "jenny": {
     "text": "This is jenny. Welcome to the stream!",
     "cost": 100,
-    "provider": "azure"
+    "provider": "azure",
+    "addedAt": "2025-02-17T13:58:02+00:00"
   },
   "nancy": {
     "text": "This is nancy. Welcome to the stream!",
     "cost": 100,
-    "provider": "azure"
+    "provider": "azure",
+    "addedAt": "2025-02-17T13:58:02+00:00"
   },
   "sara": {
     "text": "This is sara. Welcome to the stream!",
     "cost": 100,
-    "provider": "azure"
+    "provider": "azure",
+    "addedAt": "2025-02-17T13:58:02+00:00"
   }
 }
