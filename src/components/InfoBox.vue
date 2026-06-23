@@ -202,7 +202,7 @@ import {
   Heart,
   Plus,
   RotateCcw,
-  ShieldAlert,
+  Ruler,
   SkipForward,
   Sparkles,
   Trophy,
@@ -271,7 +271,7 @@ const activationMethods = computed(() => [
   {
     title: "With Channel Points",
     icon: Gift,
-    description: 'Redeem the "TTS Message" reward, no bits required.',
+    description: 'Redeem the "TTS" reward, no bits required.',
     colorTheme: "secondary",
     command: [
       { text: "[voicename] ", class: "text-secondary-400" },
@@ -353,7 +353,7 @@ const chatCommandGroups = computed(() => {
       variant: "commands",
       items: [
         { cmd: "!ttsscore", desc: "your score (also !myscore, !score)" },
-        { cmd: "!leaderboard", desc: "top players (also !ttstop)" },
+        { cmd: "!leaderboard", desc: "top users (also !ttstop)" },
         { cmd: "!ttsbottom", desc: "the bottom of the board" },
       ],
     });
@@ -392,20 +392,20 @@ const chatCommandGroups = computed(() => {
 
 const showChatCommands = computed(() => chatCommandGroups.value.length > 0);
 
-const goodToKnow = [
+const goodToKnow = computed(() => [
   {
-    title: "Animated messages read free",
+    title: "Animated messages read automatically",
     icon: Sparkles,
     colorTheme: "secondary",
-    text: "Paid animated chat messages (Twitch Message Effects) get read aloud automatically, even with no bits.",
+    text: "Paid animated chat messages (Twitch Message Effects) get read aloud automatically, and unlock the same voices as the Channel Points redeem.",
   },
   {
-    title: "Some words are always filtered",
-    icon: ShieldAlert,
+    title: "Long messages get trimmed",
+    icon: Ruler,
     colorTheme: "accent",
-    text: 'A built-in filter always replaces blocked words with "Filtered xdx", no matter the channel\'s other settings.',
+    text: `Messages over ${configStore.maxCommandLength} characters get trimmed before they're read aloud.`,
   },
-];
+]);
 
 // card style helpers
 const getCardClasses = (theme: string) => {
@@ -462,7 +462,7 @@ const getCommandPillClasses = (theme: string) => {
 };
 
 // Up = positive (emerald), down = negative (rose). Items are ordered positive-first
-// in every votes card, so green always sits on top and red below — the color never
+// in every votes card, so green always sits on top and red below. The color never
 // flips meaning between cards.
 const getVoteChipClasses = (tone?: "up" | "down") =>
   tone === "down"

@@ -45,9 +45,7 @@ export function buildStageGuideSections(stage: AppConfig["stage"]): StageGuideSe
     `Keep heckles to ${stage.heckleCharLimit} characters because longer heckles get trimmed.`,
   ];
   if (stage.heckleRedeemName) {
-    heckleDetails.push(
-      "No bits? Redeem Highlight My Message with your heckle text to send one too.",
-    );
+    heckleDetails.push("No bits? Redeem TTS with your heckle text to send one too.");
   }
 
   return [

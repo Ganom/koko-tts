@@ -36,10 +36,10 @@ describe("buildStageGuideSections", () => {
 
   it("adds a heckle-via-redeem note only when a redeem is configured", () => {
     const withRedeem = findSection("send-heckle");
-    expect(withRedeem.details.some((d) => d.includes("Highlight My Message"))).toBe(true);
+    expect(withRedeem.details.some((d) => d.includes("Redeem TTS"))).toBe(true);
 
     const withoutRedeem = findSection("send-heckle", { ...stage, heckleRedeemName: "" });
-    expect(withoutRedeem.details.some((d) => d.includes("Highlight My Message"))).toBe(false);
+    expect(withoutRedeem.details.some((d) => d.includes("Redeem TTS"))).toBe(false);
   });
 
   it("rewords the vote note away from 'vote parser'", () => {
