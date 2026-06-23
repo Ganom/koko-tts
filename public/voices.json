@@ -2,274 +2,346 @@
   "superdandy": {
     "text": "This is superdandy. Welcome to the stream!",
     "cost": 100000,
+    "provider": "elevenlabs",
     "priority": true
   },
   "kingdandy": {
     "text": "This is kingdandy. Welcome to the stream!",
     "cost": 10000,
+    "provider": "elevenlabs",
     "priority": true
   },
   "ultrasuperpremiumdandy": {
     "text": "This is ultrasuperpremiumdandy. Welcome to the stream!",
     "cost": 5000,
+    "provider": "elevenlabs",
     "priority": true
   },
   "superpremiumdandy": {
     "text": "This is superpremiumdandy. Welcome to the stream!",
     "cost": 2500,
+    "provider": "elevenlabs",
     "priority": true
   },
   "premiumdandy": {
     "text": "This is premiumdandy. Welcome to the stream!",
     "cost": 1000,
+    "provider": "elevenlabs",
     "priority": true
   },
   "2b": {
     "text": "This is 2b. Welcome to the stream!",
-    "cost": 300
+    "cost": 300,
+    "provider": "elevenlabs"
   },
   "aussie": {
     "text": "This is aussie. Welcome to the stream!",
-    "cost": 300
+    "cost": 300,
+    "provider": "elevenlabs"
   },
   "baldi": {
     "text": "This is baldi. Welcome to the stream!",
-    "cost": 300
+    "cost": 300,
+    "provider": "elevenlabs"
   },
   "becki": {
     "text": "This is becki. Welcome to the stream!",
-    "cost": 300
+    "cost": 300,
+    "provider": "elevenlabs"
   },
   "ben": {
     "text": "This is ben. Welcome to the stream!",
-    "cost": 300
+    "cost": 300,
+    "provider": "elevenlabs"
   },
   "bernie": {
     "text": "This is bernie. Welcome to the stream!",
-    "cost": 300
+    "cost": 300,
+    "provider": "elevenlabs"
   },
   "billy": {
     "text": "This is billy. Welcome to the stream!",
-    "cost": 300
+    "cost": 300,
+    "provider": "elevenlabs"
   },
   "bonnie": {
     "text": "This is bonnie. Welcome to the stream!",
-    "cost": 300
+    "cost": 300,
+    "provider": "elevenlabs"
   },
   "brad": {
     "text": "This is brad. Welcome to the stream!",
-    "cost": 300
+    "cost": 300,
+    "provider": "elevenlabs"
   },
   "chester": {
     "text": "This is chester. Welcome to the stream!",
-    "cost": 300
+    "cost": 300,
+    "provider": "elevenlabs"
   },
   "chief": {
     "text": "This is chief. Welcome to the stream!",
-    "cost": 300
+    "cost": 300,
+    "provider": "elevenlabs"
   },
   "cletus": {
     "text": "This is cletus. Welcome to the stream!",
-    "cost": 300
+    "cost": 300,
+    "provider": "elevenlabs"
   },
   "cooler dan": {
     "text": "This is cooler dan. Welcome to the stream!",
-    "cost": 300
+    "cost": 300,
+    "provider": "elevenlabs"
   },
   "cowboy": {
     "text": "This is cowboy. Welcome to the stream!",
-    "cost": 300
+    "cost": 300,
+    "provider": "elevenlabs"
   },
   "daddy": {
     "text": "This is daddy. Welcome to the stream!",
-    "cost": 300
+    "cost": 300,
+    "provider": "elevenlabs"
   },
   "dagoth": {
     "text": "This is dagoth. Welcome to the stream!",
-    "cost": 300
+    "cost": 300,
+    "provider": "elevenlabs"
   },
   "dan": {
     "text": "This is dan. Welcome to the stream!",
-    "cost": 300
+    "cost": 300,
+    "provider": "elevenlabs"
   },
   "dandy": {
     "text": "This is dandy. Welcome to the stream!",
-    "cost": 300
+    "cost": 300,
+    "provider": "elevenlabs"
   },
   "demon": {
     "text": "This is demon. Welcome to the stream!",
-    "cost": 300
+    "cost": 300,
+    "provider": "elevenlabs"
   },
   "djinn": {
     "text": "This is djinn. Welcome to the stream!",
-    "cost": 300
+    "cost": 300,
+    "provider": "elevenlabs"
   },
   "doc": {
     "text": "This is doc. Welcome to the stream!",
-    "cost": 300
+    "cost": 300,
+    "provider": "elevenlabs"
   },
   "dracula": {
     "text": "This is dracula. Welcome to the stream!",
-    "cost": 300
+    "cost": 300,
+    "provider": "elevenlabs"
   },
   "drum": {
     "text": "This is drum. Welcome to the stream!",
-    "cost": 300
+    "cost": 300,
+    "provider": "elevenlabs"
   },
   "eddie": {
     "text": "This is eddie. Welcome to the stream!",
-    "cost": 300
+    "cost": 300,
+    "provider": "elevenlabs"
   },
   "fred": {
     "text": "This is fred. Welcome to the stream!",
-    "cost": 300
+    "cost": 300,
+    "provider": "elevenlabs"
   },
   "ganom": {
     "text": "This is ganom. Welcome to the stream!",
-    "cost": 300
+    "cost": 300,
+    "provider": "elevenlabs"
   },
   "giga timmy": {
     "text": "This is giga timmy. Welcome to the stream!",
-    "cost": 300
+    "cost": 300,
+    "provider": "elevenlabs"
   },
   "goblin": {
     "text": "This is goblin. Welcome to the stream!",
-    "cost": 300
+    "cost": 300,
+    "provider": "elevenlabs"
   },
   "grump": {
     "text": "This is grump. Welcome to the stream!",
-    "cost": 300
+    "cost": 300,
+    "provider": "elevenlabs"
   },
   "hag": {
     "text": "This is hag. Welcome to the stream!",
-    "cost": 300
+    "cost": 300,
+    "provider": "elevenlabs"
   },
   "herbi": {
     "text": "This is herbi. Welcome to the stream!",
-    "cost": 300
+    "cost": 300,
+    "provider": "elevenlabs"
   },
   "it": {
     "text": "This is it. Welcome to the stream!",
-    "cost": 300
+    "cost": 300,
+    "provider": "elevenlabs"
   },
   "kawaii": {
     "text": "This is kawaii. Welcome to the stream!",
-    "cost": 300
+    "cost": 300,
+    "provider": "elevenlabs"
   },
   "kuro": {
     "text": "This is kuro. Welcome to the stream!",
-    "cost": 300
+    "cost": 300,
+    "provider": "elevenlabs"
   },
   "lutz": {
     "text": "This is lutz. Welcome to the stream!",
-    "cost": 300
+    "cost": 300,
+    "provider": "elevenlabs"
+  },
+  "mandy": {
+    "text": "This is mandy. Welcome to the stream!",
+    "cost": 300,
+    "provider": "elevenlabs"
   },
   "mats": {
     "text": "This is mats. Welcome to the stream!",
-    "cost": 300
+    "cost": 300,
+    "provider": "elevenlabs"
   },
   "messmer": {
     "text": "This is messmer. Welcome to the stream!",
-    "cost": 300
+    "cost": 300,
+    "provider": "elevenlabs"
   },
   "mommy": {
     "text": "This is mommy. Welcome to the stream!",
-    "cost": 300
+    "cost": 300,
+    "provider": "elevenlabs"
   },
   "nerd": {
     "text": "This is nerd. Welcome to the stream!",
-    "cost": 300
+    "cost": 300,
+    "provider": "elevenlabs"
   },
   "penny": {
     "text": "This is penny. Welcome to the stream!",
-    "cost": 300
+    "cost": 300,
+    "provider": "elevenlabs"
   },
   "pirate": {
     "text": "This is pirate. Welcome to the stream!",
-    "cost": 300
+    "cost": 300,
+    "provider": "elevenlabs"
   },
   "randy": {
     "text": "This is randy. Welcome to the stream!",
-    "cost": 300
+    "cost": 300,
+    "provider": "elevenlabs"
   },
   "ranni": {
     "text": "This is ranni. Welcome to the stream!",
-    "cost": 300
+    "cost": 300,
+    "provider": "elevenlabs"
   },
   "sad": {
     "text": "This is sad. Welcome to the stream!",
-    "cost": 300
+    "cost": 300,
+    "provider": "elevenlabs"
   },
   "santa": {
     "text": "This is santa. Welcome to the stream!",
-    "cost": 300
+    "cost": 300,
+    "provider": "elevenlabs"
   },
   "teddy": {
     "text": "This is teddy. Welcome to the stream!",
-    "cost": 300
+    "cost": 300,
+    "provider": "elevenlabs"
   },
   "timmy": {
     "text": "This is timmy. Welcome to the stream!",
-    "cost": 300
+    "cost": 300,
+    "provider": "elevenlabs"
   },
   "todd": {
     "text": "This is todd. Welcome to the stream!",
-    "cost": 300
+    "cost": 300,
+    "provider": "elevenlabs"
   },
   "tony": {
     "text": "This is tony. Welcome to the stream!",
-    "cost": 300
+    "cost": 300,
+    "provider": "elevenlabs"
   },
   "vert": {
     "text": "This is vert. Welcome to the stream!",
-    "cost": 300
+    "cost": 300,
+    "provider": "elevenlabs"
   },
   "villain": {
     "text": "This is villain. Welcome to the stream!",
-    "cost": 300
+    "cost": 300,
+    "provider": "elevenlabs"
   },
   "weeb": {
     "text": "This is weeb. Welcome to the stream!",
-    "cost": 300
+    "cost": 300,
+    "provider": "elevenlabs"
   },
   "wise": {
     "text": "This is wise. Welcome to the stream!",
-    "cost": 300
+    "cost": 300,
+    "provider": "elevenlabs"
   },
   "xbox": {
     "text": "This is xbox. Welcome to the stream!",
-    "cost": 300
+    "cost": 300,
+    "provider": "elevenlabs"
   },
   "aria": {
     "text": "This is aria. Welcome to the stream!",
-    "cost": 100
+    "cost": 100,
+    "provider": "azure"
   },
   "davis": {
     "text": "This is davis. Welcome to the stream!",
-    "cost": 100
+    "cost": 100,
+    "provider": "azure"
   },
   "guy": {
     "text": "This is guy. Welcome to the stream!",
-    "cost": 100
+    "cost": 100,
+    "provider": "azure"
   },
   "jane": {
     "text": "This is jane. Welcome to the stream!",
-    "cost": 100
+    "cost": 100,
+    "provider": "azure"
   },
   "jason": {
     "text": "This is jason. Welcome to the stream!",
-    "cost": 100
+    "cost": 100,
+    "provider": "azure"
   },
   "jenny": {
     "text": "This is jenny. Welcome to the stream!",
-    "cost": 100
+    "cost": 100,
+    "provider": "azure"
   },
   "nancy": {
     "text": "This is nancy. Welcome to the stream!",
-    "cost": 100
+    "cost": 100,
+    "provider": "azure"
   },
   "sara": {
     "text": "This is sara. Welcome to the stream!",
-    "cost": 100
+    "cost": 100,
+    "provider": "azure"
   }
 }
