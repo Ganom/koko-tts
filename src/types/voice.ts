@@ -4,6 +4,7 @@ export interface Voice {
   cost: number;
   priority?: boolean;
   kind?: "real" | "random";
+  addedAt?: string;
 }
 
 export interface VoiceMap {
