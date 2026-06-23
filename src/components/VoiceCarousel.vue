@@ -149,8 +149,7 @@ const filteredVoices = computed<Voice[]>(() => {
   return [...props.voices];
 });
 
-// --- SELECTION ---
-
+// selection
 const isSelected = (voice: Voice) => props.selectedVoice === voice.name;
 
 const selectVoice = (voiceName: string) => {
@@ -158,8 +157,7 @@ const selectVoice = (voiceName: string) => {
   emit("change", isSearching.value);
 };
 
-// --- SCROLLING ---
-
+// scrolling
 const scrollByDir = (direction: number) => {
   const el = trackRef.value;
   if (!el) return;
@@ -203,7 +201,7 @@ const onSearchBlur = () => {
   }, 100);
 };
 
-// --- STYLING ---
+// styling
 
 const isUnaffordable = (voice: Voice) =>
   isSearching.value && props.currentBitAmount !== undefined && voice.cost > props.currentBitAmount;

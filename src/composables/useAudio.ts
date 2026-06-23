@@ -12,20 +12,14 @@ export interface UseAudioReturn {
 }
 
 export function useAudio(): UseAudioReturn {
-  // --- STATE ---
-
   const currentlyPlayingVoiceName = ref<string | null>(null);
   const playbackStatus = reactive(new Map<string, PlaybackStatus>());
   const audioCache = new Map<string, HTMLAudioElement>();
-
-  // --- GETTERS (COMPUTED) ---
 
   const currentlyPlaying = computed(() => {
     const voiceName = currentlyPlayingVoiceName.value;
     return voiceName ? (audioCache.get(voiceName) ?? null) : null;
   });
-
-  // --- HELPERS ---
 
   const setStatus = (voiceName: string, status: PlaybackStatus) => {
     playbackStatus.set(voiceName, status);
@@ -58,8 +52,6 @@ export function useAudio(): UseAudioReturn {
     }
     return audio;
   };
-
-  // --- ACTIONS ---
 
   const play = async (voiceName: string): Promise<void> => {
     const previousVoiceName = currentlyPlayingVoiceName.value;

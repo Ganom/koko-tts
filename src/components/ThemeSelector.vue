@@ -42,12 +42,10 @@ import { computed, defineComponent, h, ref } from "vue";
 import { useFloatingDropdown } from "@/composables/useFloatingDropdown";
 import { type Theme, useTheme } from "@/composables/useTheme";
 
-// --- THEME LOGIC ---
-
+// theme
 const { currentTheme, themes, setTheme } = useTheme();
 
-// --- DROPDOWN LOGIC ---
-
+// dropdown
 const triggerRef = ref<HTMLElement | null>(null);
 const contentRef = ref<HTMLElement | null>(null);
 const { isOpen, toggle, close, dropdownStyle } = useFloatingDropdown(triggerRef, contentRef);
@@ -57,8 +55,7 @@ const selectTheme = (theme: Theme) => {
   close();
 };
 
-// --- LOCAL SUB-COMPONENTS ---
-
+// local sub-components
 const ThemePalette = defineComponent({
   props: {
     theme: {

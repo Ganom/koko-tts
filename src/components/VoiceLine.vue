@@ -37,8 +37,7 @@ const optionsOpen = ref(false);
 
 const textPlaceholder = computed(() => `What ${props.segment.voiceName || "this voice"} says…`);
 
-// --- CONFIG-DRIVEN OPTIONS ---
-
+// config-driven options
 const customVoicesAllowed = computed(() => configStore.allowCustomVoices);
 const sizeTokensEnabled = computed(() => configStore.sizeTokens.enabled);
 
@@ -74,8 +73,7 @@ const optionsSummary = computed(() => {
   return parts.length ? parts.join(" · ") : "Model, effect & size";
 });
 
-// --- WARNINGS ---
-
+// warnings
 const modelWarning = computed(() => {
   const tag = props.segment.model;
   if (!tag || tag === "none") return "";

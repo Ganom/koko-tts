@@ -39,13 +39,11 @@ import { ChevronDown } from "@lucide/vue";
 import { computed, nextTick, onMounted, onUnmounted, ref } from "vue";
 import { useFloatingDropdown } from "@/composables/useFloatingDropdown";
 
-// --- TYPES ---
 interface SelectOption {
   label: string;
   value: string | number;
 }
 
-// --- PROPS & EMITS ---
 interface Props {
   modelValue: string | number;
   options: SelectOption[];
@@ -62,8 +60,6 @@ const props = withDefaults(defineProps<Props>(), {
   placeholder: "Select an option...",
 });
 const emit = defineEmits<Emits>();
-
-// --- REFS & STATE ---
 
 const triggerRef = ref<HTMLElement | null>(null);
 const contentRef = ref<HTMLElement | null>(null);
@@ -86,8 +82,6 @@ const { isOpen, dropdownPosition, dropdownStyle, close, toggle } = useFloatingDr
   },
 );
 
-// --- COMPUTED ---
-
 const selectedLabel = computed(() => {
   return props.options.find((option) => option.value === props.modelValue)?.label || "";
 });
@@ -105,8 +99,7 @@ const selectOption = (option: SelectOption): void => {
   close();
 };
 
-// --- KEYBOARD & SCROLL HANDLING ---
-
+// keyboard nav + scroll-into-view
 const scrollToOption = (index: number) => {
   const dropdown = contentRef.value;
   const optionEl = dropdown?.children[index] as HTMLElement;
@@ -176,8 +169,7 @@ const handleDropdownTouch = (event: TouchEvent) => {
   event.stopPropagation();
 };
 
-// --- DYNAMIC STYLING ---
-
+// per-option classes
 const getOptionClasses = (option: SelectOption, index: number) => {
   const isSelected = option.value === props.modelValue;
   const isHighlighted = index === highlightedIndex.value;
@@ -191,8 +183,7 @@ const getOptionClasses = (option: SelectOption, index: number) => {
   ];
 };
 
-// --- GLOBAL EVENT LISTENERS ---
-
+// document-level keyboard listener
 onMounted(() => {
   document.addEventListener("keydown", handleKeydown);
 });

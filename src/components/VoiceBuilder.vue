@@ -145,8 +145,6 @@ import ButtonGroup from "@/components/ui/ButtonGroup.vue";
 import FormSection from "@/components/ui/FormSection.vue";
 import VoiceLine, { type VoiceLineData } from "./VoiceLine.vue";
 
-// --- STORES & STATIC CONFIG ---
-
 const voiceStore = useVoiceStore();
 const configStore = useConfigStore();
 
@@ -158,8 +156,6 @@ const redeemOptions = [
   { value: "points", label: "Channel Points", theme: "secondary" },
   { value: "resub", label: "Resub", theme: "accent" },
 ];
-
-// --- ANIMATIONS ---
 
 const motions = {
   container: {
@@ -184,8 +180,7 @@ const motions = {
   },
 };
 
-// --- SEGMENT STATE ---
-
+// segment state
 interface PersistedSettings {
   segments?: Omit<VoiceLineData, "id">[];
   redeemMethod?: RedeemMethod;
@@ -260,14 +255,12 @@ const tierOptions = computed(() => [
   { value: 3, label: "Tier 3", detail: `${configStore.resubTierBits["3"]} bits`, theme: "accent" },
 ]);
 
-// --- CONFIG-DRIVEN LIMITS ---
-
+// config-driven limits
 const customVoicesAllowed = computed(() => configStore.allowCustomVoices);
 const maxCommandLength = computed(() => configStore.maxCommandLength);
 const maxSegments = computed(() => (customVoicesAllowed.value ? configStore.maxSegments : 1));
 
-// --- VOICES & BUDGET ---
-
+// voices + budget
 const randomVoice = computed<Voice>(() => ({
   name: "Random",
   text: "",
@@ -316,8 +309,7 @@ const minBitAmount = computed(() =>
   }),
 );
 
-// --- COMMAND COMPOSITION ---
-
+// command composition
 function segmentDisplayText(segment: VoiceLineData): string {
   if (segment.text) return segment.text;
   if (!segment.voiceName || isRandomVoiceName(segment.voiceName)) return "";
@@ -360,8 +352,7 @@ const commandParts = computed(() =>
 
 const isMessageTooLong = computed(() => generatedCommand.value.length > maxCommandLength.value);
 
-// --- SEGMENT ACTIONS ---
-
+// segment actions
 function updateSegment(id: string, patch: Partial<Omit<VoiceLineData, "id">>) {
   const segment = segments.value.find((s) => s.id === id);
   if (segment) Object.assign(segment, patch);
@@ -392,8 +383,7 @@ function checkVoiceEligibility() {
   }
 }
 
-// --- BIT AMOUNT HELPERS ---
-
+// bit-amount helpers
 function triggerFlash() {
   bitAmountUpdated.value = true;
   setTimeout(() => {
@@ -419,8 +409,7 @@ async function copyCommand() {
   }, 2000);
 }
 
-// --- WATCHERS & LIFECYCLE ---
-
+// watchers + lifecycle
 let debounceTimeout: number;
 watch(bitAmount, (newAmount) => {
   clearTimeout(debounceTimeout);

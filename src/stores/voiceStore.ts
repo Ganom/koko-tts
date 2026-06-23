@@ -3,8 +3,7 @@ import { computed, ref } from "vue";
 import type { Voice, VoiceMap } from "@/types/voice";
 
 export const useVoiceStore = defineStore("voice", () => {
-  // --- STATE ---
-
+  // state
   const voices = ref<Voice[]>([]);
   const minCost = ref(100);
   const maxCost = ref(5000);
@@ -14,8 +13,7 @@ export const useVoiceStore = defineStore("voice", () => {
 
   const searchQuery = ref("");
 
-  // --- GETTERS & SELECTORS ---
-
+  // getters + selectors
   const voicesMap = computed(() => new Map(voices.value.map((voice) => [voice.name, voice])));
 
   const getVoiceByName = computed(() => {
@@ -42,8 +40,7 @@ export const useVoiceStore = defineStore("voice", () => {
     });
   });
 
-  // --- ACTIONS ---
-
+  // actions
   const loadVoices = async (): Promise<void> => {
     if (voices.value.length > 0) return;
 

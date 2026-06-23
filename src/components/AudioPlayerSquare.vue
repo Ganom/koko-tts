@@ -12,22 +12,16 @@ import { computed, inject } from "vue";
 import { PlaybackStatus } from "@/types/audio";
 import { audioKey } from "@/injectionKeys";
 
-// --- PROPS ---
-
 interface Props {
   voiceName: string;
 }
 
 const props = defineProps<Props>();
 
-// --- INJECT ---
-
 const audio = inject(audioKey);
 if (!audio) {
   throw new Error("Audio composable not provided");
 }
-
-// --- STATE & COMPUTED ---
 
 const status = computed(() => audio.playbackStatus.get(props.voiceName) || PlaybackStatus.IDLE);
 const isCurrentlyPlaying = computed(() => audio.isPlaying(props.voiceName));
@@ -56,7 +50,6 @@ const buttonClasses = computed(() => [
 
 const errorTitle = computed(() => (isError.value ? "Audio file not available" : ""));
 
-// --- METHODS ---
 const togglePlay = async () => {
   if (isError.value) return;
 

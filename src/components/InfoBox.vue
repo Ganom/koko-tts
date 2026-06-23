@@ -190,8 +190,7 @@ const emit = defineEmits<{
 const configStore = useConfigStore();
 const voiceStore = useVoiceStore();
 
-// --- ANIMATIONS ---
-
+// animations
 const containerMotion = {
   initial: { opacity: 0, y: 50 },
   enter: {
@@ -225,8 +224,6 @@ const customizationContainerMotion = {
     transition: { delay: 300, duration: 300, ease: "easeOut" },
   },
 };
-
-// --- DATA ---
 
 // Bits have no universal floor — the real gate is the chosen voice's own cost
 // (as low as the cheapest voice). The redeem value only auto-grants a budget for
@@ -367,8 +364,7 @@ const goodToKnow = [
   },
 ];
 
-// --- DYNAMIC STYLING HELPERS ---
-
+// card style helpers
 const getCardClasses = (theme: string) => {
   const baseClasses = "glass rounded-2xl p-6 transition-all duration-300";
   switch (theme) {

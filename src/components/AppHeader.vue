@@ -27,13 +27,9 @@
 </template>
 
 <script setup lang="ts">
-// --- IMPORTS ---
-
 import { computed } from "vue";
 import { Info } from "@lucide/vue";
 import ThemeSelector from "./ThemeSelector.vue";
-
-// --- PROPS & EMITS ---
 
 defineProps<{
   isInfoHidden: boolean;
@@ -42,8 +38,6 @@ defineProps<{
 const emit = defineEmits<{
   (e: "toggle-info"): void;
 }>();
-
-// --- COMPUTED MOTION CONFIGURATIONS ---
 
 const themeSelectorMotion = computed(() => ({
   initial: { opacity: 0, x: 20 },

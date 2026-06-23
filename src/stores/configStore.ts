@@ -165,13 +165,11 @@ export function mergeConfig(base: AppConfig, override?: PartialAppConfig | null)
 }
 
 export const useConfigStore = defineStore("config", () => {
-  // --- STATE ---
-
+  // state
   const config = ref<AppConfig>(FALLBACK_CONFIG);
   const isLoaded = ref(false);
 
-  // --- GETTERS ---
-
+  // getters
   const maxCommandLength = computed(() => config.value.command.maxLength);
   /** Total voice segments allowed = base voice + the mid-message switches. */
   const maxSegments = computed(() => config.value.command.multiVoiceMaxSwitches + 1);
@@ -190,8 +188,7 @@ export const useConfigStore = defineStore("config", () => {
     () => commands.value.scoreLookup || commands.value.scoreVotes || commands.value.skipVotes,
   );
 
-  // --- ACTIONS ---
-
+  // actions
   const loadConfig = async (): Promise<void> => {
     if (isLoaded.value) return;
 
