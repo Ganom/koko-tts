@@ -1,5 +1,6 @@
 import { defineStore } from "pinia";
 import { computed, ref } from "vue";
+import { orderVoicesNewFirst } from "@/domain/voiceBadges";
 import type { Voice, VoiceMap } from "@/types/voice";
 
 export const useVoiceStore = defineStore("voice", () => {
@@ -32,13 +33,9 @@ export const useVoiceStore = defineStore("voice", () => {
     });
   });
 
-  const sortedVoices = computed<Voice[]>(() => {
-    return [...filteredVoices.value].sort((a, b) => {
-      const costDiff = b.cost - a.cost;
-      if (costDiff !== 0) return costDiff;
-      return a.name.localeCompare(b.name);
-    });
-  });
+  const sortedVoices = computed<Voice[]>(() =>
+    orderVoicesNewFirst(filteredVoices.value, new Date()),
+  );
 
   // actions
   const loadVoices = async (): Promise<void> => {
