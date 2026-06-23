@@ -13,6 +13,7 @@ export interface VoiceLineData {
 import { ChevronDown, Settings2, X } from "@lucide/vue";
 import { computed, ref } from "vue";
 import { useConfigStore } from "@/stores/configStore";
+import type { RedeemMethod } from "@/domain/ttsCommand";
 import type { Voice } from "@/types/voice";
 import ButtonGroup from "@/components/ui/ButtonGroup.vue";
 import CustomSelect from "./CustomSelect.vue";
@@ -23,6 +24,7 @@ const props = defineProps<{
   index: number;
   voices: Voice[];
   budget: number;
+  redeemMethod: RedeemMethod;
   canRemove: boolean;
 }>();
 
@@ -49,9 +51,13 @@ const modelOptions = computed(() => [
 const effectLabel = (tag: string) =>
   tag === "crt" ? "CRT" : tag.charAt(0).toUpperCase() + tag.slice(1);
 
+// Only offer effects the channel actually renders: a "Disabled" policy means the effect never
+// shows, so it has no business in the dropdown even if it's still in the requestable list.
 const effectOptions = computed(() => [
   { label: "None", value: "none" },
-  ...configStore.effects.requestable.map((tag) => ({ label: effectLabel(tag), value: tag })),
+  ...configStore.effects.requestable
+    .filter((tag) => configStore.effects.policy[tag] !== "Disabled")
+    .map((tag) => ({ label: effectLabel(tag), value: tag })),
 ]);
 
 const sizeOptions = computed(() => [
@@ -90,8 +96,8 @@ const effectWarning = computed(() => {
   const policy = configStore.effects.policy[tag];
   const label = effectLabel(tag);
   if (policy === "Disabled") return `${label} is turned off on this channel; it won't show.`;
-  if (policy === "RedeemOnly")
-    return `${label} only shows via the Channel Points redeem, not cheers.`;
+  if (policy === "RedeemOnly" && props.redeemMethod !== "points")
+    return `${label} only shows via the Channel Points redeem.`;
   return "";
 });
 

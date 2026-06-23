@@ -67,6 +67,7 @@
             :index="index"
             :voices="allVoices"
             :budget="bitAmountForGrid"
+            :redeem-method="redeemMethod"
             :can-remove="segments.length > 1"
             @select-voice="(name: string) => onSelectVoice(segment.id, name)"
             @update="(patch) => updateSegment(segment.id, patch)"
@@ -74,15 +75,43 @@
           />
         </div>
 
-        <button
-          v-if="customVoicesAllowed && segments.length < maxSegments"
-          type="button"
-          @click="addSegment"
-          class="mt-3 flex w-full items-center justify-center gap-2 rounded-2xl border-2 border-dashed border-primary-600/50 py-3 text-primary-300 transition-colors hover:border-primary-500 hover:bg-primary-500/10"
-        >
-          <Plus class="h-5 w-5" />
-          <span class="font-semibold">Add a voice line</span>
-        </button>
+        <template v-if="customVoicesAllowed && segments.length < maxSegments">
+          <div
+            v-if="priorityWarningVisible"
+            class="mt-3 rounded-2xl border-2 border-accent-500/40 bg-accent-900/20 p-4"
+          >
+            <p class="text-sm text-accent-100">
+              <strong class="text-accent-200">{{ priorityVoiceLabel }}</strong> takes a higher spot
+              in the redeem queue, but only as a single-voice message. Add another voice and your
+              message gives up that priority spot.
+            </p>
+            <div class="mt-3 flex flex-wrap gap-2">
+              <button
+                type="button"
+                @click="confirmAddVoice"
+                class="rounded-lg border border-accent-500/50 px-3 py-1.5 text-sm font-semibold text-accent-100 transition-colors hover:bg-accent-500/20"
+              >
+                Add a voice anyway
+              </button>
+              <button
+                type="button"
+                @click="dismissPriorityWarning"
+                class="rounded-lg bg-primary-600 px-3 py-1.5 text-sm font-semibold text-white transition-colors hover:bg-primary-700"
+              >
+                Keep my priority
+              </button>
+            </div>
+          </div>
+          <button
+            v-else
+            type="button"
+            @click="onAddVoice"
+            class="mt-3 flex w-full items-center justify-center gap-2 rounded-2xl border-2 border-dashed border-primary-600/50 py-3 text-primary-300 transition-colors hover:border-primary-500 hover:bg-primary-500/10"
+          >
+            <Plus class="h-5 w-5" />
+            <span class="font-semibold">Add a voice line</span>
+          </button>
+        </template>
         <p v-else-if="customVoicesAllowed" class="mt-3 text-center text-xs text-gray-400">
           Max {{ maxSegments }} voices reached for this channel.
         </p>
@@ -385,6 +414,45 @@ function addSegment() {
   if (segments.value.length >= maxSegments.value) return;
   segments.value.push(makeSegment());
 }
+
+// Priority voices only keep their queue priority as a single-voice message, so adding a second
+// voice silently downgrades it. Gate the add behind a warning whenever a priority voice is in play.
+const priorityWarningVisible = ref(false);
+
+const selectedPriorityVoice = computed(() =>
+  segments.value.find(
+    (segment) =>
+      segment.voiceName &&
+      !isRandomVoiceName(segment.voiceName) &&
+      getVoiceByName(segment.voiceName)?.priority === true,
+  ),
+);
+const hasPriorityVoiceSelected = computed(() => selectedPriorityVoice.value !== undefined);
+const priorityVoiceLabel = computed(
+  () => selectedPriorityVoice.value?.voiceName ?? "This priority voice",
+);
+
+function onAddVoice() {
+  if (hasPriorityVoiceSelected.value) {
+    priorityWarningVisible.value = true;
+    return;
+  }
+  addSegment();
+}
+
+function confirmAddVoice() {
+  priorityWarningVisible.value = false;
+  addSegment();
+}
+
+function dismissPriorityWarning() {
+  priorityWarningVisible.value = false;
+}
+
+// Drop a stale warning if the priority voice is removed/swapped while it's showing.
+watch(hasPriorityVoiceSelected, (has) => {
+  if (!has) priorityWarningVisible.value = false;
+});
 
 function removeSegment(id: string) {
   if (segments.value.length <= 1) return;
