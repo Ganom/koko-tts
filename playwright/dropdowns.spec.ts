@@ -26,10 +26,11 @@ test("custom select updates the generated command", async ({ page }) => {
   await page.getByText("aussie", { exact: true }).first().click();
   await page.getByPlaceholder("Enter your message here...").fill("hello");
 
-  const textEffectSection = page.locator("label", { hasText: "Text Effect" }).locator("..");
-  await textEffectSection.getByRole("button").click();
+  const characterEffectSection = page
+    .locator("label", { hasText: "Character Effect" })
+    .locator("..");
+  await characterEffectSection.getByRole("button").click();
 
   await page.getByText("Glitch", { exact: true }).click();
   await expect(page.getByText(/\[aussie:glitch\]/)).toBeVisible();
 });
-

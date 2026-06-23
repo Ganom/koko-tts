@@ -72,8 +72,8 @@
             </div>
           </FormSection>
 
-          <FormSection title="Text Effect">
-            <CustomSelect v-model="textEffect" :options="textEffectOptions" />
+          <FormSection title="Character Effect">
+            <CustomSelect v-model="characterEffect" :options="characterEffectOptions" />
           </FormSection>
 
           <FormSection title="Voice Model">
@@ -181,18 +181,18 @@ const tierOptions = [
   { value: 3, label: "Tier 3", detail: "2500 bits", theme: "accent" },
 ];
 
-const textEffectOptions = [
+// Character/visual effects a viewer can request per-message via the third voice-tag slot
+// (e.g. [voice:v3:crt]). These map to the app's tag-requestable Voice.EffectOptions
+// (float, glitch, crt, fire). The old per-message caption "text effects" (typewriter,
+// rainbow, karaoke) were retired — caption animation is now configured app-side only.
+// Note: "crt" defaults to a redeem-only lane policy, so it may only render via the
+// Channel-Points redeem rather than cheers, depending on the streamer's config.
+const characterEffectOptions = [
   { label: "None", value: "none" },
-  {
-    label: "Glitch",
-    value: "glitch",
-  },
-  { label: "Typewriter", value: "typewriter" },
-  {
-    label: "Rainbow Wave",
-    value: "rainbow",
-  },
-  { label: "Karaoke", value: "karaoke" },
+  { label: "Float", value: "float" },
+  { label: "Glitch", value: "glitch" },
+  { label: "CRT", value: "crt" },
+  { label: "Fire", value: "fire" },
 ];
 const modelOptions = [
   { label: "None", value: "none" },
@@ -258,7 +258,7 @@ interface Settings {
   redeemMethod: RedeemMethod;
   bitAmount: number;
   resubTier: ResubTier;
-  textEffect: string;
+  characterEffect: string;
   selectedModel: string;
   message: string;
 }
@@ -268,7 +268,7 @@ const defaultSettings: Settings = {
   redeemMethod: "cheer",
   bitAmount: 5000,
   resubTier: 1,
-  textEffect: "none",
+  characterEffect: "none",
   selectedModel: "none",
   message: "",
 };
@@ -279,7 +279,9 @@ const message = ref(settings.value.message);
 const redeemMethod = ref(settings.value.redeemMethod);
 const bitAmount = ref(settings.value.bitAmount);
 const resubTier = ref(settings.value.resubTier);
-const textEffect = ref(settings.value.textEffect);
+// Fall back to "none" so settings persisted before the text-effect → character-effect
+// rename (which may hold a retired value like "typewriter") don't produce a broken tag.
+const characterEffect = ref(settings.value.characterEffect ?? "none");
 const selectedModel = ref(settings.value.selectedModel);
 const copied = ref(false);
 const bitAmountUpdated = ref(false);
@@ -342,7 +344,7 @@ const generatedCommand = computed(() => {
     bitAmount: bitAmount.value,
     voiceName: selectedVoice.value,
     model: selectedModel.value,
-    effect: textEffect.value,
+    effect: characterEffect.value,
     message: displayMessage.value,
   });
 });
@@ -353,7 +355,7 @@ const commandParts = computed(() => {
     bitAmount: bitAmount.value,
     voiceName: selectedVoice.value,
     model: selectedModel.value,
-    effect: textEffect.value,
+    effect: characterEffect.value,
     message: displayMessage.value,
   }).map((part) => ({
     text: part.text,
@@ -382,7 +384,7 @@ function handleMessageInput(event: Event) {
     bitAmount: bitAmount.value,
     voiceName: selectedVoice.value,
     model: selectedModel.value,
-    effect: textEffect.value,
+    effect: characterEffect.value,
   });
 
   const maxMessageLength = getMaxMessageLengthForPrefix(prefix);
@@ -454,14 +456,14 @@ watch(bitAmount, (newAmount) => {
 });
 
 watch(
-  [selectedVoice, redeemMethod, bitAmount, resubTier, textEffect, selectedModel, message],
+  [selectedVoice, redeemMethod, bitAmount, resubTier, characterEffect, selectedModel, message],
   () => {
     setSettings({
       selectedVoice: selectedVoice.value,
       redeemMethod: redeemMethod.value,
       bitAmount: bitAmount.value,
       resubTier: resubTier.value,
-      textEffect: textEffect.value,
+      characterEffect: characterEffect.value,
       selectedModel: selectedModel.value,
       message: message.value,
     });

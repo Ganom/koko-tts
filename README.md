@@ -77,7 +77,7 @@ The builder currently outputs:
 
 If your VoicePuppet bot expects different syntax (different brackets, separators, models/effects, length limits, etc.), update:
 
-- Command generation + options: `src/components/VoiceBuilder.vue` (`generatedCommand`, `modelOptions`, `textEffectOptions`)
+- Command generation + options: `src/components/VoiceBuilder.vue` (`generatedCommand`, `modelOptions`, `characterEffectOptions`)
 - Eligibility cutoffs (bits/points/resub tiers): `src/components/VoiceBuilder.vue` (`bitAmountForGrid`, `tierOptions`)
 - Any explanatory copy: `src/components/InfoBox.vue`
 
