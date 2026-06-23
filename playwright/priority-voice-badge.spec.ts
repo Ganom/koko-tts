@@ -8,7 +8,7 @@ test("priority voices show a Priority badge with skip-queue tooltip", async ({ p
 
   await searchInput.fill("ultrasuperpremiumdandy");
 
-  const badge = page.locator(".voice-grid").getByText("Priority", { exact: true }).first();
+  const badge = page.locator(".voice-carousel").getByText("Priority", { exact: true }).first();
   await expect(badge).toBeVisible();
-  await expect(badge).toHaveAttribute("title", /skips the queue/i);
+  await expect(badge).toHaveAttribute("title", /redeem priority/i);
 });

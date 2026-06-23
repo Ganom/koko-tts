@@ -36,8 +36,6 @@ export const useVoiceStore = defineStore("voice", () => {
 
   const sortedVoices = computed<Voice[]>(() => {
     return [...filteredVoices.value].sort((a, b) => {
-      const limitedDiff = Number(Boolean(b.limited)) - Number(Boolean(a.limited));
-      if (limitedDiff !== 0) return limitedDiff;
       const costDiff = b.cost - a.cost;
       if (costDiff !== 0) return costDiff;
       return a.name.localeCompare(b.name);

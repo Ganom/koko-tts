@@ -62,7 +62,7 @@
         </div>
       </div>
 
-      <div>
+      <div class="mb-10">
         <h3 class="text-white text-2xl font-semibold mb-6 text-center md:text-left">
           Voice Customization
         </h3>
@@ -73,7 +73,8 @@
           >
             Priority
           </span>
-          badge — Priority voices skip the queue on livestream integration.
+          badge — it marks <strong class="text-accent-200">redeem-priority</strong> voices that take a
+          higher spot in the redeem queue when the streamer runs one.
         </p>
         <div
           class="glass rounded-2xl p-6 border-2 border-primary-500/30"
@@ -102,6 +103,72 @@
                   {{ part.text }}
                 </span>
               </div>
+              <p v-if="command.hint" class="text-xs text-gray-400 mt-2">{{ command.hint }}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div v-if="showChatCommands" class="mb-10">
+        <h3 class="text-white text-2xl font-semibold mb-2 text-center md:text-left">
+          Chat Commands &amp; Voting
+        </h3>
+        <p class="text-gray-300 text-sm mb-6 text-center md:text-left">
+          Type these in chat any time — they pause while a stage performance is running.
+        </p>
+        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div
+            v-for="group in chatCommandGroups"
+            :key="group.title"
+            v-motion="getCardMotion()"
+            :class="getCardClasses(group.colorTheme)"
+          >
+            <div class="flex items-center mb-4">
+              <div
+                :class="getIconWrapperClasses(group.colorTheme)"
+                class="w-12 h-12 rounded-full flex items-center justify-center mr-4 flex-shrink-0"
+              >
+                <component :is="group.icon" class="w-6 h-6 text-white" />
+              </div>
+              <h3 class="text-white font-bold text-xl">{{ group.title }}</h3>
+            </div>
+            <ul class="space-y-2">
+              <li
+                v-for="item in group.items"
+                :key="item.cmd"
+                class="flex items-baseline gap-3 text-sm"
+              >
+                <code
+                  class="font-mono font-bold text-white bg-dark-900/60 rounded px-2 py-0.5 whitespace-nowrap"
+                  >{{ item.cmd }}</code
+                >
+                <span class="text-gray-300">{{ item.desc }}</span>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <h3 class="text-white text-2xl font-semibold mb-6 text-center md:text-left">Good to Know</h3>
+        <div class="grid md:grid-cols-2 gap-6">
+          <div
+            v-for="note in goodToKnow"
+            :key="note.title"
+            v-motion="getCardMotion()"
+            :class="getCardClasses(note.colorTheme)"
+          >
+            <div class="flex items-start">
+              <div
+                :class="getIconWrapperClasses(note.colorTheme)"
+                class="w-12 h-12 rounded-full flex items-center justify-center mr-4 flex-shrink-0"
+              >
+                <component :is="note.icon" class="w-6 h-6 text-white" />
+              </div>
+              <div>
+                <h4 class="text-white font-bold text-lg mb-1">{{ note.title }}</h4>
+                <p class="text-gray-300 text-sm">{{ note.text }}</p>
+              </div>
             </div>
           </div>
         </div>
@@ -111,11 +178,17 @@
 </template>
 
 <script setup lang="ts">
-import { Gift, Heart, Plus, RotateCcw, X } from "@lucide/vue";
+import { computed } from "vue";
+import { Gift, Heart, Plus, RotateCcw, ShieldAlert, SkipForward, Sparkles, Trophy, X } from "@lucide/vue";
+import { useConfigStore } from "@/stores/configStore";
+import { useVoiceStore } from "@/stores/voiceStore";
 
 const emit = defineEmits<{
   hide: [];
 }>();
+
+const configStore = useConfigStore();
+const voiceStore = useVoiceStore();
 
 // --- ANIMATIONS ---
 
@@ -155,14 +228,17 @@ const customizationContainerMotion = {
 
 // --- DATA ---
 
-const activationMethods = [
+// Bits have no universal floor — the real gate is the chosen voice's own cost
+// (as low as the cheapest voice). The redeem value only auto-grants a budget for
+// channel-point/sub activations, so the bits card is framed around per-voice cost.
+const activationMethods = computed(() => [
   {
     title: "With Bits",
     icon: Heart,
-    description: "Cheer 300+ bits to activate TTS.",
+    description: `Cheer at least your chosen voice's cost — some voices are as low as ${voiceStore.minCost} bits.`,
     colorTheme: "primary",
     command: [
-      { text: "Cheer300 ", class: "text-primary-300" },
+      { text: "Cheer<cost> ", class: "text-primary-300" },
       { text: "[voicename] ", class: "text-secondary-400" },
       { text: "your message", class: "text-gray-300" },
     ],
@@ -170,7 +246,7 @@ const activationMethods = [
   {
     title: "With Channel Points",
     icon: Gift,
-    description: 'Redeem the "TTS Message" reward.',
+    description: 'Redeem the "TTS Message" reward — no bits required.',
     colorTheme: "secondary",
     command: [
       { text: "[voicename] ", class: "text-secondary-400" },
@@ -185,36 +261,38 @@ const activationMethods = [
     tiers: [
       {
         name: "Tier 1 Resub",
-        value: "500 Bit Value",
+        value: `${configStore.resubTierBits["1"]} Bit Value`,
         class: "text-primary-300",
         badgeClass: "bg-primary-900/40",
       },
       {
         name: "Tier 2 Resub",
-        value: "1000 Bit Value",
+        value: `${configStore.resubTierBits["2"]} Bit Value`,
         class: "text-secondary-300",
         badgeClass: "bg-secondary-900/40",
       },
       {
         name: "Tier 3 Resub",
-        value: "2500 Bit Value",
+        value: `${configStore.resubTierBits["3"]} Bit Value`,
         class: "text-accent-300",
         badgeClass: "bg-accent-900/40",
       },
     ],
   },
-];
+]);
 
 const customizationCommands = [
   {
     title: "Choose a Voice",
     icon: Plus,
-    description: "Set a default voice for your messages.",
+    description: "Pin a default voice (and optionally a model) for your messages.",
     colorTheme: "primary",
     command: [
       { text: "!setvoice ", class: "text-primary-300" },
       { text: "voicename", class: "text-secondary-400" },
+      { text: ":model", class: "text-gray-500" },
     ],
+    hint: "Model is optional — e.g. !setvoice wise:v3",
   },
   {
     title: "Reset Your Voice",
@@ -222,6 +300,70 @@ const customizationCommands = [
     description: "Revert to the channel's default voice.",
     colorTheme: "secondary",
     command: [{ text: "!clearvoice", class: "text-secondary-300" }],
+  },
+];
+
+// Score/leaderboard/vote families only appear when the streamer has them enabled
+// (each is independently config-gated and off during Stage Mode).
+const chatCommandGroups = computed(() => {
+  const groups: {
+    title: string;
+    icon: typeof Trophy;
+    colorTheme: string;
+    items: { cmd: string; desc: string }[];
+  }[] = [];
+
+  if (configStore.commands.scoreLookup) {
+    groups.push({
+      title: "Check Scores",
+      icon: Trophy,
+      colorTheme: "primary",
+      items: [
+        { cmd: "!ttsscore", desc: "your score (also !myscore, !score)" },
+        { cmd: "!leaderboard", desc: "top players (also !ttstop)" },
+        { cmd: "!ttsbottom", desc: "the bottom of the board" },
+      ],
+    });
+  }
+
+  if (configStore.commands.scoreVotes) {
+    groups.push({
+      title: "Rate a Message",
+      icon: Heart,
+      colorTheme: "secondary",
+      items: [
+        { cmd: "+2", desc: "upvote the message playing now" },
+        { cmd: "-2", desc: "downvote the message playing now" },
+      ],
+    });
+  }
+
+  if (configStore.commands.skipVotes) {
+    groups.push({
+      title: "Skip Votes",
+      icon: SkipForward,
+      colorTheme: "accent",
+      items: [{ cmd: "Skip / stay", desc: "vote to drop or keep the current TTS when a vote is called" }],
+    });
+  }
+
+  return groups;
+});
+
+const showChatCommands = computed(() => chatCommandGroups.value.length > 0);
+
+const goodToKnow = [
+  {
+    title: "Animated messages read free",
+    icon: Sparkles,
+    colorTheme: "secondary",
+    text: "Paid animated chat messages (Twitch Message Effects) get read aloud automatically — even with no bits.",
+  },
+  {
+    title: "Some words are always filtered",
+    icon: ShieldAlert,
+    colorTheme: "accent",
+    text: "A built-in filter always replaces blocked words with “Filtered xdx”, no matter the channel's other settings.",
   },
 ];
 

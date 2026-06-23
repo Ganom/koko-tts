@@ -17,13 +17,18 @@
 </template>
 
 <script setup lang="ts">
+import { computed } from "vue";
 import StageGuideCard from "@/components/stage-guide/StageGuideCard.vue";
 import StageGuideHero from "@/components/stage-guide/StageGuideHero.vue";
 import StageHelpPanel from "@/components/stage-guide/StageHelpPanel.vue";
-import { stageGuideSections as sections } from "@/components/stage-guide/stageGuideContent";
+import { buildStageGuideSections } from "@/components/stage-guide/stageGuideContent";
 import { useStageCommandClipboard } from "@/components/stage-guide/useStageCommandClipboard";
+import { useConfigStore } from "@/stores/configStore";
 
 const homeHref = import.meta.env.BASE_URL;
+
+const configStore = useConfigStore();
+const sections = computed(() => buildStageGuideSections(configStore.stage));
 
 const { copiedCommandId, copyCommand } = useStageCommandClipboard();
 </script>

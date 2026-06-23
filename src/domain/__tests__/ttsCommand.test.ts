@@ -3,11 +3,13 @@ import {
   DEFAULT_POINTS_BUDGET,
   MAX_TTS_COMMAND_LENGTH,
   RESUB_TIER_BUDGETS,
+  buildMultiVoiceCommand,
   buildTtsCommand,
   buildTtsPrefix,
   buildVoiceTag,
   getMaxMessageLengthForPrefix,
   getMinCheerAmount,
+  getMultiVoiceCommandParts,
   getRedeemBudget,
   getTtsCommandParts,
   isRandomVoiceName,
@@ -33,6 +35,15 @@ describe("ttsCommand", () => {
       "[koko:v3:glitch]",
     );
     expect(buildVoiceTag({ voiceName: "Koko", model: "  " })).toBe("[koko]");
+  });
+
+  it("appends size tokens to voice tags in any combination", () => {
+    expect(buildVoiceTag({ voiceName: "Brian", size: "beeg" })).toBe("[brian:beeg]");
+    expect(buildVoiceTag({ voiceName: "Brian", model: "v3", size: "beeg" })).toBe("[brian:v3:beeg]");
+    expect(
+      buildVoiceTag({ voiceName: "Brian", model: "v3", effect: "glitch", size: "smol" }),
+    ).toBe("[brian:v3:glitch:smol]");
+    expect(buildVoiceTag({ voiceName: "Brian", size: "none" })).toBe("[brian]");
   });
 
   it("builds prefixes", () => {
@@ -144,6 +155,63 @@ describe("ttsCommand", () => {
     ).toEqual([]);
   });
 
+  it("composes multi-voice messages (cheer keeps a single leading prefix)", () => {
+    const segments = [
+      { voiceName: "Ganom", text: "hi" },
+      { voiceName: "Doc", text: "hello" },
+      { voiceName: "Ganom", text: "bye" },
+    ];
+
+    expect(buildMultiVoiceCommand({ redeemMethod: "cheer", bitAmount: 500, segments })).toBe(
+      "Cheer500 [ganom] hi [doc] hello [ganom] bye",
+    );
+    expect(buildMultiVoiceCommand({ redeemMethod: "points", bitAmount: 500, segments })).toBe(
+      "[ganom] hi [doc] hello [ganom] bye",
+    );
+  });
+
+  it("carries per-segment model/effect/size suffixes into the multi-voice command", () => {
+    const command = buildMultiVoiceCommand({
+      redeemMethod: "points",
+      bitAmount: 500,
+      segments: [
+        { voiceName: "Brian", model: "v3", text: "intro" },
+        { voiceName: "Dan", effect: "glitch", size: "beeg", text: "drop" },
+      ],
+    });
+
+    expect(command).toBe("[brian:v3] intro [dan:glitch:beeg] drop");
+  });
+
+  it("skips voiceless segments and renders a trailing bare tag", () => {
+    expect(
+      getMultiVoiceCommandParts({
+        redeemMethod: "cheer",
+        bitAmount: 300,
+        segments: [
+          { voiceName: "Ganom", text: "hey" },
+          { voiceName: "  ", text: "ignored" },
+          { voiceName: "Doc", text: "" },
+        ],
+      }),
+    ).toEqual([
+      { type: "cheer", text: "Cheer300 " },
+      { type: "voiceTag", text: "[ganom] " },
+      { type: "message", text: "hey " },
+      { type: "voiceTag", text: "[doc]" },
+    ]);
+  });
+
+  it("returns no parts when no segment has a voice", () => {
+    expect(
+      getMultiVoiceCommandParts({
+        redeemMethod: "points",
+        bitAmount: 500,
+        segments: [{ voiceName: "", text: "nope" }],
+      }),
+    ).toEqual([]);
+  });
+
   it("computes budgets and minimum cheer amounts", () => {
     expect(getRedeemBudget({ redeemMethod: "cheer", bitAmount: 123, resubTier: 1 })).toBe(123);
     expect(getRedeemBudget({ redeemMethod: "resub", bitAmount: 123, resubTier: 1 })).toBe(
@@ -161,6 +229,14 @@ describe("ttsCommand", () => {
     expect(
       getRedeemBudget({ redeemMethod: "points", bitAmount: 123, resubTier: 1, pointsBudget: 42 }),
     ).toBe(42);
+    expect(
+      getRedeemBudget({
+        redeemMethod: "resub",
+        bitAmount: 123,
+        resubTier: 2,
+        resubBudgets: { 1: 500, 2: 1500, 3: 3000 },
+      }),
+    ).toBe(1500);
 
     expect(getMinCheerAmount({ storeMinCost: 300, selectedVoiceCost: 1000 })).toBe(1000);
     expect(getMinCheerAmount({ storeMinCost: 300, selectedVoiceCost: 0 })).toBe(300);

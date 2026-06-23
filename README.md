@@ -54,7 +54,7 @@ So your filenames must match the **lowercased** voice name exactly (including sp
   "gandalf": {
     "text": "You shall not pass!",
     "cost": 300,
-    "limited": true
+    "priority": true
   }
 }
 ```
@@ -64,22 +64,26 @@ Notes:
 - The JSON key (e.g. `"gandalf"`) is the voice name shown in the UI and the token used in the builder.
 - `text` is the default sample message when the viewer hasn’t typed one yet.
 - `cost` controls sorting and which voices are eligible at a given bit amount.
-- `limited: true` adds a “Limited” badge and sorts limited voices first.
-- `priority: true` adds a “Priority” badge (skips the queue on livestream integration).
+- `priority: true` adds a “Priority” badge (these voices get a higher spot in the redeem queue).
 - Add the matching `.mp3` + `.webp` for every voice to avoid broken previews/avatars.
 
-### 3) Ensure the command format matches your VoicePuppet bot
+### 3) Drop in your exported `config.json` (the source of truth)
 
-The builder currently outputs:
+Models, effects (and their lane policy), size tokens, bit/redeem/resub values, the
+multi-voice cap, stage thresholds, and which chat-command families are enabled all
+come from `public/config.json`. Export it from the VoicePuppet app (it ships next to
+`voices.json`) and drop it in `public/` — the site reads it via `configStore` and
+falls back to a built-in snapshot if it's missing, so nothing breaks without it.
 
-- **Cheer**: `Cheer<amount> [voice:model:effect] message`
-- **Points / Resub**: `[voice:model:effect] message`
+You should not need to hand-edit component code for those values anymore. The builder
+outputs the app's real grammar:
 
-If your VoicePuppet bot expects different syntax (different brackets, separators, models/effects, length limits, etc.), update:
+- **Cheer**: `Cheer<amount> [voice:model:effect:size] message [voice…] message`
+- **Points / Resub**: `[voice:model:effect:size] message [voice…] message`
 
-- Command generation + options: `src/components/VoiceBuilder.vue` (`generatedCommand`, `modelOptions`, `characterEffectOptions`)
-- Eligibility cutoffs (bits/points/resub tiers): `src/components/VoiceBuilder.vue` (`bitAmountForGrid`, `tierOptions`)
-- Any explanatory copy: `src/components/InfoBox.vue`
+Only touch code if your bot's tag grammar itself differs (different brackets or
+separators) — see `src/domain/ttsCommand.ts` (tag/command building) and
+`src/components/InfoBox.vue` (explanatory copy).
 
 ## Deploying
 

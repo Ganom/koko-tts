@@ -7,11 +7,13 @@ import StageStreamGuide from "@/components/StageStreamGuide.vue";
 import VoiceBuilder from "@/components/VoiceBuilder.vue";
 import { useAudio } from "@/composables/useAudio";
 import { useLocalStorage } from "@/composables/useLocalStorage";
+import { useConfigStore } from "@/stores/configStore";
 import { useVoiceStore } from "@/stores/voiceStore";
 import { monkeyIcons } from "@/utils/iconRegistry";
 import { audioKey } from "@/injectionKeys";
 
 const voiceStore = useVoiceStore();
+const configStore = useConfigStore();
 const audio = useAudio();
 const [isInfoBoxHidden, setIsInfoBoxHidden] = useLocalStorage<boolean>(
   "koko-tts-hide-infobox",
@@ -63,6 +65,8 @@ const backgroundConfig = ref({
 
 onMounted(() => {
   updateRoutePath();
+  // Config drives both the home builder/InfoBox and the stage guide.
+  configStore.loadConfig();
   loadHomeVoices();
   window.addEventListener("popstate", updateRoutePath);
 });

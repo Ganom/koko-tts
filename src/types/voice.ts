@@ -2,7 +2,6 @@ export interface Voice {
   name: string;
   text: string;
   cost: number;
-  limited?: boolean;
   priority?: boolean;
   kind?: "real" | "random";
 }

@@ -1,128 +1,110 @@
 <template>
   <div class="max-w-6xl mx-auto mb-16">
-    <div
-      class="anime-card rounded-4xl p-8 border-2 border-primary-500/30"
-      v-motion="motions.container"
-    >
+    <div class="anime-card rounded-4xl p-6 sm:p-8 border-2 border-primary-500/30" v-motion="motions.container">
       <div class="text-center mb-8" v-motion="motions.header">
         <h2 class="text-gradient-violet-pink text-3xl font-bold mb-3">TTS Message Builder</h2>
-        <p class="text-gray-300 text-lg">Build and preview your TTS Message</p>
+        <p class="text-gray-300 text-lg">Write one voice or a whole dialogue — then copy &amp; paste</p>
       </div>
 
-      <div class="grid lg:grid-cols-2 gap-8 mb-8 items-start">
-        <div class="space-y-6" v-motion="motions.controls">
-          <FormSection title="Redeem Method">
-            <ButtonGroup
-              :options="redeemOptions"
-              v-model="redeemMethod"
-              @update:modelValue="checkVoiceEligibility"
-            />
-          </FormSection>
+      <!-- How it's sent -->
+      <div class="space-y-6 mb-8" v-motion="motions.controls">
+        <FormSection title="Redeem Method">
+          <ButtonGroup
+            :options="redeemOptions"
+            v-model="redeemMethod"
+            @update:modelValue="checkVoiceEligibility"
+          />
+        </FormSection>
 
-          <FormSection v-if="redeemMethod === 'cheer'" title="Bit Amount">
-            <input
-              v-model.number="bitAmount"
-              type="number"
-              :min="minBitAmount"
-              :placeholder="minBitAmount.toString()"
-              :class="[
-                'w-full bg-dark-900/60 border-2 rounded-lg px-4 py-3 text-white focus:outline-none focus:ring-2 transition-colors',
-                inputClasses,
-                { 'flash-border': bitAmountUpdated },
-              ]"
-            />
-            <p
-              v-if="selectedVoice && minBitAmount > voiceStore.minCost"
-              class="text-sm text-primary-300 mt-2"
-            >
-              Minimum {{ minBitAmount }} bits for {{ selectedVoice }}
-            </p>
-            <p v-else-if="redeemMethod === 'cheer' && bitAmount" class="text-sm text-gray-400 mt-2">
-              Voices up to {{ bitAmount }} bits available
-            </p>
-          </FormSection>
+        <FormSection v-if="redeemMethod === 'cheer'" title="Bit Amount">
+          <input
+            v-model.number="bitAmount"
+            type="number"
+            :min="minBitAmount"
+            :placeholder="minBitAmount.toString()"
+            :class="[
+              'w-full bg-dark-900/60 border-2 rounded-lg px-4 py-3 text-white focus:outline-none focus:ring-2 transition-colors',
+              inputClasses,
+              { 'flash-border': bitAmountUpdated },
+            ]"
+          />
+          <p v-if="minBitAmount > voiceStore.minCost" class="text-sm text-primary-300 mt-2">
+            Minimum {{ minBitAmount }} bits to cover your voices
+          </p>
+          <p v-else-if="bitAmount" class="text-sm text-gray-400 mt-2">
+            Voices up to {{ bitAmount }} bits available
+          </p>
+        </FormSection>
 
-          <FormSection v-if="redeemMethod === 'resub'" title="Subscription Tier">
-            <ButtonGroup
-              :options="tierOptions"
-              v-model="resubTier"
-              @update:modelValue="checkVoiceEligibility"
-            />
-          </FormSection>
+        <FormSection v-if="redeemMethod === 'resub'" title="Subscription Tier">
+          <ButtonGroup
+            :options="tierOptions"
+            v-model="resubTier"
+            @update:modelValue="checkVoiceEligibility"
+          />
+        </FormSection>
+      </div>
 
-          <FormSection title="Your Message">
-            <textarea
-              v-model="message"
-              placeholder="Enter your message here..."
-              :class="[
-                'w-full bg-dark-900/60 border-2 rounded-lg px-4 py-3 text-white focus:outline-none resize-none',
-                inputClasses,
-                { 'border-red-500 focus:border-red-500 focus:ring-red-500/50': isMessageTooLong },
-              ]"
-              rows="3"
-              @input="handleMessageInput"
-            ></textarea>
-            <div class="flex justify-between items-center mt-2">
-              <p v-if="isMessageTooLong" class="text-sm text-red-400">
-                Message exceeds {{ MAX_TTS_COMMAND_LENGTH }} character limit
-              </p>
-              <p class="text-sm text-gray-400 ml-auto">
-                {{ generatedCommand.length }}/{{ MAX_TTS_COMMAND_LENGTH }}
-              </p>
-            </div>
-          </FormSection>
-
-          <FormSection title="Character Effect">
-            <CustomSelect v-model="characterEffect" :options="characterEffectOptions" />
-          </FormSection>
-
-          <FormSection title="Voice Model">
-            <CustomSelect v-model="selectedModel" :options="modelOptions" />
-          </FormSection>
+      <!-- The message: a script of voice lines -->
+      <div v-motion="motions.lines">
+        <div class="flex items-center justify-between mb-3">
+          <h3 class="text-white text-xl font-bold">Your message</h3>
+          <span class="text-xs text-gray-400">{{ segments.length }} / {{ maxSegments }} voices</span>
         </div>
 
-        <div class="space-y-6" v-motion="motions.voiceGrid">
-          <FormSection>
-            <template #title>
-              <div class="flex items-center justify-between w-full">
-                <span>Select a Voice</span>
-                <div v-if="selectedVoice && !isRandomSelected" class="flex items-center gap-3">
-                  <span class="">Preview:</span>
-                  <AudioPlayerSquare :voice-name="selectedVoice" />
-                </div>
-              </div>
-            </template>
-            <VoiceGrid
-              v-model:selectedVoice="selectedVoice"
-              :voices="allVoices"
-              :current-bit-amount="bitAmountForGrid"
-              @change="updateBitAmountFromGrid"
-            />
-          </FormSection>
+        <div class="space-y-3">
+          <VoiceLine
+            v-for="(segment, index) in segments"
+            :key="segment.id"
+            :segment="segment"
+            :index="index"
+            :voices="allVoices"
+            :budget="bitAmountForGrid"
+            :can-remove="segments.length > 1"
+            @select-voice="(name: string) => onSelectVoice(segment.id, name)"
+            @update="(patch) => updateSegment(segment.id, patch)"
+            @remove="removeSegment(segment.id)"
+          />
         </div>
+
+        <button
+          v-if="customVoicesAllowed && segments.length < maxSegments"
+          type="button"
+          @click="addSegment"
+          class="mt-3 flex w-full items-center justify-center gap-2 rounded-2xl border-2 border-dashed border-primary-600/50 py-3 text-primary-300 transition-colors hover:border-primary-500 hover:bg-primary-500/10"
+        >
+          <Plus class="h-5 w-5" />
+          <span class="font-semibold">Add a voice line</span>
+        </button>
+        <p v-else-if="customVoicesAllowed" class="mt-3 text-center text-xs text-gray-400">
+          Max {{ maxSegments }} voices reached for this channel.
+        </p>
       </div>
 
       <div
-        class="w-full h-px bg-gradient-to-r from-transparent via-primary-700/50 to-transparent mb-8"
+        class="w-full h-px bg-gradient-to-r from-transparent via-primary-700/50 to-transparent my-8"
       ></div>
 
-      <div
-        class="anime-card rounded-2xl p-6 border-2 border-primary-500/30"
-        v-motion="motions.preview"
-      >
+      <!-- Preview -->
+      <div class="anime-card rounded-2xl p-6 border-2 border-primary-500/30" v-motion="motions.preview">
         <div class="flex items-center justify-between mb-4">
           <h4 class="text-white font-bold flex items-center">
             <Menu class="w-5 h-5 mr-2 text-primary-400" />
             TTS Preview
           </h4>
-          <button
-            v-if="commandParts.length"
-            @click="copyCommand"
-            class="flex items-center gap-2 px-3 py-1.5 bg-primary-600 hover:bg-primary-700 text-white text-xs font-medium rounded transition-colors whitespace-nowrap"
-          >
-            <component :is="copied ? Check : Clipboard" class="w-4 h-4" />
-            <span>{{ copied ? "Copied!" : "Copy" }}</span>
-          </button>
+          <div class="flex items-center gap-4">
+            <span class="text-sm font-mono" :class="isMessageTooLong ? 'text-red-400' : 'text-gray-400'">
+              {{ generatedCommand.length }}/{{ maxCommandLength }}
+            </span>
+            <button
+              v-if="commandParts.length"
+              @click="copyCommand"
+              class="flex items-center gap-2 px-3 py-1.5 bg-primary-600 hover:bg-primary-700 text-white text-xs font-medium rounded transition-colors whitespace-nowrap"
+            >
+              <component :is="copied ? Check : Clipboard" class="w-4 h-4" />
+              <span>{{ copied ? "Copied!" : "Copy" }}</span>
+            </button>
+          </div>
         </div>
         <div class="bg-dark-900/50 border-2 border-primary-500/20 rounded-lg p-4 font-mono text-md">
           <div v-if="commandParts.length" class="break-all min-h-[2lh]">
@@ -131,41 +113,43 @@
             </span>
           </div>
           <div v-else class="text-gray-500 italic">
-            Configure your voice message to see the TTS preview
+            Pick a voice and type a message to see the TTS preview
           </div>
         </div>
+        <p v-if="isMessageTooLong" class="text-sm text-red-400 mt-2">
+          Message exceeds the {{ maxCommandLength }} character limit — trim it before sending.
+        </p>
       </div>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { Check, Clipboard, Menu } from "@lucide/vue";
+import { Check, Clipboard, Menu, Plus } from "@lucide/vue";
 import { computed, onMounted, ref, watch } from "vue";
 import { useLocalStorage } from "@/composables/useLocalStorage";
+import { useConfigStore } from "@/stores/configStore";
 import { useVoiceStore } from "@/stores/voiceStore";
 import type { Voice } from "@/types/voice";
 import {
-  MAX_TTS_COMMAND_LENGTH,
   type RedeemMethod,
   type ResubTier,
-  buildTtsCommand,
-  buildTtsPrefix,
-  getMaxMessageLengthForPrefix,
+  type TtsSegment,
+  buildMultiVoiceCommand,
   getMinCheerAmount,
+  getMultiVoiceCommandParts,
   getRedeemBudget,
-  getTtsCommandParts,
   isRandomVoiceName,
 } from "@/domain/ttsCommand";
 import ButtonGroup from "@/components/ui/ButtonGroup.vue";
 import FormSection from "@/components/ui/FormSection.vue";
-import AudioPlayerSquare from "./AudioPlayerSquare.vue";
-import CustomSelect from "./CustomSelect.vue";
-import VoiceGrid from "./VoiceGrid.vue";
+import VoiceLine, { type VoiceLineData } from "./VoiceLine.vue";
 
-// --- DATA & CONFIGURATION ---
+// --- STORES & STATIC CONFIG ---
 
 const voiceStore = useVoiceStore();
+const configStore = useConfigStore();
+
 const inputClasses =
   "border-secondary-500/40 hover:border-secondary-500/60 focus:border-secondary-500 focus:ring-2 focus:ring-secondary-500/50";
 
@@ -175,120 +159,114 @@ const redeemOptions = [
   { value: "resub", label: "Resub", theme: "accent" },
 ];
 
-const tierOptions = [
-  { value: 1, label: "Tier 1", detail: "500 bits", theme: "primary" },
-  { value: 2, label: "Tier 2", detail: "1000 bits", theme: "secondary" },
-  { value: 3, label: "Tier 3", detail: "2500 bits", theme: "accent" },
-];
-
-// Character/visual effects a viewer can request per-message via the third voice-tag slot
-// (e.g. [voice:v3:crt]). These map to the app's tag-requestable Voice.EffectOptions
-// (float, glitch, crt, fire). The old per-message caption "text effects" (typewriter,
-// rainbow, karaoke) were retired — caption animation is now configured app-side only.
-// Note: "crt" defaults to a redeem-only lane policy, so it may only render via the
-// Channel-Points redeem rather than cheers, depending on the streamer's config.
-const characterEffectOptions = [
-  { label: "None", value: "none" },
-  { label: "Float", value: "float" },
-  { label: "Glitch", value: "glitch" },
-  { label: "CRT", value: "crt" },
-  { label: "Fire", value: "fire" },
-];
-const modelOptions = [
-  { label: "None", value: "none" },
-  { label: "Eleven v3", value: "v3" },
-  { label: "Turbo v2", value: "turbo" },
-  {
-    label: "Turbo v2.5",
-    value: "turbov2.5",
-  },
-  { label: "Flash v2", value: "flashv2" },
-  {
-    label: "Flash v2.5",
-    value: "flashv2.5",
-  },
-  { label: "Multilingual v2", value: "multilingual" },
-];
-
 // --- ANIMATIONS ---
 
 const motions = {
   container: {
     initial: { opacity: 0, y: 50 },
-    enter: {
-      opacity: 1,
-      y: 0,
-      transition: { delay: 400, duration: 400, ease: "easeOut" },
-    },
+    enter: { opacity: 1, y: 0, transition: { delay: 400, duration: 400, ease: "easeOut" } },
   },
   header: {
     initial: { opacity: 0, y: 20 },
     enter: { opacity: 1, y: 0, transition: { delay: 450, duration: 300 } },
   },
   controls: {
-    initial: { opacity: 0, x: -30 },
-    enter: {
-      opacity: 1,
-      x: 0,
-      transition: { delay: 500, duration: 300, ease: "easeOut" },
-    },
+    initial: { opacity: 0, y: 20 },
+    enter: { opacity: 1, y: 0, transition: { delay: 500, duration: 300, ease: "easeOut" } },
   },
-  voiceGrid: {
-    initial: { opacity: 0, x: 30 },
-    enter: {
-      opacity: 1,
-      x: 0,
-      transition: { delay: 550, duration: 300, ease: "easeOut" },
-    },
+  lines: {
+    initial: { opacity: 0, y: 20 },
+    enter: { opacity: 1, y: 0, transition: { delay: 550, duration: 300, ease: "easeOut" } },
   },
   preview: {
     initial: { opacity: 0, y: 30 },
-    enter: {
-      opacity: 1,
-      y: 0,
-      transition: { delay: 600, duration: 300, ease: "easeOut" },
-    },
+    enter: { opacity: 1, y: 0, transition: { delay: 600, duration: 300, ease: "easeOut" } },
   },
 };
 
-// --- STATE MANAGEMENT ---
+// --- SEGMENT STATE ---
 
-interface Settings {
-  selectedVoice: string;
-  redeemMethod: RedeemMethod;
-  bitAmount: number;
-  resubTier: ResubTier;
-  characterEffect: string;
-  selectedModel: string;
-  message: string;
+interface PersistedSettings {
+  segments?: Omit<VoiceLineData, "id">[];
+  redeemMethod?: RedeemMethod;
+  bitAmount?: number;
+  resubTier?: ResubTier;
+  // Legacy single-voice shape (pre multi-voice) — migrated on load.
+  selectedVoice?: string;
+  selectedModel?: string;
+  characterEffect?: string;
+  message?: string;
 }
 
-const defaultSettings: Settings = {
-  selectedVoice: "",
+let segmentSeq = 0;
+// New voice lines default to the Eleven v3 model (config tag "v3").
+const DEFAULT_MODEL = "v3";
+const makeSegment = (init: Partial<VoiceLineData> = {}): VoiceLineData => ({
+  id: `seg-${segmentSeq++}`,
+  voiceName: "",
+  model: DEFAULT_MODEL,
+  effect: "none",
+  size: "none",
+  text: "",
+  ...init,
+});
+
+function initSegments(raw: PersistedSettings): VoiceLineData[] {
+  if (raw.segments?.length) {
+    return raw.segments.map((segment) =>
+      makeSegment({
+        voiceName: segment.voiceName ?? "",
+        model: segment.model ?? DEFAULT_MODEL,
+        effect: segment.effect ?? "none",
+        size: segment.size ?? "none",
+        text: segment.text ?? "",
+      }),
+    );
+  }
+  if (raw.selectedVoice !== undefined || raw.selectedModel !== undefined) {
+    return [
+      makeSegment({
+        voiceName: raw.selectedVoice ?? "",
+        model: raw.selectedModel ?? DEFAULT_MODEL,
+        effect: raw.characterEffect ?? "none",
+        text: raw.message ?? "",
+      }),
+    ];
+  }
+  return [makeSegment()];
+}
+
+const defaultSettings: PersistedSettings = {
+  segments: [{ voiceName: "", model: DEFAULT_MODEL, effect: "none", size: "none", text: "" }],
   redeemMethod: "cheer",
   bitAmount: 5000,
   resubTier: 1,
-  characterEffect: "none",
-  selectedModel: "none",
-  message: "",
 };
-const [settings, setSettings] = useLocalStorage("voiceBuilderSettings", defaultSettings);
+const [settings, setSettings] = useLocalStorage<PersistedSettings>(
+  "voiceBuilderSettings",
+  defaultSettings,
+);
 
-const selectedVoice = ref(settings.value.selectedVoice);
-const message = ref(settings.value.message);
-const redeemMethod = ref(settings.value.redeemMethod);
-const bitAmount = ref(settings.value.bitAmount);
-const resubTier = ref(settings.value.resubTier);
-// Fall back to "none" so settings persisted before the text-effect → character-effect
-// rename (which may hold a retired value like "typewriter") don't produce a broken tag.
-const characterEffect = ref(settings.value.characterEffect ?? "none");
-const selectedModel = ref(settings.value.selectedModel);
+const segments = ref<VoiceLineData[]>(initSegments(settings.value));
+const redeemMethod = ref<RedeemMethod>(settings.value.redeemMethod ?? "cheer");
+const bitAmount = ref<number>(settings.value.bitAmount ?? 5000);
+const resubTier = ref<ResubTier>(settings.value.resubTier ?? 1);
 const copied = ref(false);
 const bitAmountUpdated = ref(false);
 
-// --- VOICE DATA & ELIGIBILITY ---
+const tierOptions = computed(() => [
+  { value: 1, label: "Tier 1", detail: `${configStore.resubTierBits["1"]} bits`, theme: "primary" },
+  { value: 2, label: "Tier 2", detail: `${configStore.resubTierBits["2"]} bits`, theme: "secondary" },
+  { value: 3, label: "Tier 3", detail: `${configStore.resubTierBits["3"]} bits`, theme: "accent" },
+]);
 
-const isRandomSelected = computed(() => isRandomVoiceName(selectedVoice.value));
+// --- CONFIG-DRIVEN LIMITS ---
+
+const customVoicesAllowed = computed(() => configStore.allowCustomVoices);
+const maxCommandLength = computed(() => configStore.maxCommandLength);
+const maxSegments = computed(() => (customVoicesAllowed.value ? configStore.maxSegments : 1));
+
+// --- VOICES & BUDGET ---
 
 const randomVoice = computed<Voice>(() => ({
   name: "Random",
@@ -296,67 +274,79 @@ const randomVoice = computed<Voice>(() => ({
   cost: voiceStore.minCost,
   kind: "random",
 }));
-
 const allVoices = computed<Voice[]>(() => {
   if (!voiceStore.voices.length) return [];
   return [randomVoice.value, ...voiceStore.sortedVoices];
 });
 const getVoiceByName = (name: string) => allVoices.value.find((v) => v.name === name);
 
-const bitAmountForGrid = computed(() => {
-  return getRedeemBudget({
+const resubBudgets = computed(
+  () =>
+    ({
+      1: configStore.resubTierBits["1"],
+      2: configStore.resubTierBits["2"],
+      3: configStore.resubTierBits["3"],
+    }) as Record<ResubTier, number>,
+);
+
+const bitAmountForGrid = computed(() =>
+  getRedeemBudget({
     redeemMethod: redeemMethod.value,
     bitAmount: bitAmount.value,
     resubTier: resubTier.value,
-  });
-});
+    pointsBudget: configStore.redeemValue,
+    resubBudgets: resubBudgets.value,
+  }),
+);
 
-const eligibleVoices = computed<Voice[]>(() => {
-  const maxCost = bitAmountForGrid.value;
-  return allVoices.value
-    .filter((voice) => voice.cost <= maxCost)
-    .sort((a, b) => b.cost - a.cost || a.name.localeCompare(b.name));
-});
-
-const minBitAmount = computed(() => {
-  const voiceCost = getVoiceByName(selectedVoice.value)?.cost ?? 0;
-  return getMinCheerAmount({ storeMinCost: voiceStore.minCost, selectedVoiceCost: voiceCost });
-});
-
-const isMessageTooLong = computed(() => generatedCommand.value.length > MAX_TTS_COMMAND_LENGTH);
-
-function checkVoiceEligibility() {
-  if (selectedVoice.value && !eligibleVoices.value.some((v) => v.name === selectedVoice.value)) {
-    selectedVoice.value = "";
+const maxSegmentVoiceCost = computed(() => {
+  let max = 0;
+  for (const segment of segments.value) {
+    if (segment.voiceName && !isRandomVoiceName(segment.voiceName)) {
+      max = Math.max(max, getVoiceByName(segment.voiceName)?.cost ?? 0);
+    }
   }
+  return max;
+});
+
+const minBitAmount = computed(() =>
+  getMinCheerAmount({
+    storeMinCost: voiceStore.minCost,
+    selectedVoiceCost: maxSegmentVoiceCost.value,
+  }),
+);
+
+// --- COMMAND COMPOSITION ---
+
+function segmentDisplayText(segment: VoiceLineData): string {
+  if (segment.text) return segment.text;
+  if (!segment.voiceName || isRandomVoiceName(segment.voiceName)) return "";
+  return getVoiceByName(segment.voiceName)?.text ?? "";
 }
 
-// --- COMMAND GENERATION ---
+const commandSegments = computed<TtsSegment[]>(() =>
+  segments.value.map((segment) => ({
+    voiceName: segment.voiceName,
+    model: segment.model,
+    effect: segment.effect,
+    size: segment.size,
+    text: segmentDisplayText(segment),
+  })),
+);
 
-const displayMessage = computed(() => {
-  if (isRandomSelected.value) return message.value || "";
-  return message.value || getVoiceByName(selectedVoice.value)?.text || "";
-});
-
-const generatedCommand = computed(() => {
-  return buildTtsCommand({
+const generatedCommand = computed(() =>
+  buildMultiVoiceCommand({
     redeemMethod: redeemMethod.value,
     bitAmount: bitAmount.value,
-    voiceName: selectedVoice.value,
-    model: selectedModel.value,
-    effect: characterEffect.value,
-    message: displayMessage.value,
-  });
-});
+    segments: commandSegments.value,
+  }),
+);
 
-const commandParts = computed(() => {
-  return getTtsCommandParts({
+const commandParts = computed(() =>
+  getMultiVoiceCommandParts({
     redeemMethod: redeemMethod.value,
     bitAmount: bitAmount.value,
-    voiceName: selectedVoice.value,
-    model: selectedModel.value,
-    effect: characterEffect.value,
-    message: displayMessage.value,
+    segments: commandSegments.value,
   }).map((part) => ({
     text: part.text,
     class:
@@ -365,38 +355,44 @@ const commandParts = computed(() => {
         : part.type === "voiceTag"
           ? "text-secondary-400"
           : "text-accent-400",
-  }));
-});
+  })),
+);
 
-// --- METHODS & ACTIONS ---
+const isMessageTooLong = computed(() => generatedCommand.value.length > maxCommandLength.value);
 
-function handleMessageInput(event: Event) {
-  const target = event.target as HTMLTextAreaElement;
-  const newMessage = target.value;
+// --- SEGMENT ACTIONS ---
 
-  if (!selectedVoice.value) {
-    message.value = newMessage;
-    return;
-  }
+function updateSegment(id: string, patch: Partial<Omit<VoiceLineData, "id">>) {
+  const segment = segments.value.find((s) => s.id === id);
+  if (segment) Object.assign(segment, patch);
+}
 
-  const prefix = buildTtsPrefix({
-    redeemMethod: redeemMethod.value,
-    bitAmount: bitAmount.value,
-    voiceName: selectedVoice.value,
-    model: selectedModel.value,
-    effect: characterEffect.value,
-  });
+function onSelectVoice(id: string, voiceName: string) {
+  updateSegment(id, { voiceName });
+  bumpBitsToCover();
+}
 
-  const maxMessageLength = getMaxMessageLengthForPrefix(prefix);
+function addSegment() {
+  if (segments.value.length >= maxSegments.value) return;
+  segments.value.push(makeSegment());
+}
 
-  if (newMessage.length > maxMessageLength) {
-    message.value = newMessage.substring(0, maxMessageLength);
-    target.value = message.value;
-    target.setSelectionRange(message.value.length, message.value.length);
-  } else {
-    message.value = newMessage;
+function removeSegment(id: string) {
+  if (segments.value.length <= 1) return;
+  segments.value = segments.value.filter((s) => s.id !== id);
+}
+
+function checkVoiceEligibility() {
+  const budget = bitAmountForGrid.value;
+  for (const segment of segments.value) {
+    if (segment.voiceName && !isRandomVoiceName(segment.voiceName)) {
+      const cost = getVoiceByName(segment.voiceName)?.cost ?? 0;
+      if (cost > budget) segment.voiceName = "";
+    }
   }
 }
+
+// --- BIT AMOUNT HELPERS ---
 
 function triggerFlash() {
   bitAmountUpdated.value = true;
@@ -405,17 +401,11 @@ function triggerFlash() {
   }, 1500);
 }
 
-function updateBitAmountFromGrid(isSearching: boolean = false) {
-  if (redeemMethod.value !== "cheer" || !selectedVoice.value) return;
-
-  const voiceCost = getVoiceByName(selectedVoice.value)?.cost ?? 0;
-  const targetAmount = Math.max(voiceStore.minCost, voiceCost);
-
-  if (
-    (isSearching && bitAmount.value !== targetAmount) ||
-    (!isSearching && bitAmount.value < targetAmount)
-  ) {
-    bitAmount.value = targetAmount;
+function bumpBitsToCover() {
+  if (redeemMethod.value !== "cheer") return;
+  const target = Math.max(voiceStore.minCost, maxSegmentVoiceCost.value);
+  if (bitAmount.value < target) {
+    bitAmount.value = target;
     triggerFlash();
   }
 }
@@ -435,9 +425,9 @@ let debounceTimeout: number;
 watch(bitAmount, (newAmount) => {
   clearTimeout(debounceTimeout);
   debounceTimeout = setTimeout(() => {
-    const currentAmount = newAmount || 0;
+    if (redeemMethod.value !== "cheer") return;
 
-    let effectiveAmount = currentAmount;
+    let effectiveAmount = newAmount || 0;
     if (effectiveAmount > 0 && effectiveAmount < voiceStore.minCost) {
       effectiveAmount = voiceStore.minCost;
       if (bitAmount.value !== voiceStore.minCost) {
@@ -446,28 +436,32 @@ watch(bitAmount, (newAmount) => {
       }
     }
 
-    if (selectedVoice.value) {
-      const voiceCost = getVoiceByName(selectedVoice.value)?.cost ?? 0;
-      if (effectiveAmount < voiceCost) {
-        selectedVoice.value = "";
+    for (const segment of segments.value) {
+      if (segment.voiceName && !isRandomVoiceName(segment.voiceName)) {
+        const cost = getVoiceByName(segment.voiceName)?.cost ?? 0;
+        if (effectiveAmount < cost) segment.voiceName = "";
       }
     }
   }, 500);
 });
 
 watch(
-  [selectedVoice, redeemMethod, bitAmount, resubTier, characterEffect, selectedModel, message],
+  [segments, redeemMethod, bitAmount, resubTier],
   () => {
     setSettings({
-      selectedVoice: selectedVoice.value,
+      segments: segments.value.map(({ voiceName, model, effect, size, text }) => ({
+        voiceName,
+        model,
+        effect,
+        size,
+        text,
+      })),
       redeemMethod: redeemMethod.value,
       bitAmount: bitAmount.value,
       resubTier: resubTier.value,
-      characterEffect: characterEffect.value,
-      selectedModel: selectedModel.value,
-      message: message.value,
     });
   },
+  { deep: true },
 );
 
 onMounted(() => {
