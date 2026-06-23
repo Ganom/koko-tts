@@ -73,8 +73,8 @@
           >
             Priority
           </span>
-          badge. It marks <strong class="text-accent-200">redeem-priority</strong> voices that take
-          a higher spot in the redeem queue when the streamer runs one.
+          badge. It marks <strong class="text-accent-200">priority</strong> voices that take
+          a higher spot in the queue.
         </p>
         <div
           class="glass rounded-2xl p-6 border-2 border-primary-500/30"
@@ -114,7 +114,7 @@
           Chat Commands &amp; Voting
         </h3>
         <p class="text-gray-300 text-sm mb-6 text-center md:text-left">
-          Type these in chat any time. They pause while a stage performance is running.
+          Type these in chat any time.
         </p>
         <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
           <div
@@ -310,7 +310,7 @@ const customizationCommands = [
   {
     title: "Choose a Voice",
     icon: Plus,
-    description: "Pin a default voice (and optionally a model) for your messages.",
+    description: "Pin a default voice for your messages.",
     colorTheme: "primary",
     command: [
       { text: "!setvoice ", class: "text-primary-300" },
