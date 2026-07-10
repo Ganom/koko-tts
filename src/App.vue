@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, defineAsyncComponent, onMounted, onUnmounted, provide, ref, watch } from "vue";
+import { computed, onMounted, onUnmounted, provide, ref, watch } from "vue";
 import AppHeader from "@/components/AppHeader.vue";
 import InfoBox from "@/components/InfoBox.vue";
 import IconPatternBackground from "@/components/IconPatternBackground.vue";
@@ -9,7 +9,6 @@ import { useAudio } from "@/composables/useAudio";
 import { useLocalStorage } from "@/composables/useLocalStorage";
 import { useConfigStore } from "@/stores/configStore";
 import { useVoiceStore } from "@/stores/voiceStore";
-import { monkeyIcons } from "@/utils/iconRegistry";
 import { audioKey } from "@/injectionKeys";
 
 const voiceStore = useVoiceStore();
@@ -44,25 +43,6 @@ const loadHomeVoices = () => {
   }
 };
 
-// Dev-only configurator
-const IconBackgroundConfigurator = import.meta.env.DEV
-  ? defineAsyncComponent(() => import("@/components/IconBackgroundConfigurator.vue"))
-  : null;
-
-const backgroundConfig = ref({
-  icons: monkeyIcons,
-  iconSize: 40,
-  gap: 40,
-  opacity: 0.1,
-  color: "#60a5fa",
-  randomRotation: true,
-  randomOpacity: true,
-  randomColors: true,
-  enableSlideAnimation: false,
-  slideAnimationSpeed: 0.1,
-  slideDirection: "right" as const,
-});
-
 onMounted(() => {
   updateRoutePath();
   // Config drives both the home builder/InfoBox and the stage guide.
@@ -82,7 +62,7 @@ watch(isStageStreamRoute, () => {
 
 <template>
   <div class="min-h-screen font-expressway relative bg-dark-700/70">
-    <IconPatternBackground v-bind="backgroundConfig" />
+    <IconPatternBackground />
     <div class="relative z-10">
       <div class="min-h-screen">
         <div class="container mx-auto px-6 py-8 max-w-7xl">
@@ -112,14 +92,6 @@ watch(isStageStreamRoute, () => {
         </div>
       </div>
     </div>
-
-    <!-- Configuration Panel (dev only) -->
-    <component
-      v-if="IconBackgroundConfigurator"
-      :is="IconBackgroundConfigurator"
-      v-model="backgroundConfig"
-      class="fixed bottom-4 right-4 z-50"
-    />
   </div>
 </template>
 
